@@ -82,11 +82,26 @@ function MarketingPage() {
     <div className="min-h-screen bg-background">
       <SiteHeader />
 
+      {/* Preview banner */}
+      <div className="border-b border-hairline bg-surface-tint">
+        <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-4 px-6 py-2.5 sm:px-8">
+          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+            Marketing Kit · Demo Homepage
+          </span>
+          <span className="hidden text-[11px] text-muted-foreground sm:inline">
+            Real plans, real copy, real photography — not the live site.
+          </span>
+        </div>
+      </div>
+
       {/* Hero */}
       <section className="bg-navy">
-        <div className="mx-auto grid max-w-[1200px] items-center gap-12 px-8 py-20 md:grid-cols-[1.1fr_0.9fr]">
+        <div className="mx-auto grid max-w-[1200px] items-center gap-12 px-6 py-20 sm:px-8 md:grid-cols-[1.1fr_0.9fr] md:py-24">
           <div>
-            <h1 className="!text-[52px] !leading-[1.05] text-white">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-white/80">
+              For every Namibian family
+            </div>
+            <h1 className="mt-5 !text-[52px] !leading-[1.02] text-white sm:!text-[64px]">
               Claims paid within 48 hours.
             </h1>
             <p className="mt-6 max-w-[480px] text-[16px] leading-[1.65] text-white/75">
@@ -96,7 +111,7 @@ function MarketingPage() {
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Button variant="secondary" size="lg">Get a quote</Button>
-              <Button variant="ghost" size="lg" className="text-white hover:bg-white/10">
+              <Button variant="ghost" size="lg" className="border border-white/20 text-white hover:bg-white/10">
                 SMS your name to 74448
               </Button>
             </div>
@@ -104,15 +119,25 @@ function MarketingPage() {
           <img
             src={familyStudio.url}
             alt="Namibian family"
-            className="h-[380px] w-full rounded-xl object-cover object-[center_25%]"
+            className="h-[420px] w-full rounded-xl object-cover object-[center_25%] shadow-[0_30px_80px_rgba(0,0,0,0.4)]"
           />
         </div>
       </section>
 
       {/* Category grid */}
-      <section className="mx-auto max-w-[1200px] px-8 pt-16">
-        <h2 className="mb-8">Find the right cover</h2>
-        <div className="grid gap-6 md:grid-cols-2">
+      <section className="mx-auto max-w-[1200px] px-6 pt-20 sm:px-8">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
+              Our plans
+            </div>
+            <h2 className="mt-2 !text-[36px]">Find the right cover</h2>
+          </div>
+          <p className="text-[13px] text-muted-foreground">
+            Click a category to see its plans below.
+          </p>
+        </div>
+        <div className="grid gap-5 md:grid-cols-2">
           {(Object.keys(PLANS) as Category[]).map((k) => (
             <PlanCard
               key={k}
@@ -127,7 +152,13 @@ function MarketingPage() {
       </section>
 
       {/* Plan list */}
-      <section className="mx-auto max-w-[1200px] px-8 pt-10">
+      <section className="mx-auto max-w-[1200px] px-6 pt-12 sm:px-8">
+        <div className="mb-4 flex items-baseline justify-between">
+          <h3 className="!m-0 !text-[20px]">Available plans</h3>
+          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+            {cat.rows.length} plan{cat.rows.length > 1 ? "s" : ""}
+          </span>
+        </div>
         <Card variant="outline" className="px-8 py-2">
           {cat.rows.map((r) => (
             <PlanRow
@@ -142,17 +173,25 @@ function MarketingPage() {
       </section>
 
       {/* Benefits */}
-      <section className="mx-auto max-w-[1200px] px-8 py-16">
-        <div className="grid gap-6 md:grid-cols-3">
+      <section className="mx-auto max-w-[1200px] px-6 py-20 sm:px-8">
+        <div className="mb-8">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
+            Why Bonlife
+          </div>
+          <h2 className="mt-2 !text-[36px]">The proof points that matter.</h2>
+        </div>
+        <div className="grid gap-5 md:grid-cols-3">
           {[
             { Icon: Clock4, title: "48-hour claims", text: "Approved claims are paid within two days. Speed is respect." },
             { Icon: Banknote, title: "N$1,000 Instant Cash", text: "Same-day cash on approved funeral claims." },
             { Icon: MapPin, title: "20 branches", text: "Real people across Namibia, plus WhatsApp and SMS." },
           ].map(({ Icon, title, text }) => (
-            <Card key={title} variant="flat" className="p-8">
-              <Icon size={26} className="text-coral-hover" />
-              <h4 className="mt-3 !text-[17px]">{title}</h4>
-              <p className="mt-1.5 text-[13.5px] leading-[1.6] text-muted-foreground">
+            <Card key={title} variant="flat" className="p-7">
+              <div className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-coral/15 text-coral-hover">
+                <Icon size={20} />
+              </div>
+              <h4 className="mt-4 !text-[18px]">{title}</h4>
+              <p className="mt-2 text-[14px] leading-[1.65] text-muted-foreground">
                 {text}
               </p>
             </Card>

@@ -1,7 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { SiteHeader, SiteFooter } from "@/components/bonlife/SiteChrome";
-import { Badge } from "@/components/bonlife/Badge";
-import { Card } from "@/components/bonlife/Card";
+import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
 import markNavy from "@/assets/bonlife/logos/bonlife-mark-navy.svg";
 import markCoral from "@/assets/bonlife/logos/bonlife-mark-coral.svg";
 import markMint from "@/assets/bonlife/logos/bonlife-mark-mint.svg";
@@ -40,28 +38,45 @@ export const Route = createFileRoute("/foundations")({
   component: FoundationsPage,
 });
 
+const TOC = [
+  { id: "color", label: "Color" },
+  { id: "type", label: "Typography" },
+  { id: "spacing", label: "Spacing" },
+  { id: "radius", label: "Radius & shadow" },
+  { id: "motion", label: "Motion" },
+  { id: "logos", label: "Logos" },
+  { id: "gradients", label: "Gradients" },
+  { id: "photography", label: "Photography" },
+];
+
 function Section({
+  id,
   eyebrow,
   title,
-  children,
   intro,
+  children,
 }: {
+  id?: string;
   eyebrow: string;
   title: string;
   intro?: string;
   children: React.ReactNode;
 }) {
   return (
-    <section className="border-t border-hairline py-20 first:border-t-0">
-      <div className="mx-auto max-w-[1200px] px-8">
-        <Badge tone="coral">{eyebrow}</Badge>
-        <h2 className="mt-3">{title}</h2>
-        {intro ? (
-          <p className="mt-4 max-w-2xl text-base leading-[1.65] text-muted-foreground">
-            {intro}
-          </p>
-        ) : null}
-        <div className="mt-10">{children}</div>
+    <section id={id} className="scroll-mt-24 border-t border-hairline py-16 first:border-t-0 sm:py-20">
+      <div className="mx-auto max-w-[1200px] px-6 sm:px-8">
+        <div className="mb-8 max-w-3xl">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
+            {eyebrow}
+          </div>
+          <h2 className="mt-2 !text-[36px] !leading-[1.1]">{title}</h2>
+          {intro ? (
+            <p className="mt-3 text-[15px] leading-[1.65] text-muted-foreground">
+              {intro}
+            </p>
+          ) : null}
+        </div>
+        {children}
       </div>
     </section>
   );
@@ -71,23 +86,30 @@ function Swatch({
   color,
   name,
   hex,
+  token,
   fg = "white",
 }: {
   color: string;
   name: string;
   hex: string;
+  token: string;
   fg?: "white" | "navy";
 }) {
   return (
-    <div>
+    <div className="overflow-hidden rounded-xl border border-hairline bg-surface">
       <div
-        className="flex h-32 items-end rounded-xl p-4"
+        className="flex h-28 items-end p-4"
         style={{ background: color, color: fg === "white" ? "#fff" : "#0C1C3E" }}
       >
-        <span className="font-display text-sm font-semibold">{name}</span>
+        <span className="font-display text-[13px] font-semibold">{name}</span>
       </div>
-      <div className="mt-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">
-        {hex}
+      <div className="flex items-center justify-between gap-2 border-t border-hairline px-4 py-2.5">
+        <span className="font-mono text-[11px] uppercase tracking-wider text-navy">
+          {hex}
+        </span>
+        <span className="truncate font-mono text-[10.5px] text-muted-foreground">
+          {token}
+        </span>
       </div>
     </div>
   );
@@ -98,28 +120,36 @@ function FoundationsPage() {
     <div className="min-h-screen bg-background">
       <SiteHeader />
 
+      <PageHeader
+        eyebrow="Foundations"
+        title="The tokens beneath every Bonlife surface."
+        lead="Color, type, spacing, motion, logos and photography — all traced back to the brand book, no invented values."
+        toc={TOC}
+      />
+
       <Section
+        id="color"
         eyebrow="Color · Primary"
         title="Navy anchor, warm coral accent."
         intro="Bonlife is not a pastel-insurance brand — it reads corporate-serious first, friendly second. Navy owns text and chrome; coral owns CTAs and highlights against it."
       >
-        <div className="grid gap-6 md:grid-cols-3">
-          <Swatch color="#0C1C3E" name="Navy 900" hex="#0C1C3E" />
-          <Swatch color="#FF876A" name="Coral 500" hex="#FF876A" fg="navy" />
-          <Swatch color="#01FBC0" name="Mint 400" hex="#01FBC0" fg="navy" />
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
+          <Swatch color="#0C1C3E" name="Navy 900" hex="#0C1C3E" token="--navy-900" />
+          <Swatch color="#FF876A" name="Coral 500" hex="#FF876A" token="--coral-500" fg="navy" />
+          <Swatch color="#01FBC0" name="Mint 400" hex="#01FBC0" token="--mint-400" fg="navy" />
         </div>
       </Section>
 
       <Section
         eyebrow="Color · Categories"
         title="Four plans, four colors."
-        intro="Each product category owns a saturated identifier color. Use it to tint plan cards and badges for their own category — never as a general UI color."
+        intro="Each product category owns a saturated identifier color. Use it to tint plan cards and badges for its own category — never as a general UI color."
       >
-        <div className="grid gap-6 md:grid-cols-4">
-          <Swatch color="#04413F" name="Funeral" hex="#04413F" />
-          <Swatch color="#541467" name="Life" hex="#541467" />
-          <Swatch color="#0D2B90" name="Savings" hex="#0D2B90" />
-          <Swatch color="#A80A4D" name="Accident" hex="#A80A4D" />
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
+          <Swatch color="#04413F" name="Funeral" hex="#04413F" token="--category-funeral" />
+          <Swatch color="#541467" name="Life" hex="#541467" token="--category-life" />
+          <Swatch color="#0D2B90" name="Savings" hex="#0D2B90" token="--category-savings" />
+          <Swatch color="#A80A4D" name="Accident" hex="#A80A4D" token="--category-accident" />
         </div>
       </Section>
 
@@ -128,21 +158,22 @@ function FoundationsPage() {
         title="Two near-whites, two states."
         intro="Surface tint sits under navy text; muted fills cards and inputs. Semantic red and mint cover error and success only — never decorative."
       >
-        <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-5">
-          <Swatch color="#FFFFFF" name="Surface" hex="#FFFFFF" fg="navy" />
-          <Swatch color="#F7F8FB" name="Tint" hex="#F7F8FB" fg="navy" />
-          <Swatch color="#EAEDF4" name="Muted" hex="#EAEDF4" fg="navy" />
-          <Swatch color="#FF5F5F" name="Error" hex="#FF5F5F" />
-          <Swatch color="#41FFB6" name="Success" hex="#41FFB6" fg="navy" />
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+          <Swatch color="#FFFFFF" name="Surface" hex="#FFFFFF" token="--surface-white" fg="navy" />
+          <Swatch color="#F7F8FB" name="Tint" hex="#F7F8FB" token="--surface-tint" fg="navy" />
+          <Swatch color="#EAEDF4" name="Muted" hex="#EAEDF4" token="--surface-muted" fg="navy" />
+          <Swatch color="#FF5F5F" name="Error" hex="#FF5F5F" token="--state-error" />
+          <Swatch color="#41FFB6" name="Success" hex="#41FFB6" token="--state-success" fg="navy" />
         </div>
       </Section>
 
       <Section
+        id="type"
         eyebrow="Typography"
         title="Onest for display, Inter for body."
         intro="Bold Onest with tight negative tracking on headings loosens to 0 by H5. Inter carries everything long-form. No serif, no script, no display faces."
       >
-        <Card variant="outline" className="divide-y divide-hairline p-0">
+        <div className="overflow-hidden rounded-xl border border-hairline bg-surface">
           {[
             { tag: "H1", size: "60 / -0.03em / 700", text: "Claims paid within 48 hours." },
             { tag: "H2", size: "48 / -0.02em / 700", text: "Two Pockets. One Plan." },
@@ -155,117 +186,138 @@ function FoundationsPage() {
             return (
               <div
                 key={r.tag}
-                className="flex items-baseline justify-between gap-6 p-6"
+                className="grid grid-cols-[60px_1fr_auto] items-baseline gap-6 border-b border-hairline px-6 py-5 last:border-b-0"
               >
-                <Tag className="!m-0">{r.text}</Tag>
-                <div className="hidden text-right text-[11px] font-medium uppercase tracking-wider text-muted-foreground md:block">
-                  {r.tag} · {r.size}
-                </div>
+                <span className="font-mono text-[11px] font-semibold uppercase text-muted-foreground">
+                  {r.tag}
+                </span>
+                <Tag className="!m-0 truncate">{r.text}</Tag>
+                <span className="hidden font-mono text-[10.5px] text-muted-foreground md:inline">
+                  {r.size}
+                </span>
               </div>
             );
           })}
-          <div className="p-6">
-            <p className="font-body text-lg leading-[1.65]">
-              Body Large — A grieving family cannot wait weeks. Every Bonlife
-              funeral plan pays a cover benefit fast.
-            </p>
-            <p className="mt-3 font-body text-base leading-[1.6]">
-              Body — Start early, study further. Give them every chance.
-            </p>
-            <p className="mt-3 font-body text-sm leading-[1.5] text-muted-foreground">
-              Body Small — SMS your name to 74448.
-            </p>
-          </div>
-        </Card>
-      </Section>
-
-      <Section eyebrow="Spacing" title="4px base, generous rhythm.">
-        <div className="flex flex-wrap items-end gap-4">
-          {[4, 8, 12, 16, 24, 32, 48, 64].map((s) => (
-            <div key={s} className="text-center">
-              <div className="bg-coral" style={{ width: s, height: s }} />
-              <div className="mt-2 text-[11px] font-medium text-muted-foreground">
-                {s}
-              </div>
+          <div className="space-y-3 border-t border-hairline p-6">
+            <div className="grid grid-cols-[60px_1fr] items-baseline gap-6">
+              <span className="font-mono text-[11px] font-semibold uppercase text-muted-foreground">Body L</span>
+              <p className="!m-0 text-lg leading-[1.65]">A grieving family cannot wait weeks. Every Bonlife funeral plan pays a cover benefit fast.</p>
             </div>
-          ))}
+            <div className="grid grid-cols-[60px_1fr] items-baseline gap-6">
+              <span className="font-mono text-[11px] font-semibold uppercase text-muted-foreground">Body</span>
+              <p className="!m-0 text-base leading-[1.6]">Start early, study further. Give them every chance.</p>
+            </div>
+            <div className="grid grid-cols-[60px_1fr] items-baseline gap-6">
+              <span className="font-mono text-[11px] font-semibold uppercase text-muted-foreground">Body S</span>
+              <p className="!m-0 text-sm leading-[1.55] text-muted-foreground">SMS your name to 74448.</p>
+            </div>
+          </div>
         </div>
       </Section>
 
-      <Section eyebrow="Radius & shadow" title="Friendly, trust-first.">
-        <div className="grid gap-6 md:grid-cols-4">
+      <Section id="spacing" eyebrow="Spacing" title="4px base, generous rhythm.">
+        <div className="rounded-xl border border-hairline bg-surface p-8">
+          <div className="flex flex-wrap items-end gap-6">
+            {[
+              { s: 4, t: "--space-1" },
+              { s: 8, t: "--space-2" },
+              { s: 12, t: "--space-3" },
+              { s: 16, t: "--space-4" },
+              { s: 24, t: "--space-6" },
+              { s: 32, t: "--space-8" },
+              { s: 48, t: "--space-12" },
+              { s: 64, t: "--space-16" },
+            ].map(({ s, t }) => (
+              <div key={s} className="text-center">
+                <div className="mx-auto bg-coral" style={{ width: s, height: s }} />
+                <div className="mt-2 font-mono text-[11px] font-semibold text-navy">
+                  {s}
+                </div>
+                <div className="font-mono text-[10px] text-muted-foreground">
+                  {t}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      <Section id="radius" eyebrow="Radius & shadow" title="Friendly, trust-first.">
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
           {[
-            { name: "sm · 8", cls: "rounded-sm" },
-            { name: "md · 12", cls: "rounded-md" },
-            { name: "lg · 20", cls: "rounded-lg" },
-            { name: "xl · 28", cls: "rounded-xl" },
+            { name: "sm", size: "8px", cls: "rounded-sm" },
+            { name: "md", size: "12px", cls: "rounded-md" },
+            { name: "lg", size: "20px", cls: "rounded-lg" },
+            { name: "xl", size: "28px", cls: "rounded-xl" },
           ].map((r) => (
-            <div key={r.name}>
+            <div key={r.name} className="rounded-xl border border-hairline bg-surface p-5">
               <div
                 className={`h-24 bg-navy ${r.cls}`}
                 style={{ boxShadow: "var(--shadow-md)" }}
               />
-              <div className="mt-2 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-                {r.name}
+              <div className="mt-4 flex items-baseline justify-between">
+                <span className="font-display text-[13px] font-semibold text-navy">
+                  {r.name}
+                </span>
+                <span className="font-mono text-[11px] text-muted-foreground">
+                  {r.size}
+                </span>
               </div>
             </div>
           ))}
         </div>
       </Section>
 
-      <Section eyebrow="Motion" title="Calm, never showy.">
-        <div className="grid gap-4 md:grid-cols-4">
+      <Section id="motion" eyebrow="Motion" title="Calm, never showy.">
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
           {[
             { name: "instant", ms: "100ms", use: "presses" },
             { name: "fast", ms: "160ms", use: "hovers" },
             { name: "base", ms: "240ms", use: "menus, toasts" },
             { name: "slow", ms: "400ms", use: "modals" },
           ].map((m) => (
-            <Card key={m.name} variant="outline" className="p-6">
-              <div className="font-display text-xs font-semibold uppercase tracking-wider text-coral">
+            <div key={m.name} className="rounded-xl border border-hairline bg-surface p-6">
+              <div className="font-mono text-[11px] font-semibold uppercase tracking-wider text-coral">
                 {m.name}
               </div>
-              <div className="mt-2 font-display text-3xl font-bold text-navy">
+              <div className="mt-2 font-display text-[32px] font-bold leading-none text-navy">
                 {m.ms}
               </div>
-              <div className="mt-1 text-xs text-muted-foreground">{m.use}</div>
-            </Card>
+              <div className="mt-2 text-[12.5px] text-muted-foreground">
+                {m.use}
+              </div>
+            </div>
           ))}
         </div>
       </Section>
 
-      <Section eyebrow="Logos" title="Wordmark and mark lockups.">
-        <div className="grid gap-6 md:grid-cols-4">
-          <Card variant="outline" className="flex h-32 items-center justify-center p-6">
+      <Section id="logos" eyebrow="Logos" title="Wordmark and mark lockups.">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          <div className="flex h-32 items-center justify-center rounded-xl border border-hairline bg-surface p-6">
             <img src={wordmarkDark} alt="Wordmark dark" className="max-h-8" />
-          </Card>
-          <Card
-            variant="outline"
-            className="flex h-32 items-center justify-center bg-navy p-6"
-          >
+          </div>
+          <div className="flex h-32 items-center justify-center rounded-xl bg-navy p-6">
             <img src={markWhite} alt="Mark white" className="max-h-14" />
-          </Card>
-          <Card variant="outline" className="flex h-32 items-center justify-center p-6">
+          </div>
+          <div className="flex h-32 items-center justify-center rounded-xl border border-hairline bg-surface p-6">
             <img src={markNavy} alt="Mark navy" className="max-h-14" />
-          </Card>
-          <Card variant="outline" className="flex h-32 items-center justify-center p-6">
+          </div>
+          <div className="flex h-32 items-center justify-center rounded-xl border border-hairline bg-surface p-6">
             <img src={markCoral} alt="Mark coral" className="max-h-14" />
-          </Card>
-          <Card
-            variant="outline"
-            className="flex h-32 items-center justify-center bg-navy p-6"
-          >
+          </div>
+          <div className="flex h-32 items-center justify-center rounded-xl bg-navy p-6">
             <img src={markMint} alt="Mark mint" className="max-h-14" />
-          </Card>
+          </div>
         </div>
       </Section>
 
       <Section
+        id="gradients"
         eyebrow="Gradients"
         title="Noise gradients for hero moments."
         intro="Grain-textured blends of brand and category colors. A tool for hero and marketing surfaces, never the default state of a card, and never behind body text without a scrim."
       >
-        <div className="grid gap-6 md:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[g1, g2, g3, g4].map((g, i) => (
             <div key={i} className="aspect-[4/3] overflow-hidden rounded-xl">
               <img src={g.url} alt="" className="h-full w-full object-cover" />
@@ -275,14 +327,15 @@ function FoundationsPage() {
       </Section>
 
       <Section
+        id="photography"
         eyebrow="Photography"
         title="Warm, candid, Namibian."
-        intro="Real portraiture — multi-generational, hugging, laughing, often looking at camera. Full-bleed or generously cropped. Never place photography behind heavy dark overlays."
+        intro="Real portraiture — multi-generational, hugging, laughing, often looking at camera. Full-bleed or generously cropped. Never behind heavy dark overlays."
       >
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
           {[p1, p2, p3, p4, p5, p6].map((p, i) => (
             <div key={i} className="aspect-[4/3] overflow-hidden rounded-xl">
-              <img src={p.url} alt="" className="h-full w-full object-cover" />
+              <img src={p.url} alt="" className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]" />
             </div>
           ))}
         </div>
