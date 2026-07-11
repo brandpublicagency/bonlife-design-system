@@ -1,0 +1,110 @@
+import * as React from "react";
+import { cn } from "@/lib/utils";
+import wordmarkLight from "@/assets/bonlife/logos/bonlife-wordmark-light.svg";
+import wordmarkDark from "@/assets/bonlife/logos/bonlife-wordmark-dark.svg";
+import markCoral from "@/assets/bonlife/logos/bonlife-mark-coral.svg";
+
+export type SocialFormat = "square" | "story" | "landscape" | "portrait";
+
+const RATIOS: Record<SocialFormat, string> = {
+  square: "aspect-square",           // 1:1  — 1080×1080
+  story: "aspect-[9/16]",             // 9:16 — 1080×1920
+  portrait: "aspect-[4/5]",           // 4:5  — 1080×1350
+  landscape: "aspect-[1.91/1]",       // 1.91:1 — link preview
+};
+
+const LABEL: Record<SocialFormat, string> = {
+  square: "1:1 · Feed",
+  story: "9:16 · Story / Reel",
+  portrait: "4:5 · Portrait",
+  landscape: "1.91:1 · Link",
+};
+
+/** A framed, exportable social canvas. `children` fills the canvas edge-to-edge. */
+export function SocialFrame({
+  format,
+  title,
+  caption,
+  children,
+  className,
+}: {
+  format: SocialFormat;
+  title: string;
+  caption?: string;
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <figure className={cn("flex flex-col gap-3", className)}>
+      <div
+        className={cn(
+          "relative w-full overflow-hidden rounded-[20px] bg-surface shadow-[0_20px_60px_-24px_rgba(12,28,62,0.35),0_4px_12px_-6px_rgba(12,28,62,0.15)] ring-1 ring-hairline",
+          RATIOS[format],
+        )}
+      >
+        {children}
+      </div>
+      <figcaption className="flex items-center justify-between px-1">
+        <span className="font-display text-[13px] font-semibold text-navy">{title}</span>
+        <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+          {LABEL[format]}
+        </span>
+      </figcaption>
+      {caption ? (
+        <p className="px-1 text-[12px] leading-relaxed text-muted-foreground">{caption}</p>
+      ) : null}
+    </figure>
+  );
+}
+
+/** Bottom lockup: wordmark + SMS line. Use inside a template. */
+export function SocialLockup({
+  variant = "light",
+  compact = false,
+}: {
+  variant?: "light" | "dark";
+  compact?: boolean;
+}) {
+  const isLight = variant === "light"; // light lockup = for dark backgrounds
+  return (
+    <div className="flex items-end justify-between gap-4">
+      <img
+        src={isLight ? wordmarkLight : wordmarkDark}
+        alt="Bonlife"
+        className={compact ? "h-4" : "h-5"}
+      />
+      <div className={cn("text-right", isLight ? "text-white/85" : "text-navy/75")}>
+        <div className="text-[9px] font-semibold uppercase tracking-[0.18em]">
+          SMS your name
+        </div>
+        <div className="font-display text-[13px] font-bold tracking-tight">to 74448</div>
+      </div>
+    </div>
+  );
+}
+
+/** Small mark badge (used top-left on some templates). */
+export function SocialMark({ tone = "coral" }: { tone?: "coral" | "white" }) {
+  return (
+    <div
+      className={cn(
+        "inline-flex h-9 items-center gap-2 rounded-full pl-1.5 pr-3 backdrop-blur-md",
+        tone === "coral"
+          ? "bg-white/95 text-navy"
+          : "bg-white/15 text-white ring-1 ring-white/25",
+      )}
+    >
+      <span
+        className={cn(
+          "flex h-6 w-6 items-center justify-center rounded-full",
+          tone === "coral" ? "bg-coral" : "bg-white/20",
+        )}
+      >
+        <img src={markCoral} alt="" className="h-3.5 w-3.5 brightness-0 invert" />
+      </span>
+      <span className="font-display text-[11px] font-bold uppercase tracking-[0.16em]">
+        Bonlife
+      </span>
+    </div>
+  );
+}

@@ -9,11 +9,17 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SocialRouteImport } from './routes/social'
 import { Route as MarketingRouteImport } from './routes/marketing'
 import { Route as FoundationsRouteImport } from './routes/foundations'
 import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SocialRoute = SocialRouteImport.update({
+  id: '/social',
+  path: '/social',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const MarketingRoute = MarketingRouteImport.update({
   id: '/marketing',
   path: '/marketing',
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/components': typeof ComponentsRoute
   '/foundations': typeof FoundationsRoute
   '/marketing': typeof MarketingRoute
+  '/social': typeof SocialRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/components': typeof ComponentsRoute
   '/foundations': typeof FoundationsRoute
   '/marketing': typeof MarketingRoute
+  '/social': typeof SocialRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,20 @@ export interface FileRoutesById {
   '/components': typeof ComponentsRoute
   '/foundations': typeof FoundationsRoute
   '/marketing': typeof MarketingRoute
+  '/social': typeof SocialRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/components' | '/foundations' | '/marketing'
+  fullPaths: '/' | '/components' | '/foundations' | '/marketing' | '/social'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/components' | '/foundations' | '/marketing'
-  id: '__root__' | '/' | '/components' | '/foundations' | '/marketing'
+  to: '/' | '/components' | '/foundations' | '/marketing' | '/social'
+  id:
+    | '__root__'
+    | '/'
+    | '/components'
+    | '/foundations'
+    | '/marketing'
+    | '/social'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,10 +82,18 @@ export interface RootRouteChildren {
   ComponentsRoute: typeof ComponentsRoute
   FoundationsRoute: typeof FoundationsRoute
   MarketingRoute: typeof MarketingRoute
+  SocialRoute: typeof SocialRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/social': {
+      id: '/social'
+      path: '/social'
+      fullPath: '/social'
+      preLoaderRoute: typeof SocialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/marketing': {
       id: '/marketing'
       path: '/marketing'
@@ -107,6 +130,7 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsRoute: ComponentsRoute,
   FoundationsRoute: FoundationsRoute,
   MarketingRoute: MarketingRoute,
+  SocialRoute: SocialRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
