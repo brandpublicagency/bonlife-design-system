@@ -2,7 +2,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import wordmarkLight from "@/assets/bonlife/logos/bonlife-wordmark-light.svg";
 import wordmarkDark from "@/assets/bonlife/logos/bonlife-wordmark-dark.svg";
-import markCoral from "@/assets/bonlife/logos/bonlife-mark-coral.svg";
+
 
 export type SocialFormat = "square" | "story" | "landscape" | "portrait";
 
@@ -96,11 +96,11 @@ export function SocialMark({ tone = "coral" }: { tone?: "coral" | "white" }) {
     >
       <span
         className={cn(
-          "flex h-6 w-6 items-center justify-center rounded-full",
-          tone === "coral" ? "bg-coral" : "bg-white/20",
+          "flex h-6 w-6 items-center justify-center rounded-full font-display text-[13px] font-bold leading-none",
+          tone === "coral" ? "bg-coral text-navy" : "bg-coral text-navy",
         )}
       >
-        <img src={markCoral} alt="" className="h-3.5 w-3.5 brightness-0 invert" />
+        b
       </span>
       <span className="font-display text-[11px] font-bold uppercase tracking-[0.16em]">
         Bonlife
@@ -108,3 +108,4 @@ export function SocialMark({ tone = "coral" }: { tone?: "coral" | "white" }) {
     </div>
   );
 }
+
