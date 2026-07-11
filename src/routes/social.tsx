@@ -70,7 +70,7 @@ function SocialPage() {
       <PageHeader
         eyebrow="Templates · v0.1"
         title="Social post templates"
-        lead="Nine on-brand layouts built from Bonlife tokens — drop copy in, export at native resolution, ship. Every template honours the 48-hour promise, the 74448 SMS line, and the four category colours."
+        lead="Nine on-brand layouts built from Bonlife tokens. Drop copy in, export at native resolution, ship. Every template honours the 48-hour promise, the 74448 SMS line, and the four category colours."
         toc={[
           { id: "feed", label: "Feed · 1:1" },
           { id: "story", label: "Story · 9:16" },
