@@ -7,6 +7,7 @@ export function SiteHeader() {
     { to: "/", label: "Overview" },
     { to: "/foundations", label: "Foundations" },
     { to: "/components", label: "Components" },
+    { to: "/social", label: "Social" },
     { to: "/marketing", label: "Marketing Kit" },
   ] as const;
   return (
