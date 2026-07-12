@@ -58,12 +58,8 @@ export function NavDrawer() {
         </button>
       </SheetTrigger>
       <SheetContent side="right" className="w-[320px] border-l border-hairline bg-surface p-0 sm:w-[380px]">
-        <VisuallyHidden asChild>
-          <SheetTitle>Navigation</SheetTitle>
-        </VisuallyHidden>
-        <VisuallyHidden asChild>
-          <SheetDescription>Bonlife design system navigation</SheetDescription>
-        </VisuallyHidden>
+        <SheetTitle className="sr-only">Navigation</SheetTitle>
+        <SheetDescription className="sr-only">Bonlife design system navigation</SheetDescription>
         <div className="flex h-full flex-col">
           <div className="flex items-center justify-between border-b border-hairline px-6 py-5">
             <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
