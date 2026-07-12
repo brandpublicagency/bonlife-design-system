@@ -193,7 +193,7 @@ export function TemplateTestimonial() {
       title="Testimonial"
       caption="Editorial quote card. Sparse, honest, uses coral accent for the mark."
     >
-      <div className="relative flex h-full w-full flex-col justify-between bg-surface p-9">
+      <div className="relative flex h-full w-full flex-col justify-between gap-8 bg-surface p-10">
         <div className="flex items-center justify-between">
           <SocialMark tone="coral" />
           <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
@@ -204,11 +204,12 @@ export function TemplateTestimonial() {
           <div className="font-display text-[96px] font-bold leading-[0.65] text-coral">
             &ldquo;
           </div>
-          <blockquote className="mt-3 font-display text-[26px] font-semibold leading-[1.18] tracking-[-0.015em] text-navy">
+          <blockquote className="mt-4 font-display text-[26px] font-semibold leading-[1.18] tracking-[-0.015em] text-navy">
             They called me back the same afternoon. Two days later my family
             had what they needed. No paperwork games.
           </blockquote>
         </div>
+
         <div className="flex items-end justify-between gap-4">
           <div className="flex items-center gap-3">
             <div
