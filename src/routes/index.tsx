@@ -11,17 +11,17 @@ import familyStudio from "@/assets/bonlife/photography/family-studio.jpg.asset.j
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Bonlife Design System — Overview" },
+      { title: "Bonlife Design System" },
       {
         name: "description",
         content:
-          "The visual foundations, component library, and marketing patterns for Bonlife Assurance Namibia.",
+          "The visual foundations, component library, and marketing patterns for Bonlife Namibia.",
       },
       { property: "og:title", content: "Bonlife Design System" },
       {
         property: "og:description",
         content:
-          "Colors, typography, components and marketing patterns for Bonlife Assurance Namibia.",
+          "The visual foundations, component library, and marketing patterns for Bonlife Namibia.",
       },
       { property: "og:url", content: "/" },
     ],

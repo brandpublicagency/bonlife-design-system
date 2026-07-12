@@ -81,21 +81,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Colors, typography, components and marketing patterns for Bonlife Assurance Namibia.",
+          "The visual foundations, component library, and marketing patterns for Bonlife Namibia.",
       },
       { property: "og:title", content: "Bonlife Design System" },
       {
         property: "og:description",
         content:
-          "The visual and component foundations for Bonlife Assurance Namibia.",
+          "The visual foundations, component library, and marketing patterns for Bonlife Namibia.",
       },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Bonlife Design System" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Bonlife Design System" },
+      { name: "twitter:description", content: "The visual foundations, component library, and marketing patterns for Bonlife Namibia." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Qgq2IIsmaofqYpSOL1SqulNE12x1/social-images/social-1783866438520-Cover.webp" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/Qgq2IIsmaofqYpSOL1SqulNE12x1/social-images/social-1783866438520-Cover.webp" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
