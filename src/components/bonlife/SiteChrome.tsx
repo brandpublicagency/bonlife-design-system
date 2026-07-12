@@ -9,6 +9,7 @@ export function SiteHeader() {
     { to: "/components", label: "Components" },
     { to: "/social", label: "Social" },
     { to: "/marketing", label: "Marketing Kit" },
+    { to: "/downloads", label: "Downloads" },
   ] as const;
   return (
     <header className="sticky top-0 z-40 border-b border-hairline bg-surface/80 backdrop-blur-md">
