@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { HeartHandshake } from "lucide-react";
+import { useRef, useState } from "react";
+import { Download, HeartHandshake } from "lucide-react";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
-import { IconTile } from "@/components/bonlife/IconTile";
+import { IconTile, downloadIcon } from "@/components/bonlife/IconTile";
 import { ICON_GROUPS, type IconGroup } from "@/lib/bonlife-icons";
 import { cn } from "@/lib/utils";
 
@@ -38,19 +38,36 @@ function GroupHeader({
   dark: boolean;
 }) {
   const { Icon } = group;
+  const iconWrapRef = useRef<HTMLDivElement | null>(null);
   return (
     <div className="mb-8 grid gap-6 border-b border-hairline pb-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-end">
       <div className="flex min-w-0 items-center gap-4">
         <div
+          ref={iconWrapRef}
           className={cn(
-            "grid h-14 w-14 shrink-0 place-items-center rounded-2xl border",
+            "group/cat relative grid h-14 w-14 shrink-0 place-items-center rounded-2xl border",
             dark
               ? "border-white/15 bg-white/5 text-white"
               : "border-hairline bg-surface-tint text-navy",
           )}
-          aria-hidden
         >
-          <Icon strokeWidth={1} size={28} />
+          <Icon strokeWidth={1} size={28} aria-hidden />
+          <button
+            type="button"
+            aria-label={`Download ${group.title} category icon as SVG`}
+            onClick={() => {
+              const svg = iconWrapRef.current?.querySelector("svg");
+              if (svg) downloadIcon(svg, `bonlife-category-${group.id}.svg`);
+            }}
+            className={cn(
+              "absolute -bottom-2 -right-2 inline-flex h-7 w-7 items-center justify-center rounded-full border shadow-sm opacity-0 transition-opacity focus-visible:opacity-100 focus-visible:outline-none group-hover/cat:opacity-100",
+              dark
+                ? "border-white/20 bg-navy text-white hover:bg-navy-700"
+                : "border-hairline bg-surface text-navy hover:bg-surface-tint",
+            )}
+          >
+            <Download size={13} strokeWidth={1.5} />
+          </button>
         </div>
         <div className="min-w-0">
           <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
