@@ -242,7 +242,7 @@ export function TemplateStatStory() {
       title="Awareness Stat"
       caption="Story / Reel cover. Big-number typography on a calm ground."
     >
-      <div className="relative flex h-full w-full flex-col justify-between overflow-hidden bg-navy p-8 text-white">
+      <div className="relative flex h-full w-full flex-col justify-between overflow-hidden bg-navy px-8 pb-10 pt-9 text-white">
         <img
           src={gradient01.url}
           alt=""
@@ -251,7 +251,7 @@ export function TemplateStatStory() {
         <div className="absolute inset-0 bg-gradient-to-b from-navy/50 via-transparent to-navy" />
         <div className="relative flex items-start justify-between">
           <SocialMark tone="white" />
-          <span className="rounded-full bg-white/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur">
+          <span className="rounded-full bg-white/10 px-3.5 py-1.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-white backdrop-blur">
             Did you know
           </span>
         </div>
@@ -259,7 +259,7 @@ export function TemplateStatStory() {
           <div className="text-[11px] font-semibold uppercase tracking-[0.24em] text-coral">
             Namibians without cover
           </div>
-          <div className="mt-3 flex items-end gap-3">
+          <div className="mt-4 flex items-end gap-3">
             <span className="font-display text-[168px] font-bold leading-[0.82] tracking-[-0.06em] text-white">
               7<span className="text-coral">.</span>2
             </span>
@@ -269,15 +269,15 @@ export function TemplateStatStory() {
               10 adults
             </span>
           </div>
-          <p className="mt-6 max-w-[90%] font-display text-[22px] font-semibold leading-[1.2] tracking-[-0.01em] text-white">
+          <p className="mt-8 max-w-[90%] font-display text-[22px] font-semibold leading-[1.2] tracking-[-0.01em] text-white">
             One SMS is all it takes to change that for your family.
           </p>
         </div>
-        <div className="relative">
-          <div className="mb-4 h-px w-full bg-white/20" />
+        <div className="relative border-t border-white/20 pt-6">
           <SocialLockup variant="light" />
         </div>
       </div>
+
     </SocialFrame>
   );
 }
