@@ -116,7 +116,7 @@ function IconographyPage() {
               Usage
             </div>
             <p className="mt-3">
-              Use <code className="rounded bg-surface-tint px-1.5 py-0.5 font-mono text-[12px] text-navy">strokeWidth={1}</code>{" "}
+              Use <code className="rounded bg-surface-tint px-1.5 py-0.5 font-mono text-[12px] text-navy">{`strokeWidth={1}`}</code>{" "}
               on every Lucide icon in product. Stroke colour is inherited via{" "}
               <code className="rounded bg-surface-tint px-1.5 py-0.5 font-mono text-[12px] text-navy">currentColor</code>{" "}
               — set text colour on the parent, not the icon. On dark surfaces the same

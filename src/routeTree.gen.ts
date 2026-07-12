@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SocialRouteImport } from './routes/social'
 import { Route as MarketingRouteImport } from './routes/marketing'
+import { Route as IconographyRouteImport } from './routes/iconography'
 import { Route as FoundationsRouteImport } from './routes/foundations'
 import { Route as DownloadsRouteImport } from './routes/downloads'
 import { Route as ComponentsRouteImport } from './routes/components'
@@ -24,6 +25,11 @@ const SocialRoute = SocialRouteImport.update({
 const MarketingRoute = MarketingRouteImport.update({
   id: '/marketing',
   path: '/marketing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IconographyRoute = IconographyRouteImport.update({
+  id: '/iconography',
+  path: '/iconography',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FoundationsRoute = FoundationsRouteImport.update({
@@ -52,6 +58,7 @@ export interface FileRoutesByFullPath {
   '/components': typeof ComponentsRoute
   '/downloads': typeof DownloadsRoute
   '/foundations': typeof FoundationsRoute
+  '/iconography': typeof IconographyRoute
   '/marketing': typeof MarketingRoute
   '/social': typeof SocialRoute
 }
@@ -60,6 +67,7 @@ export interface FileRoutesByTo {
   '/components': typeof ComponentsRoute
   '/downloads': typeof DownloadsRoute
   '/foundations': typeof FoundationsRoute
+  '/iconography': typeof IconographyRoute
   '/marketing': typeof MarketingRoute
   '/social': typeof SocialRoute
 }
@@ -69,6 +77,7 @@ export interface FileRoutesById {
   '/components': typeof ComponentsRoute
   '/downloads': typeof DownloadsRoute
   '/foundations': typeof FoundationsRoute
+  '/iconography': typeof IconographyRoute
   '/marketing': typeof MarketingRoute
   '/social': typeof SocialRoute
 }
@@ -79,6 +88,7 @@ export interface FileRouteTypes {
     | '/components'
     | '/downloads'
     | '/foundations'
+    | '/iconography'
     | '/marketing'
     | '/social'
   fileRoutesByTo: FileRoutesByTo
@@ -87,6 +97,7 @@ export interface FileRouteTypes {
     | '/components'
     | '/downloads'
     | '/foundations'
+    | '/iconography'
     | '/marketing'
     | '/social'
   id:
@@ -95,6 +106,7 @@ export interface FileRouteTypes {
     | '/components'
     | '/downloads'
     | '/foundations'
+    | '/iconography'
     | '/marketing'
     | '/social'
   fileRoutesById: FileRoutesById
@@ -104,6 +116,7 @@ export interface RootRouteChildren {
   ComponentsRoute: typeof ComponentsRoute
   DownloadsRoute: typeof DownloadsRoute
   FoundationsRoute: typeof FoundationsRoute
+  IconographyRoute: typeof IconographyRoute
   MarketingRoute: typeof MarketingRoute
   SocialRoute: typeof SocialRoute
 }
@@ -122,6 +135,13 @@ declare module '@tanstack/react-router' {
       path: '/marketing'
       fullPath: '/marketing'
       preLoaderRoute: typeof MarketingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/iconography': {
+      id: '/iconography'
+      path: '/iconography'
+      fullPath: '/iconography'
+      preLoaderRoute: typeof IconographyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/foundations': {
@@ -160,6 +180,7 @@ const rootRouteChildren: RootRouteChildren = {
   ComponentsRoute: ComponentsRoute,
   DownloadsRoute: DownloadsRoute,
   FoundationsRoute: FoundationsRoute,
+  IconographyRoute: IconographyRoute,
   MarketingRoute: MarketingRoute,
   SocialRoute: SocialRoute,
 }
