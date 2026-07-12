@@ -51,7 +51,7 @@ export function SocialFrame({
   className?: string;
 }) {
   return (
-    <figure className={cn("flex flex-col gap-3", className)}>
+    <figure className={cn("flex flex-col gap-4", className)}>
       <div
         className={cn(
           "relative w-full overflow-hidden rounded-[20px] bg-surface shadow-[0_20px_60px_-24px_rgba(12,28,62,0.35),0_4px_12px_-6px_rgba(12,28,62,0.15)] ring-1 ring-hairline",
