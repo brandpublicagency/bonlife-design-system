@@ -557,7 +557,7 @@ export function TemplateHowItWorksCarousel() {
       id: `step-${i + 1}`,
       label: `Step ${i + 1}`,
       render: ({ index, total }: { index: number; total: number }) => (
-        <div className="relative flex h-full w-full flex-col justify-between bg-surface p-9 text-navy">
+        <div className="relative flex h-full w-full flex-col justify-between bg-surface p-10 text-navy">
           <div
             className="absolute inset-x-0 top-0 h-1.5"
             style={{ backgroundColor: s.accent }}
@@ -567,33 +567,32 @@ export function TemplateHowItWorksCarousel() {
             <SocialPageIndicator index={index} total={total} tone="dark" />
           </div>
           <div>
-            <div className="flex items-baseline gap-4">
-              <span
-                className="font-display text-[128px] font-bold leading-[0.82] tracking-[-0.06em]"
-                style={{ color: s.accent }}
-              >
-                {i + 1}
-              </span>
-              <div
-                className="text-[11px] font-semibold uppercase tracking-[0.22em]"
-                style={{ color: s.accent }}
-              >
-                {s.kicker}
-              </div>
+            <div
+              className="font-display text-[128px] font-bold leading-[0.82] tracking-[-0.06em]"
+              style={{ color: s.accent }}
+            >
+              {i + 1}
             </div>
-            <div className="mt-4 max-w-[90%] font-display text-[30px] font-bold leading-[1.08] tracking-[-0.02em] text-navy">
+            <div
+              className="mt-2 text-[11px] font-semibold uppercase tracking-[0.22em]"
+              style={{ color: s.accent }}
+            >
+              Step {i + 1} · {s.kicker}
+            </div>
+            <div className="mt-6 max-w-[90%] font-display text-[30px] font-bold leading-[1.08] tracking-[-0.02em] text-navy">
               {s.title}
             </div>
-            <p className="mt-3 max-w-[92%] text-[15px] leading-[1.55] text-navy/70">
+            <p className="mt-4 max-w-[92%] text-[15px] leading-[1.55] text-navy/70">
               {s.body}
             </p>
           </div>
-          <div className="border-t border-hairline pt-5">
+          <div className="border-t border-hairline pt-6">
             <SocialLockup variant="dark" />
           </div>
         </div>
       ),
     })),
+
     // Slide 5 — CTA
     {
       id: "cta",
