@@ -403,28 +403,31 @@ export function TemplateBranchEvent() {
             alt=""
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute left-5 top-5">
+          <div className="absolute left-6 top-6">
             <SocialMark tone="coral" />
           </div>
         </div>
-        <div className="flex flex-col justify-between bg-navy p-7 text-white">
+        <div className="flex flex-col justify-between gap-6 bg-navy p-10 text-white">
           <div>
-            <span className="rounded-full bg-coral px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.16em] text-navy">
+            <span className="rounded-full bg-coral px-3.5 py-1.5 font-display text-[10px] font-bold uppercase tracking-[0.16em] text-navy">
               Now open
             </span>
-            <div className="mt-4 font-display text-[30px] font-bold leading-[1.05] tracking-[-0.02em] text-white">
+            <div className="mt-5 font-display text-[30px] font-bold leading-[1.05] tracking-[-0.02em] text-white">
               20 branches
               <br />
               across Namibia.
             </div>
-            <p className="mt-3 max-w-[95%] text-[13px] leading-[1.5] text-white/75">
+            <p className="mt-4 max-w-[95%] text-[13px] leading-[1.5] text-white/75">
               Walk in, sit down, get answers. Find your closest Bonlife branch
               from Windhoek to Katima Mulilo.
             </p>
           </div>
-          <SocialLockup variant="light" compact />
+          <div className="border-t border-white/15 pt-5">
+            <SocialLockup variant="light" compact />
+          </div>
         </div>
       </div>
+
     </SocialFrame>
   );
 }
