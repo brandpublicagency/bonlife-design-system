@@ -52,6 +52,20 @@ import {
   Headphones,
   AtSign,
   LayoutGrid,
+  Utensils,
+  ShoppingCart,
+  Mountain,
+  Package,
+  Carrot,
+  Car,
+  Gift,
+  Sparkles,
+  Stethoscope,
+  ShieldOff,
+  Timer,
+  Users2,
+  Zap,
+  CarFront,
 } from "lucide-react";
 import type { IconEntry } from "@/components/bonlife/IconTile";
 
