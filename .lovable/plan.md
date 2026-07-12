@@ -1,69 +1,82 @@
 
-# Spacing & padding audit — social templates
+# Downloads page
 
-## What's off today
+Add `/downloads` — a single hub for anyone who needs to grab brand assets. Logos download inline, colours copy-to-clipboard, photography and gradients link out to Google Drive.
 
-Reading through `SocialTemplates.tsx` and `SocialFrame.tsx`, the spacing is inconsistent template-to-template and doesn't respect the safe-area rules a real social render needs:
+## Route & nav
 
-1. **Frame padding drifts.** Templates use `p-7`, `p-8`, `p-9` interchangeably. On a 1080×1080 render that's the difference between 28px and 36px of edge padding — visually obvious side-by-side.
-2. **No safe area for platform chrome.** Instagram overlays a username strip (~top 88px on stories) and action rail (~right 60px). Story templates (`TemplateStatStory`, `TemplateOneLifeStory`) currently push content flush to those zones.
-3. **Vertical rhythm is ad-hoc.** Gaps between kicker → headline → body → chips use random values (`mt-3`, `mt-4`, `mt-5`, `mt-6`, `mt-7`) instead of a scale. The eye reads it as "slightly wrong" without being able to name why.
-4. **Lockup breathing room varies.** Some templates butt the SMS lockup right against the body copy (`Template48HourClaim`); others leave a huge gap (`TemplateOneLifeStory` `mt-8`).
-5. **Chip clusters are cramped.** `gap-2` between pill badges reads dense at social-render scale; pills also have inconsistent internal padding (`px-3 py-1` vs `px-3 py-1.5`).
-6. **Carousel step number crowds the kicker.** `TemplateHowItWorksCarousel` puts the giant numeral and the kicker on the same baseline with only `gap-4` — the kicker gets swallowed.
-7. **Portrait `TemplatePaydayReminder` grid** uses `gap-2` between category tiles — too tight for the tile weight; tiles feel glued together.
-8. **Landscape `TemplateBranchEvent`** uses `p-7` on the text half while the image half has no inset — asymmetric visual weight.
+- New file `src/routes/downloads.tsx` with route-specific `head()` (title, description, og:*).
+- Add "Downloads" to the primary nav in `src/components/bonlife/SiteChrome.tsx`, positioned after "Marketing Kit".
 
-## The fix — one spacing scale, applied everywhere
+## Page structure
 
-Introduce a documented spacing scale for social canvases and refactor every template to it. No new components, no visual redesign — just consistent rhythm.
+`PageHeader` (matching the pattern used on `/social` and `/foundations`) with a TOC linking to the four sections below.
 
-### 1. Canonical scale (add as comment block in `SocialFrame.tsx`)
+### 1 · Logos
 
-```text
-Frame padding      → p-10 (40px)      square/portrait/landscape default
-Story frame        → px-8 pt-9 pb-10  (respects IG story safe area)
-Section gap        → space-y-10       between hero block and lockup
-Block gap          → mt-8             between major blocks (kicker→body group and CTA)
-Element gap        → mt-4             kicker→headline, headline→paragraph
-Tight gap          → mt-2             within a label pair
-Chip gap           → gap-2.5          between pill badges
-Chip padding       → px-3.5 py-1.5    all pills, uniformly
-Lockup top rule    → pt-6             padding above the lockup divider
-```
+Card grid (2-col on md, 3-col on lg) covering all six SVGs in `src/assets/bonlife/logos/`:
 
-### 2. Per-template edits
+- Wordmark — Dark (on dark) · `bonlife-wordmark-light.svg`
+- Wordmark — Light (on light) · `bonlife-wordmark-dark.svg`
+- Mark — Coral · `bonlife-mark-coral.svg`
+- Mark — Navy · `bonlife-mark-navy.svg`
+- Mark — Mint · `bonlife-mark-mint.svg`
+- Mark — White · `bonlife-mark-white.svg`
 
-- **`Template48HourClaim`** — `p-9` → `p-10`; tighten `mt-3` between kicker and 92pt figure to `mt-4`; add `pt-6` above lockup with a hairline `border-t border-white/10`.
-- **`TemplateLifeCover`** — bottom panel `p-8` → `p-10`; kicker→price `mt-1` → `mt-2`; price→body `mt-3` → `mt-5`.
-- **`TemplateFuneralCover`** — `p-9` → `p-10`; chip cluster `gap-2` → `gap-2.5`, uniform pill padding; lockup `mt-7` → `mt-8` with divider.
-- **`TemplateTestimonial`** — `p-9` → `p-10`; giant quote → blockquote `mt-3` stays but blockquote → footer needs breathing room, wrap in `space-y-10` on the outer flex.
-- **`TemplateStatStory`** — `p-8` → `px-8 pt-9 pb-10` (story safe area top); big-number → kicker gap tightened from `mt-3` (numerator) but numerator → sentence widened from `mt-6` → `mt-8`; remove ad-hoc `mb-4` on lockup rule, use `pt-6` pattern.
-- **`TemplateOneLifeStory`** — `p-8` → `px-8 pt-9 pb-10`; kicker→headline `mt-3` → `mt-4`; body→chips `mt-6` stays; chips→lockup `mt-8` → move lockup into a `border-t border-white/15 pt-6` footer block.
-- **`TemplateSmsCallback`** — `p-9` → `p-10`; step label→headline `mt-3` → `mt-4`; headline→74448 `mt-3` → `mt-5` (the number needs air); 74448→paragraph `mt-4` → `mt-6`.
-- **`TemplateBranchEvent`** — right panel `p-7` → `p-10`; image side gets a `p-6` inset for the `SocialMark` (currently `left-5 top-5`, off-scale from the rest); text stack gap normalized.
-- **`TemplatePaydayReminder`** — `p-8` → `p-10`; category grid `gap-2` → `gap-3`; tiles `py-2.5` → `py-3.5`; lockup rule uses standard `pt-6`.
-- **`TemplateHowItWorksCarousel`**:
-  - Cover slide: `p-9` → `p-10`, headline→body `mt-4` → `mt-6`.
-  - Step slides: `p-9` → `p-10`; **stack the numeral above the kicker** instead of side-by-side (numeral gets its own line, kicker sits below at `mt-2`, headline at `mt-6`) — fixes the swallowed-kicker issue.
-  - CTA slide: `p-9` → `p-10`; label→headline `mt-3` → `mt-4`; headline→74448 `mt-2` → `mt-4`; 74448→body `mt-4` → `mt-6`.
+Each card:
+- Preview area with an appropriate background (navy for the "on dark" variants, surface-tint for the "on light" variants, coral for the mint mark to give it contrast).
+- Filename + short caption ("Primary wordmark for dark backgrounds", etc.).
+- Two buttons: **Download SVG** (anchor with `download` attribute pointing at the imported asset URL) and **Copy path** (writes the CDN/asset URL to clipboard).
+- The SVGs are already committed as source files under `src/assets/bonlife/logos/`, so Vite's `?url` import produces a stable public URL that the browser can download directly. No extra tooling needed.
 
-### 3. `SocialFrame` primitive touch-ups
+### 2 · Colours
 
-- Bump the outer `figcaption` from `px-1` to `px-1` (unchanged) but increase the wrapper `gap-3` → `gap-4` so the label sits comfortably under the frame.
-- `SocialCarousel` grid `gap-6` → `gap-8` so carousel panels breathe like the other template grids on `/social` (which use `gap-8`).
-- Document the spacing scale as a header comment in `SocialFrame.tsx` so future templates inherit it.
+Grouped swatch grid, click-to-copy hex. Groupings:
+
+- **Brand** — Navy 900 `#0C1C3E`, Coral 500 `#FF876A`, Mint 400 `#01FBC0`.
+- **Category** — Funeral `#04413F`, Life `#541467`, Savings `#0D2B90`, Accident `#A80A4D`.
+- **State** — Error `#FF5F5F`, Success `#41FFB6`.
+- **Surface & text** — Surface white `#FFFFFF`, Surface tint `#F7F8FB`, Surface muted `#EAEDF4`, Border hairline `#E1E4E9`, Gray 600 `#5B6472`.
+
+Each swatch tile is a `<button>`:
+- Large colour block using the raw hex (inline `style={{ background }}`, since the file lists literal hex — no token drift).
+- Below the block: name, hex, and the CSS variable (e.g. `--coral-500`).
+- On click: `navigator.clipboard.writeText(hex)` and flip the tile label to "Copied ✓" for ~1.4s via local state.
+- Keyboard-accessible (native button, `aria-live="polite"` on the confirmation text).
+- Right-click / long-press hint via `title="Click to copy hex"`.
+
+Small `SwatchTile` component defined inside `downloads.tsx` (or `src/components/bonlife/SwatchTile.tsx` if it grows) with props `{ name, hex, token, textOn: "light" | "dark" }` to pick a legible label colour over each swatch.
+
+### 3 · Photography
+
+No files served from the page. Single hero card with:
+- Short blurb explaining that photography lives in the shared Drive because it's high-res and licensed per campaign.
+- Big primary button "Open photography folder" → the provided Drive URL (`target="_blank"`, `rel="noopener noreferrer"`).
+- Small strip of 3-4 thumbnail previews from the existing `src/assets/bonlife/photography/*.jpg.asset.json` files so the section still reads visually.
+
+### 4 · Gradients
+
+Same pattern as Photography:
+- Blurb: "Gradients ship as layered PSDs and hi-res JPGs — grab them from Drive."
+- "Open gradients folder" button pointing to the same Drive URL (the folder holds both).
+- Preview strip using `src/assets/bonlife/gradients/*.jpg.asset.json` (4 tiles).
+
+## Interaction details
+
+- Clipboard writes use `navigator.clipboard.writeText` with a `try/catch` fallback that selects a hidden textarea for older browsers.
+- Toast-free: inline confirmation on each swatch/logo card keeps the page self-contained; no dependency on the Toast primitive.
+- All external links (Drive) get `target="_blank"` + `rel="noopener noreferrer"`.
 
 ## Out of scope
 
-- No new templates, no color/type changes, no layout restructuring beyond the carousel step-slide numeral/kicker stacking fix.
-- No changes to `/social` route grid gaps (already at `gap-8`).
-- No dark-mode work.
+- No new asset uploads, no Drive API integration, no zip-bundle downloader.
+- No route-level auth (assets are public brand material).
+- No changes to the token values in `src/styles.css` — the Downloads page reads the same hex values the design system already publishes.
 
 ## Verification
 
-After the edits I'll open `/social` in the preview, screenshot the feed grid, the carousel row, the story pair, and the portrait/landscape row, and spot-check that:
-- every square template has identical edge padding
-- kicker→headline→body rhythm reads the same across all templates
-- lockups sit on a consistent baseline distance from the bottom edge
-- carousel step numerals no longer crowd their kickers
+After building, open `/downloads` in the preview and confirm:
+- every logo card downloads its SVG when clicked;
+- swatch tiles copy their hex (verify via a Playwright script reading `navigator.clipboard`);
+- both Drive buttons open the provided folder in a new tab;
+- nav highlights "Downloads" when active.
