@@ -1,5 +1,13 @@
 import * as React from "react";
-import { SocialFrame, SocialLockup, SocialMark, type SocialFormat } from "./SocialFrame";
+import {
+  SocialFrame,
+  SocialLockup,
+  SocialMark,
+  SocialCarousel,
+  SocialPageIndicator,
+  type SocialFormat,
+} from "./SocialFrame";
+
 
 // Photography
 import celebration from "@/assets/bonlife/photography/celebration-fistpump.jpg.asset.json";
@@ -460,6 +468,160 @@ export function TemplatePaydayReminder() {
   );
 }
 
+/* ================================================================
+   10 · CAROUSEL — "How Bonlife works in 60 seconds" (5 slides · square)
+   ================================================================ */
+export function TemplateHowItWorksCarousel() {
+  const steps = [
+    {
+      kicker: "SMS",
+      title: "Send your name to 74448",
+      body: "Free from any Namibian network. No forms, no data required.",
+      accent: "var(--category-life)",
+    },
+    {
+      kicker: "Call",
+      title: "We call you back the same day",
+      body: "A real person walks you through cover options, in your language.",
+      accent: "var(--category-savings)",
+    },
+    {
+      kicker: "Cover",
+      title: "Cover starts as soon as you say yes",
+      body: "From N$45 / month. Debit order set up on the call.",
+      accent: "var(--category-accident)",
+    },
+  ];
+
+  const slides: {
+    id: string;
+    label: string;
+    render: (ctx: { index: number; total: number }) => React.ReactNode;
+  }[] = [
+    // Slide 1 — cover
+    {
+      id: "cover",
+      label: "Cover",
+      render: ({ index, total }) => (
+        <div className="relative h-full w-full overflow-hidden bg-navy text-white">
+          <img
+            src={celebration.url}
+            alt=""
+            className="absolute inset-0 h-full w-full object-cover opacity-40"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-navy/40 via-navy/80 to-navy" />
+          <div className="relative flex h-full w-full flex-col justify-between p-9">
+            <div className="flex items-start justify-between">
+              <SocialMark tone="white" />
+              <SocialPageIndicator index={index} total={total} tone="light" />
+            </div>
+            <div>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-coral">
+                Carousel · Swipe to see how
+              </div>
+              <div className="mt-3 font-display text-[54px] font-bold leading-[0.98] tracking-[-0.03em] text-white">
+                How Bonlife
+                <br />
+                works in
+                <br />
+                <span className="text-coral">60 seconds.</span>
+              </div>
+              <p className="mt-4 max-w-[85%] text-[15px] leading-[1.5] text-white/80">
+                Three steps between you and cover your family can count on.
+              </p>
+            </div>
+            <SocialLockup variant="light" />
+          </div>
+        </div>
+      ),
+    },
+    // Slides 2-4 — steps
+    ...steps.map((s, i) => ({
+      id: `step-${i + 1}`,
+      label: `Step ${i + 1}`,
+      render: ({ index, total }: { index: number; total: number }) => (
+        <div className="relative flex h-full w-full flex-col justify-between bg-surface p-9 text-navy">
+          <div
+            className="absolute inset-x-0 top-0 h-1.5"
+            style={{ backgroundColor: s.accent }}
+          />
+          <div className="flex items-start justify-between">
+            <SocialMark tone="coral" />
+            <SocialPageIndicator index={index} total={total} tone="dark" />
+          </div>
+          <div>
+            <div className="flex items-baseline gap-4">
+              <span
+                className="font-display text-[128px] font-bold leading-[0.82] tracking-[-0.06em]"
+                style={{ color: s.accent }}
+              >
+                {i + 1}
+              </span>
+              <div
+                className="text-[11px] font-semibold uppercase tracking-[0.22em]"
+                style={{ color: s.accent }}
+              >
+                {s.kicker}
+              </div>
+            </div>
+            <div className="mt-4 max-w-[90%] font-display text-[30px] font-bold leading-[1.08] tracking-[-0.02em] text-navy">
+              {s.title}
+            </div>
+            <p className="mt-3 max-w-[92%] text-[15px] leading-[1.55] text-navy/70">
+              {s.body}
+            </p>
+          </div>
+          <div className="border-t border-hairline pt-5">
+            <SocialLockup variant="dark" />
+          </div>
+        </div>
+      ),
+    })),
+    // Slide 5 — CTA
+    {
+      id: "cta",
+      label: "CTA",
+      render: ({ index, total }) => (
+        <div className="relative flex h-full w-full flex-col justify-between bg-coral p-9 text-navy">
+          <div className="flex items-start justify-between">
+            <SocialMark tone="coral" />
+            <SocialPageIndicator index={index} total={total} tone="dark" />
+          </div>
+          <div>
+            <div className="text-[12px] font-semibold uppercase tracking-[0.22em] text-navy/70">
+              Ready when you are
+            </div>
+            <div className="mt-3 font-display text-[46px] font-bold leading-[0.98] tracking-[-0.03em] text-navy">
+              SMS your name
+              <br />
+              to
+            </div>
+            <div className="mt-2 font-display text-[128px] font-bold leading-none tracking-[-0.06em] text-navy">
+              74448
+            </div>
+            <p className="mt-4 max-w-[85%] text-[15px] leading-[1.5] text-navy/80">
+              We call you back the same day. 48-hour cover benefit, guaranteed.
+            </p>
+          </div>
+          <div className="border-t border-navy/15 pt-5">
+            <SocialLockup variant="dark" />
+          </div>
+        </div>
+      ),
+    },
+  ];
+
+  return (
+    <SocialCarousel
+      title="How Bonlife works in 60 seconds"
+      caption="5-slide Instagram carousel · square 1:1 · export each panel individually. Cover + 3 steps + CTA. Swap step colours to feature a different category."
+      format="square"
+      slides={slides}
+    />
+  );
+}
+
+
 export const SOCIAL_TEMPLATES = [
   { id: "claim", Component: Template48HourClaim, format: "square" as SocialFormat },
   { id: "life", Component: TemplateLifeCover, format: "square" as SocialFormat },
@@ -471,3 +633,4 @@ export const SOCIAL_TEMPLATES = [
   { id: "branch", Component: TemplateBranchEvent, format: "landscape" as SocialFormat },
   { id: "payday", Component: TemplatePaydayReminder, format: "portrait" as SocialFormat },
 ];
+

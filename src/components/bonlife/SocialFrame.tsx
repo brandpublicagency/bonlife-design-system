@@ -83,6 +83,81 @@ export function SocialLockup({
   );
 }
 
+/** Small page indicator for carousel slides (e.g. "02 / 05"). */
+export function SocialPageIndicator({
+  index,
+  total,
+  tone = "light",
+}: {
+  index: number;
+  total: number;
+  tone?: "light" | "dark";
+}) {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return (
+    <div
+      className={cn(
+        "inline-flex items-center gap-2 rounded-full px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.18em] backdrop-blur",
+        tone === "light"
+          ? "bg-white/15 text-white ring-1 ring-white/25"
+          : "bg-navy/8 text-navy ring-1 ring-navy/15",
+      )}
+    >
+      <span>{pad(index)}</span>
+      <span className={tone === "light" ? "text-white/45" : "text-navy/40"}>/</span>
+      <span className={tone === "light" ? "text-white/60" : "text-navy/55"}>{pad(total)}</span>
+    </div>
+  );
+}
+
+/** A multi-slide carousel built on SocialFrame. Renders slides in a responsive
+ *  grid so every panel is exportable individually at native ratio. */
+export function SocialCarousel({
+  title,
+  caption,
+  format = "square",
+  slides,
+  className,
+}: {
+  title: string;
+  caption?: string;
+  format?: SocialFormat;
+  slides: { id: string; label?: string; render: (ctx: { index: number; total: number }) => React.ReactNode }[];
+  className?: string;
+}) {
+  const total = slides.length;
+  return (
+    <section className={cn("flex flex-col gap-5", className)}>
+      <header className="flex flex-wrap items-end justify-between gap-3 px-1">
+        <div>
+          <div className="text-[10px] font-semibold uppercase tracking-[0.18em] text-coral">
+            Carousel · {total} slides
+          </div>
+          <div className="mt-1 font-display text-[15px] font-semibold text-navy">{title}</div>
+        </div>
+        <div className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+          Swipe →
+        </div>
+      </header>
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {slides.map((s, i) => (
+          <SocialFrame
+            key={s.id}
+            format={format}
+            title={`${String(i + 1).padStart(2, "0")} · ${s.label ?? "Slide"}`}
+          >
+            {s.render({ index: i + 1, total })}
+          </SocialFrame>
+        ))}
+      </div>
+      {caption ? (
+        <p className="px-1 text-[12px] leading-relaxed text-muted-foreground">{caption}</p>
+      ) : null}
+    </section>
+  );
+}
+
+
 /** Small mark badge (used top-left on some templates). */
 export function SocialMark({ tone = "coral" }: { tone?: "coral" | "white" }) {
   return (

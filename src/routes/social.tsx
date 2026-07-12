@@ -10,7 +10,9 @@ import {
   TemplateSmsCallback,
   TemplateBranchEvent,
   TemplatePaydayReminder,
+  TemplateHowItWorksCarousel,
 } from "@/components/bonlife/SocialTemplates";
+
 
 export const Route = createFileRoute("/social")({
   head: () => ({
@@ -73,12 +75,14 @@ function SocialPage() {
         lead="Nine on-brand layouts built from Bonlife tokens. Drop copy in, export at native resolution, ship. Every template honours the 48-hour promise, the 74448 SMS line, and the four category colours."
         toc={[
           { id: "feed", label: "Feed · 1:1" },
+          { id: "carousel", label: "Carousel · multi-slide" },
           { id: "story", label: "Story · 9:16" },
           { id: "portrait", label: "Portrait · 4:5" },
           { id: "link", label: "Link · 1.91:1" },
           { id: "usage", label: "Usage rules" },
         ]}
       />
+
 
       <main className="mx-auto max-w-[1200px] px-6 sm:px-8">
         <Section
@@ -95,6 +99,16 @@ function SocialPage() {
             <TemplateTestimonial />
           </div>
         </Section>
+
+        <Section
+          id="carousel"
+          eyebrow="Carousel · multi-slide"
+          title="Instagram & LinkedIn carousels"
+          lead="Story-driven, swipe-through decks built on the same SocialFrame primitives. Each panel exports individually at native ratio."
+        >
+          <TemplateHowItWorksCarousel />
+        </Section>
+
 
         <Section
           id="story"
