@@ -442,22 +442,22 @@ export function TemplatePaydayReminder() {
       title="Payday Reminder"
       caption="4:5 portrait for feed. Monthly recurring, cycle through categories."
     >
-      <div className="relative flex h-full w-full flex-col bg-surface-tint p-8">
+      <div className="relative flex h-full w-full flex-col bg-surface-tint p-10">
         <div className="flex items-center justify-between">
           <SocialMark tone="coral" />
-          <span className="rounded-full bg-navy px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.16em] text-white">
+          <span className="rounded-full bg-navy px-3.5 py-1.5 font-display text-[10px] font-bold uppercase tracking-[0.16em] text-white">
             25th of the month
           </span>
         </div>
-        <div className="mt-7">
+        <div className="mt-8">
           <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-coral">
             Payday check-in
           </div>
-          <div className="mt-3 font-display text-[42px] font-bold leading-[1.02] tracking-[-0.03em] text-navy">
+          <div className="mt-4 font-display text-[42px] font-bold leading-[1.02] tracking-[-0.03em] text-navy">
             Before you spend it, cover the people who count on you.
           </div>
         </div>
-        <div className="mt-6 grid grid-cols-2 gap-2 text-[11px] font-semibold uppercase tracking-[0.14em] text-white">
+        <div className="mt-8 grid grid-cols-2 gap-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white">
           {[
             { label: "Funeral", color: "var(--category-funeral)" },
             { label: "Life", color: "var(--category-life)" },
@@ -466,17 +466,18 @@ export function TemplatePaydayReminder() {
           ].map((c) => (
             <div
               key={c.label}
-              className="rounded-lg px-3 py-2.5"
+              className="rounded-lg px-3.5 py-3.5"
               style={{ backgroundColor: c.color }}
             >
               {c.label}
             </div>
           ))}
         </div>
-        <div className="mt-auto border-t border-hairline pt-5">
+        <div className="mt-auto border-t border-hairline pt-6">
           <SocialLockup variant="dark" />
         </div>
       </div>
+
     </SocialFrame>
   );
 }
