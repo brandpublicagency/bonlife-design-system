@@ -299,11 +299,11 @@ export function TemplateOneLifeStory() {
           className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/55 via-navy/25 to-navy" />
-        <div className="relative flex h-full w-full flex-col justify-between p-8 text-white">
+        <div className="relative flex h-full w-full flex-col justify-between px-8 pb-10 pt-9 text-white">
           <div className="flex items-center justify-between">
             <SocialMark tone="white" />
             <span
-              className="rounded-full px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.16em] text-white"
+              className="rounded-full px-3.5 py-1.5 font-display text-[10px] font-bold uppercase tracking-[0.16em] text-white"
               style={{ backgroundColor: "var(--category-savings)" }}
             >
               OneLife
@@ -313,7 +313,7 @@ export function TemplateOneLifeStory() {
             <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-coral">
               One policy · one lump sum
             </div>
-            <div className="mt-3 font-display text-[54px] font-bold leading-[0.98] tracking-[-0.03em] text-white">
+            <div className="mt-4 font-display text-[54px] font-bold leading-[0.98] tracking-[-0.03em] text-white">
               A lump sum
               <br />
               when it matters.
@@ -322,19 +322,20 @@ export function TemplateOneLifeStory() {
               OneLife pays a single, guaranteed lump sum for school fees, a
               home, or starting again.
             </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              <span className="rounded-full bg-white/15 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur">
+            <div className="mt-6 flex flex-wrap gap-2.5">
+              <span className="rounded-full bg-white/15 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur">
                 From N$120 / mo
               </span>
-              <span className="rounded-full bg-coral px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy">
+              <span className="rounded-full bg-coral px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy">
                 Payout guaranteed
               </span>
             </div>
-            <div className="mt-8">
-              <SocialLockup variant="light" />
-            </div>
+          </div>
+          <div className="border-t border-white/15 pt-6">
+            <SocialLockup variant="light" />
           </div>
         </div>
+
       </div>
     </SocialFrame>
   );
