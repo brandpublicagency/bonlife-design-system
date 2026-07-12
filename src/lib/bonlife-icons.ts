@@ -87,6 +87,7 @@ export const ICON_GROUPS: IconGroup[] = [
     id: "funeral",
     title: "Funeral cover",
     lead: "Four funeral plans, each with its own audience — from full families to legacy beneficiaries.",
+    Icon: Flower2,
     icons: [
       { name: "family-plan", label: "Family Plan", Icon: Users },
       { name: "prime-plan", label: "Prime Plan", Icon: Crown },
@@ -98,6 +99,7 @@ export const ICON_GROUPS: IconGroup[] = [
     id: "life",
     title: "Life insurance",
     lead: "Long-term life cover and short-term cash payouts.",
+    Icon: HeartPulse,
     icons: [
       { name: "onelife-plan", label: "OneLife Plan", Icon: ShieldCheck },
       { name: "cash-plan", label: "Cash Plan", Icon: Banknote },
@@ -107,6 +109,7 @@ export const ICON_GROUPS: IconGroup[] = [
     id: "savings",
     title: "Savings & education plans",
     lead: "Building capital for the future — general savings and school fees.",
+    Icon: Wallet,
     icons: [
       { name: "savings-plan", label: "Savings Plan", Icon: PiggyBank },
       { name: "study-plan", label: "Study Plan", Icon: GraduationCap },
@@ -116,6 +119,7 @@ export const ICON_GROUPS: IconGroup[] = [
     id: "accident",
     title: "Accident & disability cover",
     lead: "Protection when the unexpected happens.",
+    Icon: ShieldAlert,
     icons: [
       { name: "lifeguard-plan", label: "LifeGuard Plan", Icon: LifeBuoy },
     ],
@@ -124,6 +128,7 @@ export const ICON_GROUPS: IconGroup[] = [
     id: "actions",
     title: "Customer actions",
     lead: "Icons for the flows a customer takes across the site, app and branch touchpoints.",
+    Icon: MousePointer2,
     icons: [
       { name: "get-a-quote", label: "Get a quote", Icon: FileText },
       { name: "claim", label: "Claim", Icon: ClipboardCheck },
@@ -137,6 +142,7 @@ export const ICON_GROUPS: IconGroup[] = [
     id: "contact",
     title: "Contact & support",
     lead: "Every channel a customer can reach Bonlife on.",
+    Icon: Headphones,
     icons: [
       { name: "phone", label: "Phone", Icon: Phone },
       { name: "whatsapp", label: "WhatsApp", Icon: WhatsApp },
@@ -149,6 +155,7 @@ export const ICON_GROUPS: IconGroup[] = [
     id: "social",
     title: "Social",
     lead: "Brand-safe social glyphs for footers and share sheets.",
+    Icon: AtSign,
     icons: [
       { name: "facebook", label: "Facebook", Icon: Facebook },
       { name: "instagram", label: "Instagram", Icon: Instagram },
@@ -161,6 +168,7 @@ export const ICON_GROUPS: IconGroup[] = [
     id: "utility",
     title: "Shared utility",
     lead: "Interface glue — used across headers, forms, buttons and confirmations.",
+    Icon: LayoutGrid,
     icons: [
       { name: "search", label: "Search", Icon: Search },
       { name: "download", label: "Download", Icon: Download },
