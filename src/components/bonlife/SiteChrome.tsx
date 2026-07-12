@@ -6,6 +6,7 @@ export function SiteHeader() {
   const items = [
     { to: "/", label: "Overview" },
     { to: "/foundations", label: "Foundations" },
+    { to: "/iconography", label: "Iconography" },
     { to: "/components", label: "Components" },
     { to: "/social", label: "Social" },
     { to: "/marketing", label: "Marketing Kit" },
