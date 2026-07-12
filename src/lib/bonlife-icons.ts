@@ -1,4 +1,4 @@
-import { createLucideIcon } from "lucide-react";
+import { createLucideIcon, type LucideIcon } from "lucide-react";
 import {
   Users,
   Crown,
@@ -44,6 +44,14 @@ import {
   Instagram,
   Linkedin,
   Youtube,
+  Flower2,
+  HeartPulse,
+  Wallet,
+  ShieldAlert,
+  MousePointer2,
+  Headphones,
+  AtSign,
+  LayoutGrid,
 } from "lucide-react";
 import type { IconEntry } from "@/components/bonlife/IconTile";
 
@@ -70,6 +78,7 @@ export type IconGroup = {
   id: string;
   title: string;
   lead: string;
+  Icon: LucideIcon;
   icons: IconEntry[];
 };
 
