@@ -52,6 +52,20 @@ import {
   Headphones,
   AtSign,
   LayoutGrid,
+  Utensils,
+  ShoppingCart,
+  Mountain,
+  Package,
+  Carrot,
+  Car,
+  Gift,
+  Sparkles,
+  Stethoscope,
+  ShieldOff,
+  Timer,
+  Users2,
+  Zap,
+  CarFront,
 } from "lucide-react";
 import type { IconEntry } from "@/components/bonlife/IconTile";
 
@@ -122,6 +136,34 @@ export const ICON_GROUPS: IconGroup[] = [
     Icon: ShieldAlert,
     icons: [
       { name: "lifeguard-plan", label: "LifeGuard Plan", Icon: LifeBuoy },
+    ],
+  },
+  {
+    id: "value-added",
+    title: "Value-added benefits",
+    lead: "Extra payouts and services that ride alongside the core funeral cover — food, transport, headstone and casket.",
+    Icon: Gift,
+    icons: [
+      { name: "onyama-meatfeast", label: "Onyama MeatFeast", Icon: Utensils },
+      { name: "grocery-benefit", label: "Grocery Benefit", Icon: ShoppingCart },
+      { name: "tombstone", label: "Tombstone", Icon: Mountain },
+      { name: "casket", label: "Casket", Icon: Package },
+      { name: "veggie-benefit", label: "Veggie Benefit", Icon: Carrot },
+      { name: "transportation", label: "Transportation", Icon: Car },
+    ],
+  },
+  {
+    id: "key-benefits",
+    title: "Key benefits",
+    lead: "The promises included with every plan — no medical tests, fast claims, family cover and accidental death protection.",
+    Icon: Sparkles,
+    icons: [
+      { name: "no-medical-tests", label: "No medical tests", Icon: Stethoscope },
+      { name: "premium-waiver", label: "Premium waiver", Icon: ShieldOff },
+      { name: "fast-claims", label: "Fast claims", Icon: Timer },
+      { name: "full-family-cover", label: "Full family cover", Icon: Users2 },
+      { name: "instant-cash", label: "Instant cash benefit", Icon: Zap },
+      { name: "accidental-death", label: "Accidental death cover", Icon: CarFront },
     ],
   },
   {
