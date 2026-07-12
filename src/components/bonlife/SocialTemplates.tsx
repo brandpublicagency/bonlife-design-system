@@ -85,10 +85,10 @@ export function TemplateLifeCover() {
             alt=""
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-x-0 top-0 flex items-center justify-between p-6">
+          <div className="absolute inset-x-0 top-0 flex items-center justify-between p-8">
             <SocialMark tone="coral" />
             <span
-              className="rounded-full px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.16em] text-white"
+              className="rounded-full px-3.5 py-1.5 font-display text-[10px] font-bold uppercase tracking-[0.16em] text-white"
               style={{ backgroundColor: "var(--category-life)" }}
             >
               Life Cover
@@ -96,30 +96,33 @@ export function TemplateLifeCover() {
           </div>
         </div>
         <div
-          className="relative flex flex-col justify-between p-8 text-white"
+          className="relative flex flex-col justify-between p-10 text-white"
           style={{ backgroundColor: "var(--category-life)" }}
         >
           <div>
             <div className="text-[10px] font-semibold uppercase tracking-[0.22em] text-white/70">
               From
             </div>
-            <div className="mt-1 flex items-baseline gap-2">
+            <div className="mt-2 flex items-baseline gap-2">
               <span className="font-display text-[52px] font-bold leading-none tracking-[-0.03em] text-white">
                 N$45
               </span>
               <span className="text-[13px] font-medium text-white/80">/ month</span>
             </div>
-            <p className="mt-3 max-w-[90%] font-display text-[19px] font-semibold leading-[1.2] tracking-[-0.01em] text-white">
+            <p className="mt-5 max-w-[90%] font-display text-[19px] font-semibold leading-[1.2] tracking-[-0.01em] text-white">
               Protect the people who depend on you. Less than a loaf of bread
               a day.
             </p>
           </div>
-          <SocialLockup variant="light" />
+          <div className="border-t border-white/15 pt-6">
+            <SocialLockup variant="light" />
+          </div>
         </div>
       </div>
     </SocialFrame>
   );
 }
+
 
 /* ================================================================
    3 · CATEGORY PROMO — Funeral Cover (square)
