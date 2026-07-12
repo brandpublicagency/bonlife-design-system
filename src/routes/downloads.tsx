@@ -21,6 +21,8 @@ import gradient4 from "@/assets/bonlife/gradients/gradient-04.png.asset.json";
 
 const DRIVE_URL =
   "https://drive.google.com/drive/folders/1-BYSNul3hlWG1B3lqOxtEZlwSy2L5_nI?usp=sharing";
+const XD_URL =
+  "https://xd.adobe.com/view/47817079-994c-4681-9f8b-78fea6abfd3a-12d2/grid";
 
 export const Route = createFileRoute("/downloads")({
   head: () => ({
@@ -273,6 +275,37 @@ function DriveSection({
   );
 }
 
+function XDLinkSection() {
+  return (
+    <Section id="design-system" eyebrow="Design system" title="Adobe XD source">
+      <div className="overflow-hidden rounded-2xl border border-hairline bg-surface">
+        <div className="grid gap-8 p-8 md:grid-cols-[1.1fr_1fr] md:items-center">
+          <div>
+            <p className="max-w-lg text-[15px] leading-[1.65] text-muted-foreground">
+              The full Bonlife Design System lives in Adobe XD. Inspect components, copy assets, and download everything from the developer link.
+            </p>
+            <a
+              href={XD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-coral px-5 py-2.5 font-display text-[13px] font-semibold text-navy transition-colors hover:bg-coral/90"
+            >
+              Open Adobe XD
+              <span aria-hidden>↗</span>
+            </a>
+            <div className="mt-3 font-mono text-[11px] text-muted-foreground">
+              Adobe XD · developer view
+            </div>
+          </div>
+          <div className="flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-hairline bg-navy">
+            <img src={markWhite} alt="Bonlife mark" className="max-h-24 max-w-[70%]" />
+          </div>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
 function DownloadsPage() {
   const logos: {
     src: string;
@@ -326,6 +359,7 @@ function DownloadsPage() {
   ];
 
   const toc = [
+    { id: "design-system", label: "Design system" },
     { id: "logos", label: "Logos" },
     { id: "colours", label: "Colours" },
     { id: "photography", label: "Photography" },
@@ -342,6 +376,8 @@ function DownloadsPage() {
         toc={toc}
       />
       <main className="mx-auto max-w-[1200px] px-6 sm:px-8">
+        <XDLinkSection />
+
         <Section
           id="logos"
           eyebrow="01 · Logos"
