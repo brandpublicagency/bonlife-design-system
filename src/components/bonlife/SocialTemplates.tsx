@@ -39,10 +39,10 @@ export function Template48HourClaim() {
           className="absolute inset-0 h-full w-full object-cover opacity-45"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/85 to-navy/20" />
-        <div className="relative flex h-full w-full flex-col justify-between p-9">
+        <div className="relative flex h-full w-full flex-col justify-between p-10">
           <div className="flex items-start justify-between">
             <SocialMark tone="white" />
-            <span className="rounded-full bg-coral px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.16em] text-navy">
+            <span className="rounded-full bg-coral px-3.5 py-1.5 font-display text-[10px] font-bold uppercase tracking-[0.16em] text-navy">
               Promise
             </span>
           </div>
@@ -50,16 +50,19 @@ export function Template48HourClaim() {
             <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-coral">
               Cover benefit paid in
             </div>
-            <div className="mt-3 font-display text-[92px] font-bold leading-none tracking-[-0.05em] text-white">
+            <div className="mt-4 font-display text-[92px] font-bold leading-none tracking-[-0.05em] text-white">
               48<span className="text-coral">hrs</span>
             </div>
-            <p className="mt-3 max-w-[85%] text-[15px] leading-[1.45] text-white/85">
+            <p className="mt-4 max-w-[85%] text-[15px] leading-[1.45] text-white/85">
               When your family needs us most, we move fast. That is our
               standard, not our exception.
             </p>
           </div>
-          <SocialLockup variant="light" />
+          <div className="border-t border-white/10 pt-6">
+            <SocialLockup variant="light" />
+          </div>
         </div>
+
       </div>
     </SocialFrame>
   );
