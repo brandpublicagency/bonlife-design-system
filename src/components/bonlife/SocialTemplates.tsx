@@ -622,6 +622,7 @@ export function TemplateHowItWorksCarousel() {
 }
 
 
+export const SOCIAL_TEMPLATES = [
   { id: "claim", Component: Template48HourClaim, format: "square" as SocialFormat },
   { id: "life", Component: TemplateLifeCover, format: "square" as SocialFormat },
   { id: "funeral", Component: TemplateFuneralCover, format: "square" as SocialFormat },
@@ -632,3 +633,4 @@ export function TemplateHowItWorksCarousel() {
   { id: "branch", Component: TemplateBranchEvent, format: "landscape" as SocialFormat },
   { id: "payday", Component: TemplatePaydayReminder, format: "portrait" as SocialFormat },
 ];
+
