@@ -598,7 +598,7 @@ export function TemplateHowItWorksCarousel() {
       id: "cta",
       label: "CTA",
       render: ({ index, total }) => (
-        <div className="relative flex h-full w-full flex-col justify-between bg-coral p-9 text-navy">
+        <div className="relative flex h-full w-full flex-col justify-between bg-coral p-10 text-navy">
           <div className="flex items-start justify-between">
             <SocialMark tone="coral" />
             <SocialPageIndicator index={index} total={total} tone="dark" />
@@ -607,22 +607,23 @@ export function TemplateHowItWorksCarousel() {
             <div className="text-[12px] font-semibold uppercase tracking-[0.22em] text-navy/70">
               Ready when you are
             </div>
-            <div className="mt-3 font-display text-[46px] font-bold leading-[0.98] tracking-[-0.03em] text-navy">
+            <div className="mt-4 font-display text-[46px] font-bold leading-[0.98] tracking-[-0.03em] text-navy">
               SMS your name
               <br />
               to
             </div>
-            <div className="mt-2 font-display text-[128px] font-bold leading-none tracking-[-0.06em] text-navy">
+            <div className="mt-4 font-display text-[128px] font-bold leading-none tracking-[-0.06em] text-navy">
               74448
             </div>
-            <p className="mt-4 max-w-[85%] text-[15px] leading-[1.5] text-navy/80">
+            <p className="mt-6 max-w-[85%] text-[15px] leading-[1.5] text-navy/80">
               We call you back the same day. 48-hour cover benefit, guaranteed.
             </p>
           </div>
-          <div className="border-t border-navy/15 pt-5">
+          <div className="border-t border-navy/15 pt-6">
             <SocialLockup variant="dark" />
           </div>
         </div>
+
       ),
     },
   ];
