@@ -21,6 +21,8 @@ import gradient4 from "@/assets/bonlife/gradients/gradient-04.png.asset.json";
 
 const DRIVE_URL =
   "https://drive.google.com/drive/folders/1-BYSNul3hlWG1B3lqOxtEZlwSy2L5_nI?usp=sharing";
+const XD_URL =
+  "https://xd.adobe.com/view/47817079-994c-4681-9f8b-78fea6abfd3a-12d2/grid";
 
 export const Route = createFileRoute("/downloads")({
   head: () => ({
