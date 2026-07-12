@@ -1,43 +1,19 @@
 import { Link } from "@tanstack/react-router";
 import wordmarkLight from "@/assets/bonlife/logos/bonlife-wordmark-light.svg";
 import wordmarkDark from "@/assets/bonlife/logos/bonlife-wordmark-dark.svg";
+import { NavDrawer } from "@/components/bonlife/NavDrawer";
 
 export function SiteHeader() {
-  const items = [
-    { to: "/", label: "Overview" },
-    { to: "/foundations", label: "Foundations" },
-    { to: "/iconography", label: "Iconography" },
-    { to: "/components", label: "Components" },
-    { to: "/social", label: "Social" },
-    { to: "/marketing", label: "Marketing Kit" },
-    { to: "/knowledge-base", label: "Knowledge Base" },
-    { to: "/downloads", label: "Downloads" },
-  ] as const;
   return (
     <header className="sticky top-0 z-40 border-b border-hairline bg-surface/80 backdrop-blur-md">
-      <div className="mx-auto grid h-16 max-w-[1200px] grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-6 sm:px-8">
+      <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between gap-4 px-6 sm:px-8">
         <Link to="/" className="flex min-w-0 items-center gap-2.5">
           <img src={wordmarkDark} alt="Bonlife" className="h-[22px] shrink-0" />
           <span className="hidden truncate rounded-full border border-hairline px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-muted-foreground sm:inline">
             Design System · v0.1
           </span>
         </Link>
-        <nav className="flex items-center gap-1">
-          {items.map((it) => (
-            <Link
-              key={it.to}
-              to={it.to}
-              className="relative rounded-md px-3 py-2 font-display text-[13px] font-semibold text-navy/70 transition-colors hover:text-navy"
-              activeProps={{
-                className:
-                  "text-navy after:absolute after:bottom-[-19px] after:left-3 after:right-3 after:h-[2px] after:bg-coral",
-              }}
-              activeOptions={{ exact: true }}
-            >
-              {it.label}
-            </Link>
-          ))}
-        </nav>
+        <NavDrawer />
       </div>
     </header>
   );
@@ -86,11 +62,13 @@ export function PageHeader({
   eyebrow,
   title,
   lead,
+  meta,
   toc,
 }: {
   eyebrow: string;
   title: string;
   lead?: string;
+  meta?: React.ReactNode;
   toc?: { id: string; label: string }[];
 }) {
   return (
@@ -106,6 +84,9 @@ export function PageHeader({
           <p className="mt-5 max-w-2xl text-lg leading-[1.6] text-muted-foreground">
             {lead}
           </p>
+        ) : null}
+        {meta ? (
+          <div className="mt-6 text-[13px] text-navy/70">{meta}</div>
         ) : null}
         {toc && toc.length ? (
           <div className="mt-8 flex flex-wrap gap-2">

@@ -1,14 +1,16 @@
 import { createServerFn } from "@tanstack/react-start";
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { generateText, NoObjectGeneratedError, Output } from "ai";
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
+import { requireSupabaseAdmin } from "@/integrations/supabase/admin-middleware";
 
-// NOTE: all writes are UNAUTHENTICATED by design — the Knowledge Base is the
-// public single source of truth. See memory://features/knowledge-base and the
-// security memory entry for `kb_sections`.
+// Reads (listKbSections) are public via the server publishable client.
+// Writes (create/update/delete/reorder/extract) require an authenticated
+// admin — enforced by `requireSupabaseAdmin` middleware AND by RLS on
+// `public.kb_sections` (INSERT/UPDATE/DELETE gated by has_role='admin').
 
-function getSupabase() {
+function getPublicSupabase(): SupabaseClient<Database> {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) throw new Error("Missing Supabase env vars");
@@ -29,10 +31,9 @@ function slugify(input: string): string {
   );
 }
 
-async function ensureUniqueSlug(sb: ReturnType<typeof getSupabase>, base: string) {
+async function ensureUniqueSlug(sb: SupabaseClient<Database>, base: string) {
   let candidate = base;
   let n = 2;
-  // Try up to 20 variants
   while (n < 22) {
     const { data } = await sb.from("kb_sections").select("id").eq("slug", candidate).maybeSingle();
     if (!data) return candidate;
@@ -42,7 +43,7 @@ async function ensureUniqueSlug(sb: ReturnType<typeof getSupabase>, base: string
 }
 
 export const listKbSections = createServerFn({ method: "GET" }).handler(async () => {
-  const sb = getSupabase();
+  const sb = getPublicSupabase();
   const { data, error } = await sb
     .from("kb_sections")
     .select("id, slug, title, body_markdown, order_index, updated_at")
@@ -52,6 +53,7 @@ export const listKbSections = createServerFn({ method: "GET" }).handler(async ()
 });
 
 export const createKbSection = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAdmin])
   .inputValidator((input: unknown) =>
     z
       .object({
@@ -60,8 +62,8 @@ export const createKbSection = createServerFn({ method: "POST" })
       })
       .parse(input),
   )
-  .handler(async ({ data }) => {
-    const sb = getSupabase();
+  .handler(async ({ data, context }) => {
+    const sb = context.supabase as unknown as SupabaseClient<Database>;
     const { data: maxRow } = await sb
       .from("kb_sections")
       .select("order_index")
@@ -85,6 +87,7 @@ export const createKbSection = createServerFn({ method: "POST" })
   });
 
 export const updateKbSection = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAdmin])
   .inputValidator((input: unknown) =>
     z
       .object({
@@ -94,8 +97,8 @@ export const updateKbSection = createServerFn({ method: "POST" })
       })
       .parse(input),
   )
-  .handler(async ({ data }) => {
-    const sb = getSupabase();
+  .handler(async ({ data, context }) => {
+    const sb = context.supabase as unknown as SupabaseClient<Database>;
     const patch: { title?: string; body_markdown?: string } = {};
     if (data.title !== undefined) patch.title = data.title;
     if (data.body_markdown !== undefined) patch.body_markdown = data.body_markdown;
@@ -110,15 +113,17 @@ export const updateKbSection = createServerFn({ method: "POST" })
   });
 
 export const deleteKbSection = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAdmin])
   .inputValidator((input: unknown) => z.object({ id: z.string().uuid() }).parse(input))
-  .handler(async ({ data }) => {
-    const sb = getSupabase();
+  .handler(async ({ data, context }) => {
+    const sb = context.supabase as unknown as SupabaseClient<Database>;
     const { error } = await sb.from("kb_sections").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
 
 export const reorderKbSection = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAdmin])
   .inputValidator((input: unknown) =>
     z
       .object({
@@ -127,8 +132,8 @@ export const reorderKbSection = createServerFn({ method: "POST" })
       })
       .parse(input),
   )
-  .handler(async ({ data }) => {
-    const sb = getSupabase();
+  .handler(async ({ data, context }) => {
+    const sb = context.supabase as unknown as SupabaseClient<Database>;
     const { data: rows, error } = await sb
       .from("kb_sections")
       .select("id, order_index")
@@ -141,7 +146,6 @@ export const reorderKbSection = createServerFn({ method: "POST" })
     if (swapIdx < 0 || swapIdx >= list.length) return { ok: true };
     const a = list[idx];
     const b = list[swapIdx];
-    // Swap using a temp negative value to avoid unique-not-required collision (order_index has no unique).
     await sb.from("kb_sections").update({ order_index: b.order_index }).eq("id", a.id);
     await sb.from("kb_sections").update({ order_index: a.order_index }).eq("id", b.id);
     return { ok: true };
@@ -169,6 +173,7 @@ Rules:
 - If the document is empty or unusable, return { "drafts": [] }.`;
 
 export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAdmin])
   .inputValidator((input: unknown) =>
     z
       .object({
@@ -219,7 +224,6 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
       } catch {
         throw new Error("Could not decode uploaded text file.");
       }
-      // Clamp to keep the prompt small.
       const clamped = decoded.slice(0, 120_000);
       userContent = `File: ${data.filename}\n\n---\n${clamped}\n---\n\nReturn { drafts: [{ title, body_markdown }, ...] }. Max 12 drafts.`;
     } else {
@@ -235,7 +239,6 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
         system: EXTRACT_SYSTEM,
         messages: [{ role: "user", content: userContent as never }],
       });
-      // Clamp defensively.
       const drafts = (output?.drafts ?? [])
         .slice(0, 12)
         .map((d) => ({
@@ -245,7 +248,6 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
       return { drafts };
     } catch (error) {
       if (NoObjectGeneratedError.isInstance(error)) {
-        // Fallback: try to salvage the raw text as one draft.
         const text = (error.text ?? "").trim();
         if (!text) return { drafts: [] };
         return {

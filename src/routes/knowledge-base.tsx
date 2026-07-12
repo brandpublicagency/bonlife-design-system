@@ -1,19 +1,13 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { queryOptions, useMutation, useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { Loader2, Plus, X } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
+import { ShieldCheck } from "lucide-react";
 import { PageHeader, SiteFooter, SiteHeader } from "@/components/bonlife/SiteChrome";
-import { Button } from "@/components/bonlife/Button";
-import { KbSection, type KbSectionRow } from "@/components/bonlife/KbSection";
-import { KbUploadPanel } from "@/components/bonlife/KbUploadPanel";
-import {
-  createKbSection,
-  deleteKbSection,
-  extractKbDraftsFromUpload,
-  listKbSections,
-  reorderKbSection,
-  updateKbSection,
-} from "@/lib/kb.functions";
+import { KbMarkdown, type KbSectionRow } from "@/components/bonlife/KbSection";
+import { listKbSections } from "@/lib/kb.functions";
+import { getMyAdminStatus } from "@/lib/admin.functions";
+import { useSession } from "@/hooks/use-auth";
+import { useHydrated } from "@/hooks/use-hydrated";
 
 const kbSectionsQuery = queryOptions({
   queryKey: ["kb", "sections"],
@@ -30,13 +24,13 @@ export const Route = createFileRoute("/knowledge-base")({
       {
         name: "description",
         content:
-          "The Bonlife knowledge base — the single source of truth about who Bonlife is, what it sells, and how it talks. Editable inline. Import from PDF, Markdown or text.",
+          "The Bonlife knowledge base — the single source of truth about who Bonlife is, what it sells, and how it talks.",
       },
       { property: "og:title", content: "Knowledge Base — Bonlife" },
       {
         property: "og:description",
         content:
-          "The single source of truth about Bonlife. Edit sections inline, reorder them, and import new content from any file.",
+          "The single source of truth about Bonlife: mission, products, voice, branch network.",
       },
       { property: "og:url", content: "/knowledge-base" },
     ],
@@ -65,40 +59,53 @@ function KbErrorPage({ error }: { error: Error }) {
   );
 }
 
+function relativeTime(iso: string): string {
+  const then = new Date(iso).getTime();
+  const now = Date.now();
+  const diffSec = Math.round((then - now) / 1000);
+  const abs = Math.abs(diffSec);
+  const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+  if (abs < 60) return rtf.format(Math.round(diffSec), "second");
+  if (abs < 3600) return rtf.format(Math.round(diffSec / 60), "minute");
+  if (abs < 86400) return rtf.format(Math.round(diffSec / 3600), "hour");
+  if (abs < 86400 * 30) return rtf.format(Math.round(diffSec / 86400), "day");
+  if (abs < 86400 * 365) return rtf.format(Math.round(diffSec / (86400 * 30)), "month");
+  return rtf.format(Math.round(diffSec / (86400 * 365)), "year");
+}
+
 function KnowledgeBasePage() {
-  const qc = useQueryClient();
   const { data: sections } = useSuspenseQuery(kbSectionsQuery);
-  const [adding, setAdding] = useState(false);
-
-  const invalidate = () => qc.invalidateQueries({ queryKey: ["kb", "sections"] });
-
-  const createMut = useMutation({
-    mutationFn: (input: { title: string; body_markdown: string }) =>
-      createKbSection({ data: input }),
-    onSuccess: invalidate,
+  const hydrated = useHydrated();
+  const { session } = useSession();
+  const { data: adminData } = useQuery({
+    queryKey: ["me", "isAdmin", session?.user.id ?? "anon"],
+    queryFn: () => getMyAdminStatus(),
+    enabled: !!session,
   });
-  const updateMut = useMutation({
-    mutationFn: (input: { id: string; title: string; body_markdown: string }) =>
-      updateKbSection({ data: input }),
-    onSuccess: invalidate,
-  });
-  const deleteMut = useMutation({
-    mutationFn: (id: string) => deleteKbSection({ data: { id } }),
-    onSuccess: invalidate,
-  });
-  const reorderMut = useMutation({
-    mutationFn: (input: { id: string; direction: "up" | "down" }) =>
-      reorderKbSection({ data: input }),
-    onSuccess: invalidate,
-  });
+  const isAdmin = !!adminData?.isAdmin;
 
-  const busy =
-    createMut.isPending ||
-    updateMut.isPending ||
-    deleteMut.isPending ||
-    reorderMut.isPending;
+  const latest = sections.reduce(
+    (max, s) => (s.updated_at > max ? s.updated_at : max),
+    sections[0]?.updated_at ?? new Date().toISOString(),
+  );
 
-  const toc = sections.map((s) => ({ id: s.slug, label: s.title }));
+  const meta = (
+    <span suppressHydrationWarning>
+      {sections.length} {sections.length === 1 ? "section" : "sections"}
+      {hydrated ? ` · updated ${relativeTime(latest)}` : ""}
+      {isAdmin ? (
+        <>
+          {" · "}
+          <Link
+            to="/admin/knowledge-base"
+            className="inline-flex items-center gap-1 font-semibold text-coral hover:text-coral-hover"
+          >
+            <ShieldCheck size={12} /> Edit in backend
+          </Link>
+        </>
+      ) : null}
+    </span>
+  );
 
   return (
     <>
@@ -106,129 +113,58 @@ function KnowledgeBasePage() {
       <PageHeader
         eyebrow="Knowledge Base"
         title="The single source of truth for Bonlife."
-        lead="Everything a person, chatbot, or agency needs to understand Bonlife — the mission, the products, the voice, the branch network. Anyone with this link can edit, reorder, add, or import new sections."
-        toc={[{ id: "import", label: "Import" }, ...toc]}
+        lead="Everything a person, chatbot, or agency needs to understand Bonlife — the mission, the products, the voice, the branch network."
+        meta={meta}
       />
 
       <main className="mx-auto max-w-[1200px] px-6 py-12 sm:px-8">
-        <div className="mb-8 flex flex-wrap items-center justify-between gap-3">
-          <div className="text-[13px] text-navy/70">
-            {sections.length} {sections.length === 1 ? "section" : "sections"} · last updated{" "}
-            {new Date(
-              sections.reduce(
-                (max, s) => (s.updated_at > max ? s.updated_at : max),
-                sections[0]?.updated_at ?? new Date().toISOString(),
-              ),
-            ).toLocaleString()}
+        <div className="lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-12">
+          {/* Sticky TOC */}
+          <aside className="mb-8 lg:mb-0">
+            <div className="lg:sticky lg:top-24">
+              <div className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-navy/50">
+                Contents
+              </div>
+              <nav>
+                <ul className="grid gap-1 border-l border-hairline">
+                  {sections.map((s) => (
+                    <li key={s.id}>
+                      <a
+                        href={`#${s.slug}`}
+                        className="-ml-px block border-l-2 border-transparent py-1.5 pl-4 text-[13px] leading-[1.4] text-navy/70 transition hover:border-coral hover:text-navy"
+                      >
+                        {s.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
+          </aside>
+
+          {/* Content */}
+          <div className="grid gap-6">
+            {sections.map((s) => (
+              <article
+                key={s.id}
+                id={s.slug}
+                className="scroll-mt-24 rounded-2xl border border-hairline bg-surface p-6 sm:p-8"
+              >
+                <header className="mb-4 border-b border-hairline pb-4">
+                  <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
+                    #{s.slug}
+                  </div>
+                  <h2 className="mt-1 font-display text-[26px] font-semibold text-navy sm:text-[30px]">
+                    {s.title}
+                  </h2>
+                </header>
+                <KbMarkdown>{s.body_markdown || "_This section is empty._"}</KbMarkdown>
+              </article>
+            ))}
           </div>
-          <Button variant="primary" onClick={() => setAdding(true)}>
-            <Plus size={14} /> New section
-          </Button>
-        </div>
-
-        <div className="grid gap-6">
-          <KbUploadPanel
-            onExtract={async (input) => {
-              const { drafts } = await extractKbDraftsFromUpload({ data: input });
-              return drafts;
-            }}
-            onAdd={async (draft) => {
-              await createMut.mutateAsync(draft);
-            }}
-          />
-
-          {adding && (
-            <NewSectionForm
-              busy={createMut.isPending}
-              onCancel={() => setAdding(false)}
-              onCreate={async (input) => {
-                await createMut.mutateAsync(input);
-                setAdding(false);
-              }}
-            />
-          )}
-
-          {sections.map((s, i) => (
-            <KbSection
-              key={s.id}
-              section={s}
-              isFirst={i === 0}
-              isLast={i === sections.length - 1}
-              busy={busy}
-              onSave={async (patch) => {
-                await updateMut.mutateAsync({ id: s.id, ...patch });
-              }}
-              onDelete={async () => {
-                await deleteMut.mutateAsync(s.id);
-              }}
-              onMove={async (direction) => {
-                await reorderMut.mutateAsync({ id: s.id, direction });
-              }}
-            />
-          ))}
         </div>
       </main>
       <SiteFooter />
     </>
-  );
-}
-
-function NewSectionForm({
-  busy,
-  onCancel,
-  onCreate,
-}: {
-  busy: boolean;
-  onCancel: () => void;
-  onCreate: (input: { title: string; body_markdown: string }) => Promise<void>;
-}) {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
-  return (
-    <section className="rounded-2xl border border-navy/20 bg-surface p-6 sm:p-8">
-      <div className="mb-4 flex items-center justify-between border-b border-hairline pb-4">
-        <h2 className="font-display text-[22px] font-semibold text-navy">New section</h2>
-        <button
-          type="button"
-          aria-label="Cancel"
-          onClick={onCancel}
-          className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-hairline text-navy hover:bg-surface-tint"
-        >
-          <X size={14} />
-        </button>
-      </div>
-      <label className="block text-[11px] font-semibold uppercase tracking-[0.14em] text-navy/60">
-        Title
-      </label>
-      <input
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="e.g. Claims process"
-        className="mt-2 w-full rounded-md border border-hairline bg-surface-tint px-3 py-2 font-display text-[18px] font-semibold text-navy focus:border-navy focus:outline-none"
-      />
-      <label className="mt-4 block text-[11px] font-semibold uppercase tracking-[0.14em] text-navy/60">
-        Body (Markdown)
-      </label>
-      <textarea
-        value={body}
-        onChange={(e) => setBody(e.target.value)}
-        rows={12}
-        placeholder="Use Markdown — headings, lists, tables, links."
-        className="mt-2 w-full rounded-md border border-hairline bg-surface-tint p-3 font-mono text-[13px] leading-[1.55] text-navy focus:border-navy focus:outline-none"
-      />
-      <div className="mt-4 flex items-center gap-2">
-        <Button
-          variant="primary"
-          disabled={busy || !title.trim()}
-          onClick={() => onCreate({ title: title.trim(), body_markdown: body })}
-        >
-          {busy ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
-          Create section
-        </Button>
-        <Button variant="ghost" onClick={onCancel}>
-          Cancel
-        </Button>
-      </div>
-    </section>
   );
 }
