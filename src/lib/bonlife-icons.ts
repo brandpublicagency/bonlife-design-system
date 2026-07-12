@@ -155,15 +155,16 @@ export const ICON_GROUPS: IconGroup[] = [
   {
     id: "key-benefits",
     title: "Key benefits",
-    lead: "The promises included with every plan — no medical tests, fast claims, family cover and accidental death protection.",
+    lead: "The promises included with every plan — no medical tests, instant cash, family cover and a national branch network.",
     Icon: Sparkles,
     icons: [
       { name: "no-medical-tests", label: "No medical tests", Icon: Stethoscope },
-      { name: "premium-waiver", label: "Premium waiver", Icon: ShieldOff },
-      { name: "fast-claims", label: "Fast claims", Icon: Timer },
-      { name: "full-family-cover", label: "Full family cover", Icon: Users2 },
       { name: "instant-cash", label: "Instant cash benefit", Icon: Zap },
+      { name: "premium-waiver", label: "Optional premium waiver", Icon: ShieldOff },
+      { name: "branches-namibia", label: "20 Branches across Namibia", Icon: MapPin },
+      { name: "full-family-cover", label: "Full family cover", Icon: Users2 },
       { name: "accidental-death", label: "Accidental death cover", Icon: CarFront },
+      { name: "fast-claims", label: "Fast claims", Icon: Timer },
     ],
   },
   {
