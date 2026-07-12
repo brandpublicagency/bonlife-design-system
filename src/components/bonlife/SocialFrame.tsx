@@ -3,6 +3,22 @@ import { cn } from "@/lib/utils";
 import wordmarkLight from "@/assets/bonlife/logos/bonlife-wordmark-light.svg";
 import wordmarkDark from "@/assets/bonlife/logos/bonlife-wordmark-dark.svg";
 
+/* -------------------------------------------------------------------
+ * SOCIAL SPACING SCALE — apply consistently across all templates.
+ *
+ *   Frame padding    → p-10 (40px)       square / portrait / landscape default
+ *   Story frame      → px-8 pt-9 pb-10   respects IG story safe area
+ *   Section gap      → space-y-10        hero block ↔ lockup
+ *   Block gap        → mt-8              between major blocks
+ *   Element gap      → mt-4              kicker→headline, headline→body
+ *   Tight gap        → mt-2              inside a label pair
+ *   Chip gap         → gap-2.5           between pill badges
+ *   Chip padding     → px-3.5 py-1.5     uniform pill sizing
+ *   Lockup rule      → border-t … pt-6   padding above the lockup divider
+ * ------------------------------------------------------------------- */
+
+
+
 
 export type SocialFormat = "square" | "story" | "landscape" | "portrait";
 
