@@ -101,6 +101,16 @@ function SocialPage() {
         </Section>
 
         <Section
+          id="carousel"
+          eyebrow="Carousel · multi-slide"
+          title="Instagram & LinkedIn carousels"
+          lead="Story-driven, swipe-through decks built on the same SocialFrame primitives. Each panel exports individually at native ratio."
+        >
+          <TemplateHowItWorksCarousel />
+        </Section>
+
+
+        <Section
           id="story"
           eyebrow="Story · 1080 × 1920"
           title="Vertical for stories and reels"
