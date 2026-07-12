@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Clock4, Banknote, MapPin, Sparkles } from "lucide-react";
+import { ArrowRight, Stethoscope, Banknote, MapPin, Sparkles } from "lucide-react";
 import { SiteHeader, SiteFooter } from "@/components/bonlife/SiteChrome";
 import { Button } from "@/components/bonlife/Button";
 import { Card } from "@/components/bonlife/Card";
