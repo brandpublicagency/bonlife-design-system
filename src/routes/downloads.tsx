@@ -359,6 +359,7 @@ function DownloadsPage() {
   ];
 
   const toc = [
+    { id: "design-system", label: "Design system" },
     { id: "logos", label: "Logos" },
     { id: "colours", label: "Colours" },
     { id: "photography", label: "Photography" },
