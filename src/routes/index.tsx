@@ -193,9 +193,9 @@ function HomePage() {
           <div className="grid gap-5 md:grid-cols-3">
             {[
               {
-                Icon: Clock4,
-                title: "Speed is respect",
-                body: "Approved claims paid within 48 hours. Copy leads with what the customer gets, never with mechanics.",
+                Icon: Stethoscope,
+                title: "No medical tests",
+                body: "A short questionnaire, no health examinations — cover is accessible to every Namibian, regardless of medical history.",
               },
               {
                 Icon: Banknote,
