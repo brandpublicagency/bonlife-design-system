@@ -96,7 +96,7 @@ export const updateKbSection = createServerFn({ method: "POST" })
   )
   .handler(async ({ data }) => {
     const sb = getSupabase();
-    const patch: Record<string, unknown> = {};
+    const patch: { title?: string; body_markdown?: string } = {};
     if (data.title !== undefined) patch.title = data.title;
     if (data.body_markdown !== undefined) patch.body_markdown = data.body_markdown;
     const { data: row, error } = await sb
