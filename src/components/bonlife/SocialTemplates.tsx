@@ -147,11 +147,11 @@ export function TemplateFuneralCover() {
               "linear-gradient(180deg, transparent 28%, rgba(4,65,63,0.55) 52%, var(--category-funeral) 100%)",
           }}
         />
-        <div className="relative flex h-full w-full flex-col justify-between p-9 text-white">
+        <div className="relative flex h-full w-full flex-col justify-between p-10 text-white">
           <div className="flex items-start justify-between">
             <SocialMark tone="white" />
             <span
-              className="rounded-full bg-white/95 px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.16em]"
+              className="rounded-full bg-white/95 px-3.5 py-1.5 font-display text-[10px] font-bold uppercase tracking-[0.16em]"
               style={{ color: "var(--category-funeral)" }}
             >
               Funeral Cover
@@ -161,22 +161,23 @@ export function TemplateFuneralCover() {
             <div className="max-w-[95%] font-display text-[38px] font-bold leading-[1.02] tracking-[-0.02em] text-white">
               A dignified send-off is a final act of love.
             </div>
-            <div className="mt-5 flex flex-wrap items-center gap-2">
-              <span className="rounded-full bg-white/15 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur">
+            <div className="mt-6 flex flex-wrap items-center gap-2.5">
+              <span className="rounded-full bg-white/15 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur">
                 Up to N$50 000
               </span>
-              <span className="rounded-full bg-white/15 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur">
+              <span className="rounded-full bg-white/15 px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-white backdrop-blur">
                 Whole family
               </span>
-              <span className="rounded-full bg-coral px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy">
+              <span className="rounded-full bg-coral px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy">
                 Paid in 48hrs
               </span>
             </div>
-            <div className="mt-7">
+            <div className="mt-8 border-t border-white/15 pt-6">
               <SocialLockup variant="light" />
             </div>
           </div>
         </div>
+
       </div>
     </SocialFrame>
   );
