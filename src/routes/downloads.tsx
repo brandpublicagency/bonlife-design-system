@@ -376,6 +376,8 @@ function DownloadsPage() {
         toc={toc}
       />
       <main className="mx-auto max-w-[1200px] px-6 sm:px-8">
+        <XDLinkSection />
+
         <Section
           id="logos"
           eyebrow="01 · Logos"
