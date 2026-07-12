@@ -3,6 +3,22 @@ import { cn } from "@/lib/utils";
 import wordmarkLight from "@/assets/bonlife/logos/bonlife-wordmark-light.svg";
 import wordmarkDark from "@/assets/bonlife/logos/bonlife-wordmark-dark.svg";
 
+/* -------------------------------------------------------------------
+ * SOCIAL SPACING SCALE — apply consistently across all templates.
+ *
+ *   Frame padding    → p-10 (40px)       square / portrait / landscape default
+ *   Story frame      → px-8 pt-9 pb-10   respects IG story safe area
+ *   Section gap      → space-y-10        hero block ↔ lockup
+ *   Block gap        → mt-8              between major blocks
+ *   Element gap      → mt-4              kicker→headline, headline→body
+ *   Tight gap        → mt-2              inside a label pair
+ *   Chip gap         → gap-2.5           between pill badges
+ *   Chip padding     → px-3.5 py-1.5     uniform pill sizing
+ *   Lockup rule      → border-t … pt-6   padding above the lockup divider
+ * ------------------------------------------------------------------- */
+
+
+
 
 export type SocialFormat = "square" | "story" | "landscape" | "portrait";
 
@@ -35,7 +51,7 @@ export function SocialFrame({
   className?: string;
 }) {
   return (
-    <figure className={cn("flex flex-col gap-3", className)}>
+    <figure className={cn("flex flex-col gap-4", className)}>
       <div
         className={cn(
           "relative w-full overflow-hidden rounded-[20px] bg-surface shadow-[0_20px_60px_-24px_rgba(12,28,62,0.35),0_4px_12px_-6px_rgba(12,28,62,0.15)] ring-1 ring-hairline",
@@ -139,7 +155,7 @@ export function SocialCarousel({
           Swipe →
         </div>
       </header>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {slides.map((s, i) => (
           <SocialFrame
             key={s.id}
