@@ -8,7 +8,6 @@ import {
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
-import { VisuallyHidden } from "@/components/ui/visually-hidden";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/use-auth";
 import { useQuery, useQueryClient } from "@tanstack/react-query";

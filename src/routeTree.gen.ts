@@ -16,7 +16,10 @@ import { Route as IconographyRouteImport } from './routes/iconography'
 import { Route as FoundationsRouteImport } from './routes/foundations'
 import { Route as DownloadsRouteImport } from './routes/downloads'
 import { Route as ComponentsRouteImport } from './routes/components'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedAdminKnowledgeBaseRouteImport } from './routes/_authenticated/admin.knowledge-base'
 
 const SocialRoute = SocialRouteImport.update({
   id: '/social',
@@ -53,14 +56,30 @@ const ComponentsRoute = ComponentsRouteImport.update({
   path: '/components',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminKnowledgeBaseRoute =
+  AuthenticatedAdminKnowledgeBaseRouteImport.update({
+    id: '/admin/knowledge-base',
+    path: '/admin/knowledge-base',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/components': typeof ComponentsRoute
   '/downloads': typeof DownloadsRoute
   '/foundations': typeof FoundationsRoute
@@ -68,9 +87,11 @@ export interface FileRoutesByFullPath {
   '/knowledge-base': typeof KnowledgeBaseRoute
   '/marketing': typeof MarketingRoute
   '/social': typeof SocialRoute
+  '/admin/knowledge-base': typeof AuthenticatedAdminKnowledgeBaseRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/components': typeof ComponentsRoute
   '/downloads': typeof DownloadsRoute
   '/foundations': typeof FoundationsRoute
@@ -78,10 +99,13 @@ export interface FileRoutesByTo {
   '/knowledge-base': typeof KnowledgeBaseRoute
   '/marketing': typeof MarketingRoute
   '/social': typeof SocialRoute
+  '/admin/knowledge-base': typeof AuthenticatedAdminKnowledgeBaseRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
   '/components': typeof ComponentsRoute
   '/downloads': typeof DownloadsRoute
   '/foundations': typeof FoundationsRoute
@@ -89,11 +113,13 @@ export interface FileRoutesById {
   '/knowledge-base': typeof KnowledgeBaseRoute
   '/marketing': typeof MarketingRoute
   '/social': typeof SocialRoute
+  '/_authenticated/admin/knowledge-base': typeof AuthenticatedAdminKnowledgeBaseRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/components'
     | '/downloads'
     | '/foundations'
@@ -101,9 +127,11 @@ export interface FileRouteTypes {
     | '/knowledge-base'
     | '/marketing'
     | '/social'
+    | '/admin/knowledge-base'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
     | '/components'
     | '/downloads'
     | '/foundations'
@@ -111,9 +139,12 @@ export interface FileRouteTypes {
     | '/knowledge-base'
     | '/marketing'
     | '/social'
+    | '/admin/knowledge-base'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
+    | '/auth'
     | '/components'
     | '/downloads'
     | '/foundations'
@@ -121,10 +152,13 @@ export interface FileRouteTypes {
     | '/knowledge-base'
     | '/marketing'
     | '/social'
+    | '/_authenticated/admin/knowledge-base'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   ComponentsRoute: typeof ComponentsRoute
   DownloadsRoute: typeof DownloadsRoute
   FoundationsRoute: typeof FoundationsRoute
@@ -185,6 +219,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ComponentsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -192,11 +240,31 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin/knowledge-base': {
+      id: '/_authenticated/admin/knowledge-base'
+      path: '/admin/knowledge-base'
+      fullPath: '/admin/knowledge-base'
+      preLoaderRoute: typeof AuthenticatedAdminKnowledgeBaseRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminKnowledgeBaseRoute: typeof AuthenticatedAdminKnowledgeBaseRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminKnowledgeBaseRoute: AuthenticatedAdminKnowledgeBaseRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   ComponentsRoute: ComponentsRoute,
   DownloadsRoute: DownloadsRoute,
   FoundationsRoute: FoundationsRoute,
