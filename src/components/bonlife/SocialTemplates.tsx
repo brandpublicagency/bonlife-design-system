@@ -351,10 +351,10 @@ export function TemplateSmsCallback() {
       title="SMS Callback CTA"
       caption="No photography, no gradient. Pure typographic push, highest CTA weight."
     >
-      <div className="relative flex h-full w-full flex-col justify-between bg-coral p-9 text-navy">
+      <div className="relative flex h-full w-full flex-col justify-between bg-coral p-10 text-navy">
         <div className="flex items-start justify-between">
           <SocialMark tone="coral" />
-          <div className="rounded-full border border-navy/25 bg-white/60 px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.16em]">
+          <div className="rounded-full border border-navy/25 bg-white/60 px-3.5 py-1.5 font-display text-[10px] font-bold uppercase tracking-[0.16em]">
             60 seconds
           </div>
         </div>
@@ -362,25 +362,26 @@ export function TemplateSmsCallback() {
           <div className="text-[12px] font-semibold uppercase tracking-[0.22em] text-navy/70">
             Step 1 · Step 2 · Done
           </div>
-          <div className="mt-3 font-display text-[64px] font-bold leading-[0.92] tracking-[-0.04em] text-navy">
+          <div className="mt-4 font-display text-[64px] font-bold leading-[0.92] tracking-[-0.04em] text-navy">
             SMS your
             <br />
             name to
           </div>
-          <div className="mt-3">
+          <div className="mt-5">
             <span className="font-display text-[136px] font-bold leading-none tracking-[-0.06em] text-navy">
               74448
             </span>
           </div>
-          <p className="mt-4 max-w-[85%] text-[15px] leading-[1.45] text-navy/80">
+          <p className="mt-6 max-w-[85%] text-[15px] leading-[1.45] text-navy/80">
             We call you back the same day. No forms. No commitment. Free from
             any Namibian network.
           </p>
         </div>
-        <div className="border-t border-navy/15 pt-5">
+        <div className="border-t border-navy/15 pt-6">
           <SocialLockup variant="dark" />
         </div>
       </div>
+
     </SocialFrame>
   );
 }
