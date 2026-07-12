@@ -1,5 +1,13 @@
 import * as React from "react";
-import { SocialFrame, SocialLockup, SocialMark, type SocialFormat } from "./SocialFrame";
+import {
+  SocialFrame,
+  SocialLockup,
+  SocialMark,
+  SocialCarousel,
+  SocialPageIndicator,
+  type SocialFormat,
+} from "./SocialFrame";
+
 
 // Photography
 import celebration from "@/assets/bonlife/photography/celebration-fistpump.jpg.asset.json";
