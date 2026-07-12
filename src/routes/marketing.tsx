@@ -82,18 +82,6 @@ function MarketingPage() {
     <div className="min-h-screen bg-background">
       <SiteHeader />
 
-      {/* Preview banner */}
-      <div className="border-b border-hairline bg-surface-tint">
-        <div className="mx-auto flex max-w-[1200px] items-center justify-between gap-4 px-6 py-2.5 sm:px-8">
-          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-            Marketing Kit · Demo Homepage
-          </span>
-          <span className="hidden text-[11px] text-muted-foreground sm:inline">
-            Real plans, real copy, real photography — not the live site.
-          </span>
-        </div>
-      </div>
-
       {/* Hero */}
       <section className="bg-navy">
         <div className="mx-auto grid max-w-[1200px] items-center gap-12 px-6 py-20 sm:px-8 md:grid-cols-[1.1fr_0.9fr] md:py-24">
