@@ -10,7 +10,9 @@ import {
   TemplateSmsCallback,
   TemplateBranchEvent,
   TemplatePaydayReminder,
+  TemplateHowItWorksCarousel,
 } from "@/components/bonlife/SocialTemplates";
+
 
 export const Route = createFileRoute("/social")({
   head: () => ({
