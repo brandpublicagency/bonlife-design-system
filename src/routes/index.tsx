@@ -59,7 +59,7 @@ function HomePage() {
             <p className="mt-6 max-w-[520px] text-[17px] leading-[1.6] text-white/80">
               Colors, typography and components for Bonlife Assurance Namibia.
               Built for a brand that leads with warmth, keeps its jargon out,
-              and pays claims within 48 hours.
+              and shows up in person through 20 branches across Namibia.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link to="/components">
