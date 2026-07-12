@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { HeartHandshake } from "lucide-react";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
 import { IconTile } from "@/components/bonlife/IconTile";
-import { ICON_GROUPS } from "@/lib/bonlife-icons";
+import { ICON_GROUPS, type IconGroup } from "@/lib/bonlife-icons";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/iconography")({
@@ -27,6 +28,46 @@ export const Route = createFileRoute("/iconography")({
   component: IconographyPage,
 });
 
+function GroupHeader({
+  index,
+  group,
+  dark,
+}: {
+  index: number;
+  group: IconGroup;
+  dark: boolean;
+}) {
+  const { Icon } = group;
+  return (
+    <div className="mb-8 grid gap-6 border-b border-hairline pb-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:items-end">
+      <div className="flex min-w-0 items-center gap-4">
+        <div
+          className={cn(
+            "grid h-14 w-14 shrink-0 place-items-center rounded-2xl border",
+            dark
+              ? "border-white/15 bg-white/5 text-white"
+              : "border-hairline bg-surface-tint text-navy",
+          )}
+          aria-hidden
+        >
+          <Icon strokeWidth={1} size={28} />
+        </div>
+        <div className="min-w-0">
+          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
+            {String(index + 1).padStart(2, "0")} · Category
+          </div>
+          <h2 className="mt-1 !text-[28px] !leading-[1.1] sm:!text-[32px]">
+            {group.title}
+          </h2>
+        </div>
+      </div>
+      <p className="text-[14.5px] leading-[1.6] text-muted-foreground md:pl-6">
+        {group.lead}
+      </p>
+    </div>
+  );
+}
+
 function IconographyPage() {
   const [dark, setDark] = useState(false);
 
@@ -37,13 +78,13 @@ function IconographyPage() {
       <SiteHeader />
       <PageHeader
         eyebrow="Iconography"
-        title="One thin line, three groups."
+        title="One thin line, eight groups."
         lead="Bonlife icons are Lucide at 1px stroke — outlined, never filled. Stroke inherits colour from the surface it sits on, so a single set covers light and dark. Hover any tile to download the SVG."
         toc={toc}
       />
 
       <main className="mx-auto max-w-[1200px] px-6 sm:px-8">
-        <section className="flex flex-wrap items-center justify-between gap-4 border-b border-hairline py-6">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-hairline py-5">
           <div className="text-[13px] leading-[1.6] text-muted-foreground">
             <span className="font-display font-semibold text-navy">Preview surface.</span>{" "}
             Toggle the background to confirm 1px strokes read well on both.
@@ -76,32 +117,24 @@ function IconographyPage() {
               </button>
             ))}
           </div>
-        </section>
+        </div>
 
         {ICON_GROUPS.map((group, i) => (
           <section
             key={group.id}
             id={group.id}
-            className="scroll-mt-24 border-t border-hairline py-16 first:border-t-0 sm:py-20"
+            className="scroll-mt-24 py-12 sm:py-14"
           >
-            <div className="mb-8 max-w-2xl">
-              <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
-                {String(i + 1).padStart(2, "0")} · {group.title}
-              </div>
-              <h2 className="mt-2 !text-[32px] !leading-[1.1] sm:!text-[36px]">
-                {group.title}
-              </h2>
-              <p className="mt-3 text-[15px] leading-[1.65] text-muted-foreground">
-                {group.lead}
-              </p>
-            </div>
             <div
               className={cn(
-                "rounded-3xl p-6 sm:p-8",
-                dark ? "bg-navy" : "bg-surface-tint",
+                "rounded-3xl p-6 ring-1 sm:p-8",
+                dark
+                  ? "bg-navy ring-white/10"
+                  : "bg-surface-tint ring-hairline",
               )}
             >
-              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+              <GroupHeader index={i} group={group} dark={dark} />
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
                 {group.icons.map((entry) => (
                   <IconTile key={entry.name} entry={entry} dark={dark} />
                 ))}
@@ -111,18 +144,37 @@ function IconographyPage() {
         ))}
 
         <section className="border-t border-hairline py-14">
-          <div className="rounded-2xl border border-hairline bg-surface p-6 text-[13px] leading-[1.65] text-muted-foreground sm:p-8">
-            <div className="font-display text-[13px] font-semibold uppercase tracking-[0.14em] text-coral">
-              Usage
+          <div className="grid gap-6 rounded-2xl border border-hairline bg-surface p-6 md:grid-cols-[1.4fr_1fr] md:items-center md:p-8">
+            <div>
+              <div className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
+                Usage
+              </div>
+              <h3 className="mt-2 font-display text-[20px] font-semibold text-navy">
+                Always 1px stroke, always <code className="font-mono">currentColor</code>
+              </h3>
+              <p className="mt-3 text-[13.5px] leading-[1.65] text-muted-foreground">
+                Set{" "}
+                <code className="rounded bg-surface-tint px-1.5 py-0.5 font-mono text-[12px] text-navy">
+                  {`strokeWidth={1}`}
+                </code>{" "}
+                on every Lucide icon in product. Colour the parent — the icon inherits.
+                On dark surfaces the same icons render in white without a second weight.
+              </p>
             </div>
-            <p className="mt-3">
-              Use <code className="rounded bg-surface-tint px-1.5 py-0.5 font-mono text-[12px] text-navy">{`strokeWidth={1}`}</code>{" "}
-              on every Lucide icon in product. Stroke colour is inherited via{" "}
-              <code className="rounded bg-surface-tint px-1.5 py-0.5 font-mono text-[12px] text-navy">currentColor</code>{" "}
-              — set text colour on the parent, not the icon. On dark surfaces the same
-              icons render in white without a second weight; retina displays are the
-              acceptance bar.
-            </p>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="rounded-xl border border-hairline p-4 text-center">
+                <HeartHandshake strokeWidth={1} size={40} className="mx-auto text-navy" />
+                <div className="mt-2 font-mono text-[11px] text-muted-foreground">
+                  strokeWidth = 1
+                </div>
+              </div>
+              <div className="rounded-xl border border-hairline p-4 text-center opacity-60">
+                <HeartHandshake strokeWidth={2} size={40} className="mx-auto text-navy" />
+                <div className="mt-2 font-mono text-[11px] text-muted-foreground">
+                  strokeWidth = 2
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </main>

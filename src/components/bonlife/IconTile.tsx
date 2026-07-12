@@ -93,15 +93,15 @@ export function IconTile({
     <div
       ref={wrapRef}
       className={cn(
-        "group relative flex flex-col items-center gap-3 rounded-2xl border p-5 transition-[transform,box-shadow,background,border-color] duration-200 hover:-translate-y-[3px]",
+        "group relative flex aspect-square flex-col rounded-2xl border p-4 transition-[transform,box-shadow,background,border-color] duration-200 hover:-translate-y-[3px] focus-within:ring-2 focus-within:ring-coral focus-within:ring-offset-2",
         dark
-          ? "border-white/10 bg-navy text-white hover:border-white/25 hover:shadow-[0_12px_32px_rgba(0,0,0,0.35)]"
-          : "border-hairline bg-surface text-navy hover:border-navy/20 hover:shadow-[0_12px_32px_rgba(12,28,62,0.10)]",
+          ? "border-white/10 bg-navy text-white hover:border-white/25 hover:shadow-[0_12px_32px_rgba(0,0,0,0.35)] focus-within:ring-offset-navy"
+          : "border-hairline bg-surface text-navy hover:border-navy/20 hover:shadow-[0_12px_32px_rgba(12,28,62,0.10)] focus-within:ring-offset-surface",
       )}
     >
       <div
         className={cn(
-          "flex h-20 w-full items-center justify-center [&_svg_*]:transition-[stroke-dashoffset] [&_svg_*]:duration-[650ms] [&_svg_*]:ease-[cubic-bezier(0.16,1,0.3,1)]",
+          "flex flex-1 items-center justify-center [&_svg_*]:transition-[stroke-dashoffset] [&_svg_*]:duration-[650ms] [&_svg_*]:ease-[cubic-bezier(0.16,1,0.3,1)]",
           drawn
             ? "[&_svg_*]:[stroke-dashoffset:0]"
             : "[&_svg_*]:[stroke-dasharray:var(--len)] [&_svg_*]:[stroke-dashoffset:var(--len)]",
@@ -109,16 +109,8 @@ export function IconTile({
       >
         <Icon strokeWidth={1} size={44} aria-hidden />
       </div>
-      <div className="text-center">
-        <div className="font-display text-[13px] font-semibold leading-tight">{label}</div>
-        <div
-          className={cn(
-            "mt-1 font-mono text-[10.5px]",
-            dark ? "text-white/50" : "text-muted-foreground",
-          )}
-        >
-          {name}
-        </div>
+      <div className="mt-3 h-9 text-center">
+        <div className="font-display text-[12.5px] font-semibold leading-tight">{label}</div>
       </div>
       <button
         type="button"
@@ -128,11 +120,11 @@ export function IconTile({
           if (svg) downloadIcon(svg, `bonlife-icon-${name}.svg`);
         }}
         className={cn(
-          "absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-full opacity-0 transition-opacity focus-visible:opacity-100 group-hover:opacity-100",
+          "absolute bottom-2 right-2 inline-flex h-7 w-7 items-center justify-center rounded-full opacity-40 transition-opacity hover:opacity-100 focus-visible:opacity-100 focus-visible:outline-none group-hover:opacity-100",
           dark ? "bg-white/10 text-white hover:bg-white/20" : "bg-surface-tint text-navy hover:bg-surface-muted",
         )}
       >
-        <Download size={14} strokeWidth={1.5} />
+        <Download size={13} strokeWidth={1.5} />
       </button>
     </div>
   );

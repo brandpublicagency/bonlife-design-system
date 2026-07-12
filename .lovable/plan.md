@@ -1,93 +1,69 @@
 
-# Iconography section
+# Category headers + iconography UI polish
 
-Add an "Iconography" section to `/foundations` and a matching "Icons" block on `/downloads`, using Lucide (`lucide-react` — already in the stack) with 1px strokes, draw-in animation on scroll, and per-icon SVG download. No new deps.
+Two changes to `/iconography`.
 
-## Proposed icon set — REVIEW BEFORE BUILD
+## 1 · Category-level icons
 
-Grouped to match Bonlife's real product terminology (from the marketing kit, plan cards, category tokens):
+Each category group gets its own header icon that sits next to the group title, so the page reads as a hierarchy (category → plans) instead of a flat list of tiles.
 
-**Product categories** (mirrors the four category identifiers already tokenised — Funeral, Life, Savings, Accident)
-- Funeral cover → `HeartHandshake`
-- Life cover → `ShieldCheck`
-- Savings plan → `PiggyBank`
-- Accident cover → `Ambulance`
-- Family plan → `Users`
-- Retirement / senior → `Sunrise`
+Category → icon mapping (all Lucide, 1px):
 
-**Customer actions / flows**
-- Get a quote → `FileText`
-- Claim → `ClipboardCheck`
-- Pay premium → `CreditCard`
-- Beneficiary → `UserPlus`
-- Branch locator → `MapPin`
-- Callback (SMS 74448) → `MessageSquare`
+- Funeral cover → `Flower2` (soft botanical, matches memorial tone without leaning morbid)
+- Life insurance → `HeartPulse`
+- Savings & education plans → `Wallet`
+- Accident & disability cover → `ShieldAlert`
+- Customer actions → `MousePointer2`
+- Contact & support → `Headphones`
+- Social → `AtSign`
+- Shared utility → `LayoutGrid`
 
-**Shared utility**
-- Contact / phone → `Phone`
-- Email → `Mail`
-- Search → `Search`
-- Download → `Download`
-- Chevron / navigation → `ChevronRight`
-- Confirmation → `Check`
+Data model change in `src/lib/bonlife-icons.ts`: add optional `Icon: LucideIcon` and short `caption` to each `IconGroup`. Existing plan/utility tiles are untouched.
 
-If any label is off-brand (e.g. Bonlife may use "Funeral plan" vs "Funeral cover", or a different word for "Accident"), flag it in the review — labels are trivial to swap, but the icon-to-concept mapping is what needs sign-off.
+If any of the four product-category icons feel off (especially Funeral — Flower2 vs. an alternative like `Sprout` or `Sun`), flag before build and I'll swap. The mapping is easy to change; the layout work is what takes real time.
 
-## Route & nav
+## 2 · Layout & alignment improvements
 
-- New `src/routes/iconography.tsx` for the full gallery, added to `SiteHeader` nav after "Foundations".
-- The section will also appear inline on `/foundations` as an anchor block (`#icons` added to its TOC) with a short summary + link to the full `/iconography` page — matches how Logos/Gradients/Photography behave today.
-- A compact "Icons" section added to `/downloads` between Logos and Colours with per-icon download buttons.
+Current issues visible on the page:
+- Group title, eyebrow and lead sit in a narrow left column while the tile grid stretches full width — the eye has no anchor line between the two.
+- Tile grid jumps between 2 / 3 / 4 / 6 columns depending on breakpoint, so tile size shifts unpredictably; the LifeGuard-only group leaves a huge empty rail.
+- Download button appears on hover only, which reads as "missing" on first scan.
+- Preview surface toggle sits in a floating strip disconnected from the groups below.
 
-## Component: `IconTile`
+Fixes:
 
-Lives in `src/components/bonlife/IconTile.tsx`. Renders one Lucide icon inside a card that reuses `Card` (`variant="outline"`, `hoverable`) so the hover-lift matches every other card in the system — no second lift pattern.
+**Section header layout** — Two-column header on `md+`: left column holds the new category icon in a rounded tile (48px, matches `PlanCard`'s icon treatment) + eyebrow + title; right column holds the lead copy aligned to the baseline of the title. Stacks to single column on mobile. Adds a thin bottom border under the header before the tile grid so the grouping is visually contained.
 
-- `strokeWidth={1}` on the Lucide component (overrides default 2).
-- Stroke colour = `currentColor`; tile sets `text-navy` in light mode, `text-white` on any dark surface (dark hero bands already use `text-white`, so `currentColor` handles both without a second colour variable).
-- Label under the icon: display name + optional caption.
-- Download button (icon-only, reuses `IconButton` `variant="ghost"` with `Download` icon) that serialises the rendered SVG to a Blob and triggers a `<a download>` click.
+**Consistent tile sizing** — Grid becomes `grid-cols-2 sm:grid-cols-3 md:grid-cols-4` (drop the 6-col breakpoint). Tile aspect ratio locked to a square via `aspect-square`, so single-icon groups (LifeGuard) still render at a natural size instead of stretching. Icon size stays 44px.
 
-### Draw-in animation
+**Tile refinements**
+- Icon centred vertically in the top ~60% of the tile, label anchored to a fixed bottom band so labels align across the row regardless of icon shape.
+- Persistent lightweight download affordance: replace the hover-only floating button with a subtle bottom-right chevron download glyph that's always visible at 40% opacity and goes to 100% on hover/focus. Keeps the tile clean but stops "hidden download" complaints.
+- Focus ring on the whole tile (keyboard users currently can't tell where the download button is until it becomes visible).
 
-Per-icon `IntersectionObserver` (threshold 0.4, `once: true`). On intersect:
+**Page rhythm**
+- Section vertical padding trimmed from `py-16 sm:py-20` to `py-12 sm:py-14` — the tile card already provides its own breathing room, so the outer padding was doubling up.
+- Preview toggle moves into a sticky-ish strip directly under the `PageHeader`, styled as a `Badge`-adjacent chip cluster (matches the TOC chip style at the top).
+- Group container gets `rounded-3xl` and a subtle inset border on light mode (`ring-1 ring-hairline`) so the tile-wrapper feels intentional on white surface, not just a background swatch.
 
-```
-svg path, svg line, svg circle, svg polyline, svg rect {
-  stroke-dasharray: var(--len);
-  stroke-dashoffset: var(--len);
-  transition: stroke-dashoffset 600ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-.drawn * { stroke-dashoffset: 0; }
-```
+**Usage footer**
+- Moved into a two-column card that pairs the `strokeWidth={1}` rule with a live example (a couple of icons rendered at 1px vs 2px) so the rule reads at a glance.
 
-`--len` is computed once on mount by iterating SVG children and calling `getTotalLength()` per path; the resulting length is set as a CSS var on each child. Falls back gracefully for children without `getTotalLength` (rects/circles get their computed perimeter). Icons above the fold animate on mount instead of waiting for scroll.
+## Files touched
 
-Respects `prefers-reduced-motion: reduce` — skips the transition, renders fully drawn immediately.
+- `src/lib/bonlife-icons.ts` — add `Icon` + `caption` to `IconGroup`; import 8 new Lucide glyphs.
+- `src/routes/iconography.tsx` — new `GroupHeader` sub-component, restructured section layout, tile grid breakpoint change, updated usage footer.
+- `src/components/bonlife/IconTile.tsx` — persistent download affordance + focus ring; label alignment tweak.
 
-## Download approach
+## Out of scope
 
-**Per-icon download only. No zip, no new dependency.**
-
-- Rationale: keeps the bundle clean (no JSZip), matches the "download SVG / copy path" pattern already used by the Logos section on `/downloads`, and users typically want one or two icons at a time. The full curated set is small enough that per-icon clicks are acceptable.
-- Implementation: read the mounted `<svg>` node, clone it, ensure `xmlns` + `stroke-width="1"` are set on the root, `new Blob([serialized], { type: "image/svg+xml" })`, `URL.createObjectURL`, temp `<a download="bonlife-<slug>.svg">`, revoke URL.
-- Copy-SVG button (secondary) that writes the same serialised string to the clipboard using the existing `copyText` helper from `downloads.tsx` (lifted into `src/lib/copyText.ts` so both routes share it).
-
-## Dark mode handling
-
-The design system doesn't ship a global dark-mode toggle, but several sections render on the navy hero (`bg-navy text-white`). Icons in those contexts pick up `text-white` automatically via `currentColor`, so 1px strokes stay visible.
-
-For the `/iconography` gallery we'll add a small preview toggle (light / dark) that flips the tile background between `bg-surface-tint` and `bg-navy` so reviewers can confirm contrast. Stroke stays 1px in both — no separate weight for dark mode, but we note in copy that 1px is the design intent and readers on retina displays are the acceptance bar.
+- No changes to `/downloads`, `/foundations` or `SiteChrome`.
+- No new tokens in `src/styles.css`.
+- No new dependencies.
 
 ## Verification
 
-- `/iconography` renders all groups; each icon draws in on scroll; hover lifts match other cards; light/dark toggle shows both surfaces.
-- Download button on any icon saves `bonlife-<name>.svg` containing `stroke-width="1"` and no fills.
-- Nav highlights "Iconography" when active.
+- Each of the 8 groups shows its category icon in the header.
+- Tile columns stay consistent (2/3/4) across breakpoints; single-icon Accident group renders one square tile flush-left, not stretched.
+- Download button is visible without hover; keyboard focus lands on the tile before the download control.
 - `bunx tsgo --noEmit` passes.
-
-## Open questions before I build
-
-1. Is the icon-to-category mapping above right for Bonlife's actual product names? (Funeral cover, Life cover, Savings plan, Accident cover, Family plan, Retirement — any renames?)
-2. Any additional flows I've missed (e.g. group scheme, funeral pre-arrangement, corporate)?
-3. Confirm per-icon download (no zip) is fine — happy to swap to JSZip if you want a "Download all" button, but that adds a dep.
