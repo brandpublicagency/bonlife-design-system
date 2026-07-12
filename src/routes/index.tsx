@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Clock4, Banknote, MapPin, Sparkles } from "lucide-react";
+import { ArrowRight, Stethoscope, Banknote, MapPin, Sparkles } from "lucide-react";
 import { SiteHeader, SiteFooter } from "@/components/bonlife/SiteChrome";
 import { Button } from "@/components/bonlife/Button";
 import { Card } from "@/components/bonlife/Card";
@@ -59,7 +59,7 @@ function HomePage() {
             <p className="mt-6 max-w-[520px] text-[17px] leading-[1.6] text-white/80">
               Colors, typography and components for Bonlife Assurance Namibia.
               Built for a brand that leads with warmth, keeps its jargon out,
-              and pays claims within 48 hours.
+              and shows up in person through 20 branches across Namibia.
             </p>
             <div className="mt-9 flex flex-wrap gap-3">
               <Link to="/components">
@@ -92,7 +92,7 @@ function HomePage() {
         <div className="relative border-t border-white/10 bg-navy/40 backdrop-blur">
           <div className="mx-auto grid max-w-[1200px] grid-cols-2 divide-white/10 px-6 sm:px-8 md:grid-cols-4 md:divide-x">
             {[
-              { k: "48h", v: "Claim payout" },
+              { k: "No", v: "Medical tests" },
               { k: "N$1,000", v: "Instant Cash" },
               { k: "20", v: "Namibian branches" },
               { k: "4", v: "Plan categories" },
@@ -193,9 +193,9 @@ function HomePage() {
           <div className="grid gap-5 md:grid-cols-3">
             {[
               {
-                Icon: Clock4,
-                title: "Speed is respect",
-                body: "Approved claims paid within 48 hours. Copy leads with what the customer gets, never with mechanics.",
+                Icon: Stethoscope,
+                title: "No medical tests",
+                body: "A short questionnaire, no health examinations — cover is accessible to every Namibian, regardless of medical history.",
               },
               {
                 Icon: Banknote,
