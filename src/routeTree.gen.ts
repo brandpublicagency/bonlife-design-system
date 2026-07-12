@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SocialRouteImport } from './routes/social'
 import { Route as MarketingRouteImport } from './routes/marketing'
+import { Route as KnowledgeBaseRouteImport } from './routes/knowledge-base'
 import { Route as IconographyRouteImport } from './routes/iconography'
 import { Route as FoundationsRouteImport } from './routes/foundations'
 import { Route as DownloadsRouteImport } from './routes/downloads'
@@ -25,6 +26,11 @@ const SocialRoute = SocialRouteImport.update({
 const MarketingRoute = MarketingRouteImport.update({
   id: '/marketing',
   path: '/marketing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KnowledgeBaseRoute = KnowledgeBaseRouteImport.update({
+  id: '/knowledge-base',
+  path: '/knowledge-base',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IconographyRoute = IconographyRouteImport.update({
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/downloads': typeof DownloadsRoute
   '/foundations': typeof FoundationsRoute
   '/iconography': typeof IconographyRoute
+  '/knowledge-base': typeof KnowledgeBaseRoute
   '/marketing': typeof MarketingRoute
   '/social': typeof SocialRoute
 }
@@ -68,6 +75,7 @@ export interface FileRoutesByTo {
   '/downloads': typeof DownloadsRoute
   '/foundations': typeof FoundationsRoute
   '/iconography': typeof IconographyRoute
+  '/knowledge-base': typeof KnowledgeBaseRoute
   '/marketing': typeof MarketingRoute
   '/social': typeof SocialRoute
 }
@@ -78,6 +86,7 @@ export interface FileRoutesById {
   '/downloads': typeof DownloadsRoute
   '/foundations': typeof FoundationsRoute
   '/iconography': typeof IconographyRoute
+  '/knowledge-base': typeof KnowledgeBaseRoute
   '/marketing': typeof MarketingRoute
   '/social': typeof SocialRoute
 }
@@ -89,6 +98,7 @@ export interface FileRouteTypes {
     | '/downloads'
     | '/foundations'
     | '/iconography'
+    | '/knowledge-base'
     | '/marketing'
     | '/social'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +108,7 @@ export interface FileRouteTypes {
     | '/downloads'
     | '/foundations'
     | '/iconography'
+    | '/knowledge-base'
     | '/marketing'
     | '/social'
   id:
@@ -107,6 +118,7 @@ export interface FileRouteTypes {
     | '/downloads'
     | '/foundations'
     | '/iconography'
+    | '/knowledge-base'
     | '/marketing'
     | '/social'
   fileRoutesById: FileRoutesById
@@ -117,6 +129,7 @@ export interface RootRouteChildren {
   DownloadsRoute: typeof DownloadsRoute
   FoundationsRoute: typeof FoundationsRoute
   IconographyRoute: typeof IconographyRoute
+  KnowledgeBaseRoute: typeof KnowledgeBaseRoute
   MarketingRoute: typeof MarketingRoute
   SocialRoute: typeof SocialRoute
 }
@@ -135,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/marketing'
       fullPath: '/marketing'
       preLoaderRoute: typeof MarketingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/knowledge-base': {
+      id: '/knowledge-base'
+      path: '/knowledge-base'
+      fullPath: '/knowledge-base'
+      preLoaderRoute: typeof KnowledgeBaseRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/iconography': {
@@ -181,9 +201,20 @@ const rootRouteChildren: RootRouteChildren = {
   DownloadsRoute: DownloadsRoute,
   FoundationsRoute: FoundationsRoute,
   IconographyRoute: IconographyRoute,
+  KnowledgeBaseRoute: KnowledgeBaseRoute,
   MarketingRoute: MarketingRoute,
   SocialRoute: SocialRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

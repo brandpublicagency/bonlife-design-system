@@ -1,36 +1,82 @@
-Reorder the Key benefits icon group by importance, add "20 Branches across Namibia", de-emphasize the 48-hour framing on the overview (index) page, and commit the uploaded knowledge base for future reference.
+Ship a fully-public, cloud-backed Knowledge Base page at `/knowledge-base` that is the single source of truth for Bonlife content. Anyone with the link can read, edit, add, reorder, and delete sections, and can upload PDF / MD / TXT files to have Lovable AI extract structured section drafts for one-click insertion.
 
-## 1. Icon library — `src/lib/bonlife-icons.ts`
-Reorder the `key-benefits` group and add a Branches icon (reuse existing `MapPin`, no new import needed):
+## 1. Backend (Lovable Cloud)
 
-1. No medical tests — `Stethoscope`
-2. Instant cash benefit — `Zap`
-3. Optional premium waiver — `ShieldOff`
-4. 20 Branches across Namibia — `MapPin` (name: `branches-namibia`)
-5. Full family cover — `Users2`
-6. Accidental death cover — `CarFront`
-7. Fast claims — `Timer` (moved to last, kept in the set)
+Enable Lovable Cloud, then a single migration creates:
 
-Update the group `lead` so it no longer opens on "fast claims / 48 hours" — reframe around "no medical tests, instant cash, family cover and a national branch network."
+- `public.kb_sections`
+  - `id uuid pk default gen_random_uuid()`
+  - `slug text unique not null` (used for TOC anchors)
+  - `title text not null`
+  - `body_markdown text not null default ''`
+  - `order_index int not null default 0`
+  - `created_at timestamptz default now()`, `updated_at timestamptz default now()`
+- Trigger: `updated_at` on update.
+- GRANTs: `SELECT, INSERT, UPDATE, DELETE` to `anon` and `authenticated`; `ALL` to `service_role`.
+- RLS enabled with permissive policies for `anon` + `authenticated` on all four verbs (matches "fully public"). Include a memory note that these open policies are intentional.
+- Seed: split `src/content/bonlife-knowledge-base.md` on top-level `##` headings and insert one row per section in original order.
 
-## 2. Overview page — `src/routes/index.tsx`
-Replace every "48 hours" mention on the overview page with something else. Specifically:
+## 2. Page: `src/routes/knowledge-base.tsx`
 
-- Hero paragraph (line 62): change "and pays claims within 48 hours." → "…and shows up in person through 20 branches across Namibia."
-- Stats strip (line 95): replace `{ k: "48h", v: "Claim payout" }` with `{ k: "No", v: "Medical tests" }`, so the four stats become **No / Medical tests · N$1,000 / Instant Cash · 20 / Namibian branches · 4 / Plan categories**.
-- Principles card (line 196–199): replace the "Speed is respect / Approved claims paid within 48 hours" card with a "No medical tests" card (Icon: `Stethoscope`, body: "A short questionnaire, no health examinations — cover is accessible to every Namibian, regardless of medical history.").
+- Route added to the site header nav.
+- Head metadata: "Knowledge Base — Bonlife", clear description.
+- Two-column layout on desktop (sticky TOC left, content right); stacked on mobile with a jump-menu.
+- Data via TanStack Query (`useSuspenseQuery` in component, `ensureQueryData` in loader — public read through server publishable client so SSR works).
+- Rendering: `react-markdown` + `remark-gfm` (add deps) styled to match the Bonlife type scale.
+- TOC: generated from `title`/`slug` of every section, ordered by `order_index`; smooth-scroll to `#slug`.
+- Per-section controls (inline, no auth gate): Edit (opens textarea + live preview), Save, Cancel, Delete (confirm dialog), Move up, Move down.
+- Top-right "Add section" button opens a form (title + markdown body) → inserts at end.
+- All writes go through server functions (list below).
 
-Leave `foundations.tsx`, `marketing.tsx`, `components.tsx`, `social.tsx`, and `SocialTemplates.tsx` alone — the user scoped this to the overview page.
+## 3. Upload & extraction
 
-## 3. Save the knowledge base
-- Create `src/content/bonlife-knowledge-base.md` with the exact contents of the uploaded file (copy from `/mnt/user-uploads/The_Bonlife_Knowledge_Base_2026.md`). Not imported anywhere — it's a reference source for future pages and agents.
+- Panel at the top of the page: "Import from file" — drag/drop or file input, accepts `.pdf`, `.md`, `.markdown`, `.txt`. 20 MB cap.
+- Server function `extractKbDraftsFromUpload` receives `{ filename, mimeType, base64 }`:
+  - For text/markdown: decode and pass as text.
+  - For PDF: forward as a `file` content block to Lovable AI Gateway (`google/gemini-2.5-flash`) with the real MIME type.
+  - Prompt returns an array of `{ title, body_markdown }` chunks aligned with the Bonlife voice; no schema bounds, limits described in prompt, clamped in code, `NoObjectGeneratedError` guarded with fallback text parse.
+- Response rendered as a "Proposed additions" list: each card shows title + markdown preview + `Add to KB` / `Discard`. `Add` calls `createKbSection`.
+- Errors (429 rate-limit, 402 credits, 400 unsupported) surfaced in the panel.
 
-## Files touched
-- `src/lib/bonlife-icons.ts`
-- `src/routes/index.tsx`
-- `src/content/bonlife-knowledge-base.md` (new)
+## 4. Server functions (`src/lib/kb.functions.ts`)
 
-## Verification
-- `/iconography` Key benefits section shows the seven icons in the new order with "20 Branches across Namibia" in slot 4.
-- `/` (overview) contains no "48 hour" / "48h" strings; stats strip and principles read as above.
-- Typecheck passes.
+Client-safe module; all handlers use `createServerFn`. All are unauthenticated (public writes) — noted with a comment tying the decision to the memory rule.
+
+- `listKbSections` (GET) — server publishable client, ordered by `order_index`.
+- `createKbSection` (POST) — `{ title, body_markdown }` → slugified `slug`, appended at max(order_index)+1.
+- `updateKbSection` (POST) — `{ id, title?, body_markdown? }`.
+- `deleteKbSection` (POST) — `{ id }`.
+- `reorderKbSection` (POST) — `{ id, direction: 'up' | 'down' }` swaps `order_index` with neighbour.
+- `extractKbDraftsFromUpload` (POST) — described above; returns `{ drafts: [{ title, body_markdown }] }`.
+
+AI helper `src/lib/ai-gateway.server.ts` created per the Gateway knowledge (`createLovableAiGatewayProvider`, no structured-output flag — Gemini).
+
+## 5. Dependencies
+
+- `bun add react-markdown remark-gfm ai @ai-sdk/openai-compatible zod`
+- No PDF parsing library (Gemini handles PDFs natively via file content blocks).
+
+## 6. Memory
+
+- `mem://features/knowledge-base` — "Public /knowledge-base is the SSOT. Fully public read/write/delete; open RLS on `kb_sections` is intentional. Seeded from `src/content/bonlife-knowledge-base.md` on first migration; the markdown file is now a historical seed only — future edits happen through the page."
+- `mem://index.md` — add pointer + Core note.
+
+## 7. Files touched
+
+- `src/routes/knowledge-base.tsx` (new)
+- `src/lib/kb.functions.ts` (new)
+- `src/lib/ai-gateway.server.ts` (new)
+- `src/components/bonlife/SiteChrome.tsx` (add nav link)
+- `src/components/bonlife/KbSection.tsx`, `KbEditor.tsx`, `KbUploadPanel.tsx` (new)
+- Supabase migration (new)
+- `package.json` (deps)
+- `mem://index.md`, `mem://features/knowledge-base` (new)
+
+## 8. Verification
+
+- Cloud enabled; migration runs; table + seed rows present.
+- `/knowledge-base` renders every section from the seed with TOC anchors working.
+- Inline edit → save persists (refresh confirms).
+- Add / delete / reorder work.
+- Upload a small PDF and a `.md` file — drafts appear; Add inserts a new section.
+- Typecheck passes; overview page and existing routes unchanged.
