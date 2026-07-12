@@ -1,82 +1,93 @@
 
-# Downloads page
+# Iconography section
 
-Add `/downloads` — a single hub for anyone who needs to grab brand assets. Logos download inline, colours copy-to-clipboard, photography and gradients link out to Google Drive.
+Add an "Iconography" section to `/foundations` and a matching "Icons" block on `/downloads`, using Lucide (`lucide-react` — already in the stack) with 1px strokes, draw-in animation on scroll, and per-icon SVG download. No new deps.
+
+## Proposed icon set — REVIEW BEFORE BUILD
+
+Grouped to match Bonlife's real product terminology (from the marketing kit, plan cards, category tokens):
+
+**Product categories** (mirrors the four category identifiers already tokenised — Funeral, Life, Savings, Accident)
+- Funeral cover → `HeartHandshake`
+- Life cover → `ShieldCheck`
+- Savings plan → `PiggyBank`
+- Accident cover → `Ambulance`
+- Family plan → `Users`
+- Retirement / senior → `Sunrise`
+
+**Customer actions / flows**
+- Get a quote → `FileText`
+- Claim → `ClipboardCheck`
+- Pay premium → `CreditCard`
+- Beneficiary → `UserPlus`
+- Branch locator → `MapPin`
+- Callback (SMS 74448) → `MessageSquare`
+
+**Shared utility**
+- Contact / phone → `Phone`
+- Email → `Mail`
+- Search → `Search`
+- Download → `Download`
+- Chevron / navigation → `ChevronRight`
+- Confirmation → `Check`
+
+If any label is off-brand (e.g. Bonlife may use "Funeral plan" vs "Funeral cover", or a different word for "Accident"), flag it in the review — labels are trivial to swap, but the icon-to-concept mapping is what needs sign-off.
 
 ## Route & nav
 
-- New file `src/routes/downloads.tsx` with route-specific `head()` (title, description, og:*).
-- Add "Downloads" to the primary nav in `src/components/bonlife/SiteChrome.tsx`, positioned after "Marketing Kit".
+- New `src/routes/iconography.tsx` for the full gallery, added to `SiteHeader` nav after "Foundations".
+- The section will also appear inline on `/foundations` as an anchor block (`#icons` added to its TOC) with a short summary + link to the full `/iconography` page — matches how Logos/Gradients/Photography behave today.
+- A compact "Icons" section added to `/downloads` between Logos and Colours with per-icon download buttons.
 
-## Page structure
+## Component: `IconTile`
 
-`PageHeader` (matching the pattern used on `/social` and `/foundations`) with a TOC linking to the four sections below.
+Lives in `src/components/bonlife/IconTile.tsx`. Renders one Lucide icon inside a card that reuses `Card` (`variant="outline"`, `hoverable`) so the hover-lift matches every other card in the system — no second lift pattern.
 
-### 1 · Logos
+- `strokeWidth={1}` on the Lucide component (overrides default 2).
+- Stroke colour = `currentColor`; tile sets `text-navy` in light mode, `text-white` on any dark surface (dark hero bands already use `text-white`, so `currentColor` handles both without a second colour variable).
+- Label under the icon: display name + optional caption.
+- Download button (icon-only, reuses `IconButton` `variant="ghost"` with `Download` icon) that serialises the rendered SVG to a Blob and triggers a `<a download>` click.
 
-Card grid (2-col on md, 3-col on lg) covering all six SVGs in `src/assets/bonlife/logos/`:
+### Draw-in animation
 
-- Wordmark — Dark (on dark) · `bonlife-wordmark-light.svg`
-- Wordmark — Light (on light) · `bonlife-wordmark-dark.svg`
-- Mark — Coral · `bonlife-mark-coral.svg`
-- Mark — Navy · `bonlife-mark-navy.svg`
-- Mark — Mint · `bonlife-mark-mint.svg`
-- Mark — White · `bonlife-mark-white.svg`
+Per-icon `IntersectionObserver` (threshold 0.4, `once: true`). On intersect:
 
-Each card:
-- Preview area with an appropriate background (navy for the "on dark" variants, surface-tint for the "on light" variants, coral for the mint mark to give it contrast).
-- Filename + short caption ("Primary wordmark for dark backgrounds", etc.).
-- Two buttons: **Download SVG** (anchor with `download` attribute pointing at the imported asset URL) and **Copy path** (writes the CDN/asset URL to clipboard).
-- The SVGs are already committed as source files under `src/assets/bonlife/logos/`, so Vite's `?url` import produces a stable public URL that the browser can download directly. No extra tooling needed.
+```
+svg path, svg line, svg circle, svg polyline, svg rect {
+  stroke-dasharray: var(--len);
+  stroke-dashoffset: var(--len);
+  transition: stroke-dashoffset 600ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.drawn * { stroke-dashoffset: 0; }
+```
 
-### 2 · Colours
+`--len` is computed once on mount by iterating SVG children and calling `getTotalLength()` per path; the resulting length is set as a CSS var on each child. Falls back gracefully for children without `getTotalLength` (rects/circles get their computed perimeter). Icons above the fold animate on mount instead of waiting for scroll.
 
-Grouped swatch grid, click-to-copy hex. Groupings:
+Respects `prefers-reduced-motion: reduce` — skips the transition, renders fully drawn immediately.
 
-- **Brand** — Navy 900 `#0C1C3E`, Coral 500 `#FF876A`, Mint 400 `#01FBC0`.
-- **Category** — Funeral `#04413F`, Life `#541467`, Savings `#0D2B90`, Accident `#A80A4D`.
-- **State** — Error `#FF5F5F`, Success `#41FFB6`.
-- **Surface & text** — Surface white `#FFFFFF`, Surface tint `#F7F8FB`, Surface muted `#EAEDF4`, Border hairline `#E1E4E9`, Gray 600 `#5B6472`.
+## Download approach
 
-Each swatch tile is a `<button>`:
-- Large colour block using the raw hex (inline `style={{ background }}`, since the file lists literal hex — no token drift).
-- Below the block: name, hex, and the CSS variable (e.g. `--coral-500`).
-- On click: `navigator.clipboard.writeText(hex)` and flip the tile label to "Copied ✓" for ~1.4s via local state.
-- Keyboard-accessible (native button, `aria-live="polite"` on the confirmation text).
-- Right-click / long-press hint via `title="Click to copy hex"`.
+**Per-icon download only. No zip, no new dependency.**
 
-Small `SwatchTile` component defined inside `downloads.tsx` (or `src/components/bonlife/SwatchTile.tsx` if it grows) with props `{ name, hex, token, textOn: "light" | "dark" }` to pick a legible label colour over each swatch.
+- Rationale: keeps the bundle clean (no JSZip), matches the "download SVG / copy path" pattern already used by the Logos section on `/downloads`, and users typically want one or two icons at a time. The full curated set is small enough that per-icon clicks are acceptable.
+- Implementation: read the mounted `<svg>` node, clone it, ensure `xmlns` + `stroke-width="1"` are set on the root, `new Blob([serialized], { type: "image/svg+xml" })`, `URL.createObjectURL`, temp `<a download="bonlife-<slug>.svg">`, revoke URL.
+- Copy-SVG button (secondary) that writes the same serialised string to the clipboard using the existing `copyText` helper from `downloads.tsx` (lifted into `src/lib/copyText.ts` so both routes share it).
 
-### 3 · Photography
+## Dark mode handling
 
-No files served from the page. Single hero card with:
-- Short blurb explaining that photography lives in the shared Drive because it's high-res and licensed per campaign.
-- Big primary button "Open photography folder" → the provided Drive URL (`target="_blank"`, `rel="noopener noreferrer"`).
-- Small strip of 3-4 thumbnail previews from the existing `src/assets/bonlife/photography/*.jpg.asset.json` files so the section still reads visually.
+The design system doesn't ship a global dark-mode toggle, but several sections render on the navy hero (`bg-navy text-white`). Icons in those contexts pick up `text-white` automatically via `currentColor`, so 1px strokes stay visible.
 
-### 4 · Gradients
-
-Same pattern as Photography:
-- Blurb: "Gradients ship as layered PSDs and hi-res JPGs — grab them from Drive."
-- "Open gradients folder" button pointing to the same Drive URL (the folder holds both).
-- Preview strip using `src/assets/bonlife/gradients/*.jpg.asset.json` (4 tiles).
-
-## Interaction details
-
-- Clipboard writes use `navigator.clipboard.writeText` with a `try/catch` fallback that selects a hidden textarea for older browsers.
-- Toast-free: inline confirmation on each swatch/logo card keeps the page self-contained; no dependency on the Toast primitive.
-- All external links (Drive) get `target="_blank"` + `rel="noopener noreferrer"`.
-
-## Out of scope
-
-- No new asset uploads, no Drive API integration, no zip-bundle downloader.
-- No route-level auth (assets are public brand material).
-- No changes to the token values in `src/styles.css` — the Downloads page reads the same hex values the design system already publishes.
+For the `/iconography` gallery we'll add a small preview toggle (light / dark) that flips the tile background between `bg-surface-tint` and `bg-navy` so reviewers can confirm contrast. Stroke stays 1px in both — no separate weight for dark mode, but we note in copy that 1px is the design intent and readers on retina displays are the acceptance bar.
 
 ## Verification
 
-After building, open `/downloads` in the preview and confirm:
-- every logo card downloads its SVG when clicked;
-- swatch tiles copy their hex (verify via a Playwright script reading `navigator.clipboard`);
-- both Drive buttons open the provided folder in a new tab;
-- nav highlights "Downloads" when active.
+- `/iconography` renders all groups; each icon draws in on scroll; hover lifts match other cards; light/dark toggle shows both surfaces.
+- Download button on any icon saves `bonlife-<name>.svg` containing `stroke-width="1"` and no fills.
+- Nav highlights "Iconography" when active.
+- `bunx tsgo --noEmit` passes.
+
+## Open questions before I build
+
+1. Is the icon-to-category mapping above right for Bonlife's actual product names? (Funeral cover, Life cover, Savings plan, Accident cover, Family plan, Retirement — any renames?)
+2. Any additional flows I've missed (e.g. group scheme, funeral pre-arrangement, corporate)?
+3. Confirm per-icon download (no zip) is fine — happy to swap to JSZip if you want a "Download all" button, but that adds a dep.
