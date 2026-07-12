@@ -10,6 +10,7 @@ export function SiteHeader() {
     { to: "/components", label: "Components" },
     { to: "/social", label: "Social" },
     { to: "/marketing", label: "Marketing Kit" },
+    { to: "/knowledge-base", label: "Knowledge Base" },
     { to: "/downloads", label: "Downloads" },
   ] as const;
   return (
