@@ -92,7 +92,7 @@ function HomePage() {
         <div className="relative border-t border-white/10 bg-navy/40 backdrop-blur">
           <div className="mx-auto grid max-w-[1200px] grid-cols-2 divide-white/10 px-6 sm:px-8 md:grid-cols-4 md:divide-x">
             {[
-              { k: "48h", v: "Claim payout" },
+              { k: "No", v: "Medical tests" },
               { k: "N$1,000", v: "Instant Cash" },
               { k: "20", v: "Namibian branches" },
               { k: "4", v: "Plan categories" },
