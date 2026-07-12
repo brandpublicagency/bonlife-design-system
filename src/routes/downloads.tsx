@@ -275,6 +275,37 @@ function DriveSection({
   );
 }
 
+function XDLinkSection() {
+  return (
+    <Section id="design-system" eyebrow="Design system" title="Adobe XD source">
+      <div className="overflow-hidden rounded-2xl border border-hairline bg-surface">
+        <div className="grid gap-8 p-8 md:grid-cols-[1.1fr_1fr] md:items-center">
+          <div>
+            <p className="max-w-lg text-[15px] leading-[1.65] text-muted-foreground">
+              The full Bonlife Design System lives in Adobe XD. Inspect components, copy assets, and download everything from the developer link.
+            </p>
+            <a
+              href={XD_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-coral px-5 py-2.5 font-display text-[13px] font-semibold text-navy transition-colors hover:bg-coral/90"
+            >
+              Open Adobe XD
+              <span aria-hidden>↗</span>
+            </a>
+            <div className="mt-3 font-mono text-[11px] text-muted-foreground">
+              Adobe XD · developer view
+            </div>
+          </div>
+          <div className="flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-hairline bg-navy">
+            <img src={markWhite} alt="Bonlife mark" className="max-h-24 max-w-[70%]" />
+          </div>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
 function DownloadsPage() {
   const logos: {
     src: string;
