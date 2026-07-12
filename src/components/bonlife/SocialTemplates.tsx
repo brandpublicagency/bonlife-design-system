@@ -524,7 +524,7 @@ export function TemplateHowItWorksCarousel() {
             className="absolute inset-0 h-full w-full object-cover opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-navy/40 via-navy/80 to-navy" />
-          <div className="relative flex h-full w-full flex-col justify-between p-9">
+          <div className="relative flex h-full w-full flex-col justify-between p-10">
             <div className="flex items-start justify-between">
               <SocialMark tone="white" />
               <SocialPageIndicator index={index} total={total} tone="light" />
@@ -533,19 +533,22 @@ export function TemplateHowItWorksCarousel() {
               <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-coral">
                 Carousel · Swipe to see how
               </div>
-              <div className="mt-3 font-display text-[54px] font-bold leading-[0.98] tracking-[-0.03em] text-white">
+              <div className="mt-4 font-display text-[54px] font-bold leading-[0.98] tracking-[-0.03em] text-white">
                 How Bonlife
                 <br />
                 works in
                 <br />
                 <span className="text-coral">60 seconds.</span>
               </div>
-              <p className="mt-4 max-w-[85%] text-[15px] leading-[1.5] text-white/80">
+              <p className="mt-6 max-w-[85%] text-[15px] leading-[1.5] text-white/80">
                 Three steps between you and cover your family can count on.
               </p>
             </div>
-            <SocialLockup variant="light" />
+            <div className="border-t border-white/10 pt-6">
+              <SocialLockup variant="light" />
+            </div>
           </div>
+
         </div>
       ),
     },
