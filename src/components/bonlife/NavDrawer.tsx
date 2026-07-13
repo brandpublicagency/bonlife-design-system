@@ -61,18 +61,10 @@ export function NavDrawer() {
         <SheetTitle className="sr-only">Navigation</SheetTitle>
         <SheetDescription className="sr-only">Bonlife design system navigation</SheetDescription>
         <div className="flex h-full flex-col">
-          <div className="flex items-center justify-between border-b border-hairline px-6 py-5">
+          <div className="flex items-center border-b border-hairline px-6 py-5">
             <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
               Navigate
             </span>
-            <button
-              type="button"
-              aria-label="Close"
-              onClick={() => setOpen(false)}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full text-navy hover:bg-surface-tint"
-            >
-              <X size={16} />
-            </button>
           </div>
 
           <nav className="flex-1 overflow-y-auto px-3 py-4">
