@@ -1,81 +1,46 @@
 ## Goal
 
-- Split the KB into a **public read-only view** at `/knowledge-base` and an **admin backend** at `/admin/knowledge-base` (import + edit + reorder + delete + add).
-- Add **email/password auth** with a **user_roles / admin** model. First signup becomes admin; admins can invite/promote from the backend.
-- Simplify site nav: single **menu icon → slide-out drawer**.
-- Replace the KB cover pill row with a **short single-line metadata summary**; keep TOC as a sticky sidebar on the page.
+Remove every "48-hour claims" heading, CTA, box, and template across the design-system pages and swap in two real Bonlife benefits from the knowledge base:
 
-## 1. Auth + roles (Lovable Cloud)
+- **N$1,000 Instant Cash** — paid the same day a funeral claim is approved.
+- **No medicals, easy sign-up** — enroll without medical exams.
 
-Migration:
-- `app_role` enum: `admin`, `user`.
-- `public.user_roles(id, user_id → auth.users, role app_role, created_at, unique(user_id, role))` + GRANTs (`authenticated`, `service_role`).
-- `has_role(_user_id uuid, _role app_role)` SECURITY DEFINER function.
-- RLS on `user_roles`:
-  - SELECT: `auth.uid() = user_id OR has_role(auth.uid(),'admin')`.
-  - INSERT/DELETE: `has_role(auth.uid(),'admin')` only.
-- Trigger `on_auth_user_created` → if `user_roles` is empty, first confirmed user gets `admin`; otherwise no automatic role.
-- Tighten `kb_sections` RLS: SELECT stays public (`anon`+`authenticated`); INSERT/UPDATE/DELETE restricted to `has_role(auth.uid(),'admin')`.
-- `configure_auth`: email/password, disable email confirmation (so first-user-admin works instantly), enable leaked-password protection.
+The knowledge base seed file (`src/content/bonlife-knowledge-base.md`) and the live KB in the database stay untouched — they remain the source of truth for real Bonlife facts.
 
-## 2. Routes
+## Files to change
 
-Public (SSR):
-- `/knowledge-base` — read-only. Sticky left-sidebar TOC, right column renders markdown sections. Cover replaced with single-line metadata (`{n} sections · updated {relative time}`). No pills, no edit UI, no import panel. If viewer is admin, show a small "Edit in backend" link.
-- `/auth` — email/password sign-in + sign-up form. Sign-up allowed (needed for first-user-admin and admin-invited teammates).
+### `src/routes/marketing.tsx`
+- Hero H1 (line 93): `Claims paid within 48 hours.` → `N$1,000 Instant Cash, same day.`
+- Benefits grid (line 173): the `48-hour claims` card → `Instant Cash` card with `Clock4` swapped for `Wallet` (or `Banknote`), body: "N$1,000 paid the same day a funeral claim is approved. Money in hand when it matters."
+- If a second benefit slot in the same section still reads generically, add a `No medicals` card (icon `HeartPulse` or `ShieldCheck`) with body: "Sign up without medical exams. Cover starts fast, paperwork stays light."
 
-Protected (`_authenticated/` layout, integration-managed):
-- `/admin/knowledge-base` — full editor: import panel, add section, inline edit, reorder, delete. Also an "Admins" panel listing `user_roles` admins and a form to promote a signed-up user by email (server fn resolves email → user id via `supabaseAdmin`, inserts `user_roles`).
-- Guarded by admin check in loader (server fn `requireAdmin`). Non-admin signed-in users see an "Ask an existing admin to promote your account" screen.
+### `src/routes/components.tsx`
+- Card body (line 262): "Approved claims are paid within 48 hours..." → "N$1,000 Instant Cash paid the same day a funeral claim is approved."
+- Accordion Q&A (line 283): rewrite the "How do I claim?" answer to drop the 48-hour phrasing: "SMS your name to 74448 or walk into any of our 20 branches. Approved funeral claims get N$1,000 Instant Cash the same day."
+- Tooltip + Button (line 318): tooltip → "N$1,000 Instant Cash on the day a funeral claim is approved"; button label → `Instant Cash`. Add a sibling example demonstrating the `No medicals` benefit as a second `Tooltip`/`Button` pair so the design-system page shows both new benefits in use.
 
-## 3. Server functions
+### `src/routes/foundations.tsx`
+- H1 typography sample (line 178): `Claims paid within 48 hours.` → `N$1,000 Instant Cash, same day.` (keeps the same character-length feel for the type spec).
 
-`src/lib/kb.functions.ts`:
-- `listKbSections` — public, unchanged.
-- `createKbSection` / `updateKbSection` / `deleteKbSection` / `reorderKbSection` / `extractKbDraftsFromUpload` — add `.middleware([requireSupabaseAuth])` + admin check via `has_role` RPC; throw on non-admin.
+### `src/routes/social.tsx`
+- Lead paragraph (line 75): drop "48-hour promise"; replace with "Every template honours the Instant Cash promise, the 74448 SMS line, and the four category colours."
+- Rename the imported template `Template48HourClaim` → `TemplateInstantCash` (update the import on line 4, the JSX usage on line 95, and the entry in `SOCIAL_TEMPLATES` on line 643 / `id: "claim"`).
 
-`src/lib/admin.functions.ts` (new):
-- `getMyAdminStatus` — returns `{ isAdmin }`.
-- `listAdmins` — admin-only, joins `user_roles` + auth email via `supabaseAdmin` (loaded inside handler).
-- `promoteUserByEmail({ email })` — admin-only; resolves user, inserts `user_roles`.
-- `revokeAdmin({ userId })` — admin-only; guards against removing the last admin.
+### `src/components/bonlife/SocialTemplates.tsx`
+- Rename `Template48HourClaim` → `TemplateInstantCash` and update the section-header comment (line 26) to `1 · INSTANT CASH PROMISE — hero editorial (square)`.
+- Inside that template:
+  - Badge/pill "Paid in 48hrs" (line 172) → `Same-day cash`.
+  - Body copy (line 208 area) rewrite to remove "Two days later" — replace with a same-day narrative: "They called me back the same afternoon. By evening the N$1,000 Instant Cash was in my account, and my family could breathe."
+- Second template footer copy (line 619): "48-hour cover benefit, guaranteed." → "No medicals. Cover starts fast, guaranteed."
 
-## 4. Navigation redesign
+## Out of scope (intentionally untouched)
 
-`SiteChrome.tsx`:
-- Header keeps logo + version chip on the left. Right side becomes a single `Menu` icon button that opens a slide-out drawer (shadcn Sheet, right side).
-- Drawer lists the existing nav items (Overview, Foundations, Iconography, Components, Social, Marketing Kit, Knowledge Base, Downloads) as large tap targets with active state, plus a divider and an **Admin** section (Sign in / Backend / Sign out) driven by session + `isAdmin`.
-- Applies to every page, all viewports (per user answer).
+- `src/content/bonlife-knowledge-base.md`
+- Live KB rows in the database (`/knowledge-base` and `/admin/knowledge-base`)
+- Any auth, routing, or backend logic
 
-## 5. KB cover + layout
+## Verification
 
-- Replace `PageHeader` `toc` prop usage on `/knowledge-base` with a small metadata line under the lead: `12 sections · updated 3 days ago` (relative time formatted with `Intl.RelativeTimeFormat` computed client-side to avoid SSR/locale mismatch, wrapped in `useHydrated` to prevent hydration errors — also fixes the current `toLocaleString` hydration warning).
-- Page body becomes two columns on `lg+`: sticky TOC (section titles as anchor links) on the left, markdown sections on the right. Stacked on mobile with a native `<details>` jump menu.
-- Admin backend reuses the same two-column layout but adds the edit controls, import panel, and admin management panel.
-
-## 6. Files
-
-New:
-- `supabase/migrations/…_admin_roles_and_kb_lockdown.sql`
-- `src/routes/auth.tsx`
-- `src/routes/_authenticated/admin.knowledge-base.tsx`
-- `src/lib/admin.functions.ts`
-- `src/components/bonlife/NavDrawer.tsx`
-- `src/components/bonlife/KbTocSidebar.tsx`
-
-Edited:
-- `src/routes/knowledge-base.tsx` — strip editing/import; add sidebar TOC + metadata line.
-- `src/components/bonlife/SiteChrome.tsx` — drawer nav, drop pill TOC usage from `PageHeader` (or keep prop optional for other pages).
-- `src/lib/kb.functions.ts` — admin gate on mutations.
-- `src/routes/__root.tsx` — ensure `onAuthStateChange` invalidation is wired (per integration guidance).
-
-Untouched: existing overview, foundations, iconography, components, social, marketing, downloads routes (only their nav rendering changes via `SiteHeader`).
-
-## 7. Verification
-
-- Migration runs; `kb_sections` writes fail for anon (verified via read_query + attempted insert through anon key).
-- Sign up first account → becomes admin automatically; second signup has no role and sees the "ask an admin" screen.
-- `/knowledge-base` shows content read-only for everyone, no import/edit UI, no pills, sidebar TOC works.
-- `/admin/knowledge-base` reachable only when signed in as admin; edit/add/delete/reorder/import all work.
-- Drawer nav opens on all pages; active state reflects current route; sign in/out flows update the drawer.
-- No hydration warnings on `/knowledge-base`.
+- `rg -i "48[- ]?hour|48h|two days|two-day" src/routes src/components` returns zero matches.
+- Preview `/marketing`, `/components`, `/foundations`, `/social` — hero, benefits grid, tooltip demo, typography sample, and social template all show the new Instant Cash / No-medicals messaging with no layout regressions.
+- Build passes (no unused-import warnings from the renamed social template).

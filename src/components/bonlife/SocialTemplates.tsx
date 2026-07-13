@@ -23,13 +23,13 @@ import gradient01 from "@/assets/bonlife/gradients/gradient-01.jpg.asset.json";
    navy-on-navy invisibility trap. Real semantic h2 lives on light surfaces. */
 
 /* ================================================================
-   1 · 48-HOUR CLAIM PROMISE — hero editorial (square)
+   1 · INSTANT CASH PROMISE — hero editorial (square)
    ================================================================ */
-export function Template48HourClaim() {
+export function TemplateInstantCash() {
   return (
     <SocialFrame
       format="square"
-      title="Claim Promise"
+      title="Instant Cash Promise"
       caption="Hero editorial · brand-first · use for launch and always-on trust posts."
     >
       <div className="relative h-full w-full bg-navy text-white">
@@ -48,14 +48,14 @@ export function Template48HourClaim() {
           </div>
           <div>
             <div className="text-[11px] font-semibold uppercase tracking-[0.22em] text-coral">
-              Cover benefit paid in
+              Same-day on approved claims
             </div>
             <div className="mt-4 font-display text-[92px] font-bold leading-none tracking-[-0.05em] text-white">
-              48<span className="text-coral">hrs</span>
+              N$1<span className="text-coral">,000</span>
             </div>
             <p className="mt-4 max-w-[85%] text-[15px] leading-[1.45] text-white/85">
-              When your family needs us most, we move fast. That is our
-              standard, not our exception.
+              Instant Cash the same day a funeral claim is approved. Money in
+              hand when your family needs it most.
             </p>
           </div>
           <div className="border-t border-white/10 pt-6">
@@ -169,7 +169,7 @@ export function TemplateFuneralCover() {
                 Whole family
               </span>
               <span className="rounded-full bg-coral px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy">
-                Paid in 48hrs
+                Same-day cash
               </span>
             </div>
             <div className="mt-8 border-t border-white/15 pt-6">
@@ -205,8 +205,8 @@ export function TemplateTestimonial() {
             &ldquo;
           </div>
           <blockquote className="mt-4 font-display text-[26px] font-semibold leading-[1.18] tracking-[-0.015em] text-navy">
-            They called me back the same afternoon. Two days later my family
-            had what they needed. No paperwork games.
+            They called me back the same afternoon. By evening the N$1,000
+            Instant Cash was in my account, and my family could breathe.
           </blockquote>
         </div>
 
@@ -616,7 +616,7 @@ export function TemplateHowItWorksCarousel() {
               74448
             </div>
             <p className="mt-6 max-w-[85%] text-[15px] leading-[1.5] text-navy/80">
-              We call you back the same day. 48-hour cover benefit, guaranteed.
+              We call you back the same day. No medicals, cover starts fast.
             </p>
           </div>
           <div className="border-t border-navy/15 pt-6">
@@ -640,7 +640,7 @@ export function TemplateHowItWorksCarousel() {
 
 
 export const SOCIAL_TEMPLATES = [
-  { id: "claim", Component: Template48HourClaim, format: "square" as SocialFormat },
+  { id: "claim", Component: TemplateInstantCash, format: "square" as SocialFormat },
   { id: "life", Component: TemplateLifeCover, format: "square" as SocialFormat },
   { id: "funeral", Component: TemplateFuneralCover, format: "square" as SocialFormat },
   { id: "testimonial", Component: TemplateTestimonial, format: "square" as SocialFormat },

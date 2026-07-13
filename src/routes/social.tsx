@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
 import {
-  Template48HourClaim,
+  TemplateInstantCash,
   TemplateLifeCover,
   TemplateFuneralCover,
   TemplateTestimonial,
@@ -72,7 +72,7 @@ function SocialPage() {
       <PageHeader
         eyebrow="Templates · v0.1"
         title="Social post templates"
-        lead="Nine on-brand layouts built from Bonlife tokens. Drop copy in, export at native resolution, ship. Every template honours the 48-hour promise, the 74448 SMS line, and the four category colours."
+        lead="Nine on-brand layouts built from Bonlife tokens. Drop copy in, export at native resolution, ship. Every template honours the Instant Cash promise, the 74448 SMS line, and the four category colours."
         toc={[
           { id: "feed", label: "Feed · 1:1" },
           { id: "carousel", label: "Carousel · multi-slide" },
@@ -92,7 +92,7 @@ function SocialPage() {
           lead="Everyday feed posts. Lead with a single idea and let type do the work."
         >
           <div className="grid gap-8 md:grid-cols-2">
-            <Template48HourClaim />
+            <TemplateInstantCash />
             <TemplateSmsCallback />
             <TemplateLifeCover />
             <TemplateFuneralCover />

@@ -259,7 +259,7 @@ function ComponentsPage() {
                 </TabsList>
                 <TabsContent value="claims">
                   <p className="text-sm leading-[1.6] text-muted-foreground">
-                    Approved claims are paid within 48 hours. Speed is respect.
+                    N$1,000 Instant Cash paid the same day a funeral claim is approved.
                   </p>
                 </TabsContent>
                 <TabsContent value="cover">
@@ -280,7 +280,7 @@ function ComponentsPage() {
                 <Accordion
                   items={[
                     { id: "waiting", title: "How does the waiting period work?", content: "Full details up front — no fine print, no surprises. The waiting period is stated on your policy schedule." },
-                    { id: "claim", title: "How do I claim?", content: "SMS your name to 74448 or walk into any of our 20 branches. We approve and pay within 48 hours." },
+                    { id: "claim", title: "How do I claim?", content: "SMS your name to 74448 or walk into any of our 20 branches. Approved funeral claims get N$1,000 Instant Cash the same day." },
                     { id: "lapse", title: "What if I miss a premium?", content: "You are covered by a grace period. We will call and remind you before anything lapses." },
                   ]}
                 />
@@ -315,7 +315,7 @@ function ComponentsPage() {
 
             <Spec id="tooltip" name="Tooltip" intro="Hover for detail.">
               <div className="flex gap-6">
-                <Tooltip content="Approved claims paid within 48 hours"><Button variant="outline">48-hour claims</Button></Tooltip>
+                <Tooltip content="Sign up without medical exams"><Button variant="outline">No medicals</Button></Tooltip>
                 <Tooltip content="Same-day N$1,000 on funeral claims"><Button variant="outline">Instant Cash</Button></Tooltip>
               </div>
             </Spec>
