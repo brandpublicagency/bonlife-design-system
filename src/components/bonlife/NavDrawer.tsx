@@ -1,6 +1,6 @@
 import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
-import { LogIn, LogOut, Menu, ShieldCheck, X } from "lucide-react";
+import { LogIn, LogOut, Menu, ShieldCheck } from "lucide-react";
 import {
   Sheet,
   SheetContent,
