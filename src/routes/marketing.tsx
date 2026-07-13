@@ -1,6 +1,6 @@
 import * as React from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Clock4, Banknote, MapPin } from "lucide-react";
+import { HeartPulse, Banknote, MapPin } from "lucide-react";
 import { SiteHeader, SiteFooter } from "@/components/bonlife/SiteChrome";
 import { Button } from "@/components/bonlife/Button";
 import { Card } from "@/components/bonlife/Card";
@@ -90,7 +90,7 @@ function MarketingPage() {
               For every Namibian family
             </div>
             <h1 className="mt-5 !text-[52px] !leading-[1.02] text-white sm:!text-[64px]">
-              Claims paid within 48 hours.
+              N$1,000 Instant Cash, same day.
             </h1>
             <p className="mt-6 max-w-[480px] text-[16px] leading-[1.65] text-white/75">
               A grieving family cannot wait weeks. Every Bonlife funeral plan
@@ -170,8 +170,8 @@ function MarketingPage() {
         </div>
         <div className="grid gap-5 md:grid-cols-3">
           {[
-            { Icon: Clock4, title: "48-hour claims", text: "Approved claims are paid within two days. Speed is respect." },
-            { Icon: Banknote, title: "N$1,000 Instant Cash", text: "Same-day cash on approved funeral claims." },
+            { Icon: Banknote, title: "N$1,000 Instant Cash", text: "Paid the same day a funeral claim is approved. Money in hand when it matters." },
+            { Icon: HeartPulse, title: "No medicals", text: "Sign up without medical exams. Cover starts fast, paperwork stays light." },
             { Icon: MapPin, title: "20 branches", text: "Real people across Namibia, plus WhatsApp and SMS." },
           ].map(({ Icon, title, text }) => (
             <Card key={title} variant="flat" className="p-7">

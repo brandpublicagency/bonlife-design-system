@@ -175,7 +175,7 @@ function FoundationsPage() {
       >
         <div className="overflow-hidden rounded-xl border border-hairline bg-surface">
           {[
-            { tag: "H1", size: "60 / -0.03em / 700", text: "Claims paid within 48 hours." },
+            { tag: "H1", size: "60 / -0.03em / 700", text: "N$1,000 Instant Cash, same day." },
             { tag: "H2", size: "48 / -0.02em / 700", text: "Two Pockets. One Plan." },
             { tag: "H3", size: "32 / -0.02em / 700", text: "Start early. Study further." },
             { tag: "H4", size: "25 / -0.02em / 600", text: "Speed is respect." },
