@@ -135,3 +135,69 @@ function KnowledgeBasePage() {
     </>
   );
 }
+
+function KbSectionCard({ section, index }: { section: KbSectionRow; index: number }) {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(section.body_markdown);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const handleDownload = () => {
+    const blob = new Blob([`# ${section.title}\n\n${section.body_markdown}`], {
+      type: "text/markdown;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${section.slug}.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  return (
+    <section id={section.slug} className="scroll-mt-24 pb-12 sm:pb-16">
+      <div className="rounded-2xl border border-hairline bg-surface p-6 sm:p-10">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div className="min-w-0">
+            <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
+              Section {index + 1}
+            </div>
+            <h2 className="mt-3 font-display !text-[32px] !leading-[1.1] font-semibold text-navy sm:!text-[36px]">
+              {section.title}
+            </h2>
+          </div>
+          <div className="flex shrink-0 items-center gap-2">
+            <button
+              type="button"
+              onClick={handleCopy}
+              className="inline-flex h-9 items-center gap-1.5 rounded-full border border-hairline px-3.5 text-[12.5px] font-semibold text-navy transition hover:bg-surface-tint"
+              aria-label="Copy section markdown"
+            >
+              {copied ? <Check size={13} /> : <Copy size={13} />}
+              {copied ? "Copied" : "Copy"}
+            </button>
+            <button
+              type="button"
+              onClick={handleDownload}
+              className="inline-flex h-9 items-center gap-1.5 rounded-full border border-hairline px-3.5 text-[12.5px] font-semibold text-navy transition hover:bg-surface-tint"
+              aria-label="Download section as markdown"
+            >
+              <Download size={13} /> Download
+            </button>
+          </div>
+        </div>
+        <hr className="my-8 border-hairline" />
+        <KbMarkdown>{section.body_markdown || "_This section is empty._"}</KbMarkdown>
+      </div>
+    </section>
+  );
+}
