@@ -293,6 +293,7 @@ function ComponentsPage() {
                 <Tooltip content="Same-day N$1,000 on funeral claims"><Button variant="outline">Instant Cash</Button></Tooltip>
               </div>
             </PageSection>
+          </div>
       </PageWithSidebar>
 
       <SiteFooter />
