@@ -1,61 +1,71 @@
 
 ## Goal
 
-Replace the current brand-pitch home page with a utility-first system index in the spirit of atlassian.design — the page a supplier or designer lands on and immediately knows what's inside, where to start, and where to download assets.
+Apply the iconography-style sticky sidebar to every content page that currently uses either header pills or an older sidebar/TOC, so navigation is consistent across the system.
 
-## What goes away
+## Pages in scope
 
-On `src/routes/index.tsx`:
-- The dark scrim hero with brand copy ("N$1,000 Instant Cash, same day.").
-- The "Numbers we design around" stats strip.
-- The "How this brand behaves" principles band (Trust first / No medical tests / Never hide the fine print / Jargon out).
-- The plan-color preview row.
+Replace/upgrade the section nav on:
 
-These are brand marketing, not system navigation. The same information already lives in `/marketing` (demo) and `/knowledge-base` (source of truth), so nothing is lost.
+- `/foundations` — currently header pills (`toc` on `PageHeader`)
+- `/components` — has an older left TOC (grouped, no active state, no mobile version)
+- `/downloads` — no side nav today; sections exist and warrant one
+- `/knowledge-base` — has a sticky TOC that predates the icon pattern
+- `/social` — no side nav today; sections exist and warrant one
 
-## New home page structure
+Out of scope:
 
-1. **Cover** — minimal, Atlassian-like:
-   - Small eyebrow: "Bonlife Design System · v0.1"
-   - H1: "The design system for everyone building Bonlife."
-   - One-line lead: who it's for (designers, suppliers, agencies, internal teams) and what's inside.
-   - Two primary actions: "Get started" (→ Foundations) and "Download assets" (→ Downloads).
+- `/iconography` — already the reference.
+- `/marketing` — a single demo homepage, no sectioned nav.
+- `/` (home) — no sections.
+- `/auth` and `/admin/*` — utility, no sections.
 
-2. **Get started strip** — three short cards for the three audiences:
-   - Designers → Foundations + Components
-   - Suppliers / print & signage → Downloads (logos, colors, fonts)
-   - Marketing / social → Social templates + Marketing kit
-   Each card is a direct link.
+## The pattern (shared component)
 
-3. **Browse the system** — the main body, an Atlassian-style bento/grid directory of every section, each tile with icon, title, one-line description, and a small "What's inside" list:
-   - Foundations — color, type, spacing, motion
-   - Components — buttons, cards, plan rows, forms
-   - Iconography — 1px Lucide set + category glyphs
-   - Social templates — posts, stories, carousels
-   - Marketing kit — demo homepage composition
-   - Downloads — logos, colors, fonts, photography, gradients
-   - Knowledge base — single source of truth for brand facts
+Extract the iconography pattern into `src/components/bonlife/PageSidebar.tsx` so every page consumes the same layout:
 
-4. **What's new** — short changelog list (3–5 entries) pulling from recent system updates (iconography redesign, downloads page, KB with admin, etc.). Static for now; easy to extend later.
+- **Mobile**: horizontal scrollable pill strip above the content, active pill navy-filled.
+- **Desktop (`md+`)**: 220px sticky column, top-24, with an uppercase "Sections" (or per-page label) header and vertical rounded rows. Each row shows an optional Lucide icon (1px stroke, size 16), the section label, and a right-aligned two-digit index. Active row: `border-hairline bg-surface-tint text-navy`; inactive: `text-navy/60 hover:bg-surface-tint hover:text-navy`.
+- **Active tracking**: IntersectionObserver with `rootMargin: "-120px 0px -60% 0px"` (same as iconography) picks the topmost visible section id.
+- **Grouped variant**: accepts either a flat `items` list or a `groups` list (label + items) so `/components` keeps its Core / Layout / Forms / Product / Navigation / Overlay grouping.
 
-5. **Footer** — keep the existing footer but tighten the colophon copy so it reads like a system credit line, not marketing.
+API sketch:
 
-## Visual language
+```
+type Item = { id: string; label: string; icon?: LucideIcon };
+type Props =
+  | { label?: string; items: Item[]; groups?: never }
+  | { label?: string; groups: { label: string; items: Item[] }[]; items?: never };
+```
 
-- Light surface, generous whitespace, Atlassian-style calm.
-- Navy for headings, coral only as a small accent (eyebrow, hover underlines, tile icons).
-- Tiles: soft border, subtle hover lift, no gradients, no photography on the home page.
-- Type: Onest for headings at restrained sizes (no oversized display), Inter for body.
-- No stats, no testimonials, no brand principles — that content belongs in `/knowledge-base` and `/marketing`.
+The component owns the observer, active state, and both mobile+desktop rendering. Pages just supply the section metadata and wrap their content in the same `grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-10` layout.
+
+Iconography itself keeps its inline implementation for now (no refactor needed for this request) — the shared component matches its markup so it's a drop-in.
+
+## Per-page changes
+
+### /foundations
+- Drop the `toc={TOC}` prop on `PageHeader` (removes the header pills).
+- Wrap the existing `Section` list in the sidebar layout. Reuse `TOC` for the sidebar items; the ids already exist on the sections.
+
+### /components
+- Delete the current `aside` markup.
+- Feed `GROUPS` straight into `PageSidebar` via its `groups` prop.
+
+### /downloads
+- Build the items array from the existing section ids: `design-system`, `logos`, `fonts`, `colours`, `icons`, `photography`, `gradients`.
+- Wrap the `<main>` content in the sidebar layout.
+
+### /knowledge-base
+- Replace the current TOC aside with `PageSidebar`. Sections are already generated from `kb_sections.slug`. Public read-only page — no behavioural change beyond the nav styling.
+
+### /social
+- Add ids for existing sections (`feed`, `carousel`, `story`, `portrait`, `link`, `usage`) to the sidebar items list and wrap in the layout.
 
 ## Files touched
 
-- `src/routes/index.tsx` — full rewrite to the structure above.
-- `src/components/bonlife/NavDrawer.tsx` — no change needed; drawer already lists all sections.
-- No changes to `/foundations`, `/components`, `/iconography`, `/social`, `/marketing`, `/downloads`, `/knowledge-base`, or any tokens.
-- Update `head()` title/description on `index.tsx` to "Bonlife Design System — for designers, suppliers and partners."
+- New: `src/components/bonlife/PageSidebar.tsx`
+- Edit: `src/routes/foundations.tsx`, `src/routes/components.tsx`, `src/routes/downloads.tsx`, `src/routes/knowledge-base.tsx`, `src/routes/social.tsx`
+- Edit: `src/components/bonlife/SiteChrome.tsx` — no functional change needed; `PageHeader`'s `toc` prop stays supported but goes unused on foundations.
 
-## Out of scope
-
-- No changes to brand voice content anywhere else.
-- No new backend, no new components library entries — this is a presentation change to one route.
+No token, backend, or content changes. This is a nav-presentation refactor.
