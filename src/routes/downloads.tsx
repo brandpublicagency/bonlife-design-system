@@ -426,8 +426,28 @@ function DownloadsPage() {
         </Section>
 
         <Section
+          id="fonts"
+          eyebrow="02 · Fonts"
+          title="Typefaces"
+          lead="Onest carries display type; Inter carries body copy. Both are free on Google Fonts."
+        >
+          <div className="grid gap-5 md:grid-cols-2">
+            <FontCard
+              name="Onest"
+              url={ONEST_URL}
+              use="Display headings and bold UI labels. Tight tracking, geometric, confident."
+            />
+            <FontCard
+              name="Inter"
+              url={INTER_URL}
+              use="Body copy, captions, and interface text. Clean, readable, extensive weights."
+            />
+          </div>
+        </Section>
+
+        <Section
           id="colours"
-          eyebrow="02 · Colours"
+          eyebrow="03 · Colours"
           title="Palette"
           lead="Click any swatch to copy its hex. Token names match the CSS variables in the design system."
         >
@@ -466,6 +486,33 @@ function DownloadsPage() {
                 { name: "Gray 600", hex: "#5B6472", token: "--gray-600", textOn: "light" },
               ]}
             />
+          </div>
+        </Section>
+
+        <Section id="icons" eyebrow="04 · Icons" title="Icon library">
+          <div className="overflow-hidden rounded-2xl border border-hairline bg-surface">
+            <div className="grid gap-8 p-8 md:grid-cols-[1.1fr_1fr] md:items-center">
+              <div>
+                <p className="max-w-lg text-[15px] leading-[1.65] text-muted-foreground">
+                  The full Bonlife icon set — curated Lucide glyphs, category icons, and custom SVGs — lives in the shared Drive folder. Download individual SVGs from the Iconography page, or grab the complete set from Drive.
+                </p>
+                <a
+                  href={ICON_DRIVE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-coral px-5 py-2.5 font-display text-[13px] font-semibold text-navy transition-colors hover:bg-coral/90"
+                >
+                  Open icon folder
+                  <span aria-hidden>↗</span>
+                </a>
+                <div className="mt-3 font-mono text-[11px] text-muted-foreground">
+                  Google Drive · shared folder
+                </div>
+              </div>
+              <div className="flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-hairline bg-navy">
+                <img src={markWhite} alt="Bonlife mark" className="max-h-24 max-w-[70%]" />
+              </div>
+            </div>
           </div>
         </Section>
 
