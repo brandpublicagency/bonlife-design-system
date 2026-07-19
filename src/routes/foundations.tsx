@@ -50,15 +50,46 @@ export const Route = createFileRoute("/foundations")({
 });
 
 const TOC = [
-  { id: "color", label: "Color" },
-  { id: "type", label: "Typography" },
-  { id: "spacing", label: "Spacing" },
-  { id: "radius", label: "Radius & shadow" },
-  { id: "motion", label: "Motion" },
-  { id: "logos", label: "Logos" },
-  { id: "gradients", label: "Gradients" },
-  { id: "photography", label: "Photography" },
+  { id: "color", label: "Color", icon: Palette },
+  { id: "type", label: "Typography", icon: TypeIcon },
+  { id: "spacing", label: "Spacing", icon: Ruler },
+  { id: "radius", label: "Radius & shadow", icon: Square },
+  { id: "motion", label: "Motion", icon: Zap },
+  { id: "logos", label: "Logos", icon: Star },
+  { id: "gradients", label: "Gradients", icon: Waves },
+  { id: "photography", label: "Photography", icon: ImageIcon },
 ];
+
+function Section({
+  id,
+  eyebrow,
+  title,
+  intro,
+  children,
+}: {
+  id?: string;
+  eyebrow: string;
+  title: string;
+  intro?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <section id={id} className="scroll-mt-24 border-t border-hairline py-14 first:border-t-0 first:pt-0 sm:py-16">
+      <div className="mb-8 max-w-3xl">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
+          {eyebrow}
+        </div>
+        <h2 className="mt-2 !text-[32px] !leading-[1.1] sm:!text-[36px]">{title}</h2>
+        {intro ? (
+          <p className="mt-3 text-[15px] leading-[1.65] text-muted-foreground">
+            {intro}
+          </p>
+        ) : null}
+      </div>
+      {children}
+    </section>
+  );
+}
 
 function Section({
   id,
