@@ -232,6 +232,34 @@ function SwatchGroup({
   );
 }
 
+function FontCard({
+  name,
+  url,
+  use,
+}: {
+  name: string;
+  url: string;
+  use: string;
+}) {
+  return (
+    <div className="flex flex-col overflow-hidden rounded-2xl border border-hairline bg-surface p-5">
+      <div>
+        <div className="font-display text-[18px] font-semibold text-navy">{name}</div>
+        <p className="mt-1 text-[13px] leading-[1.55] text-muted-foreground">{use}</p>
+      </div>
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-coral px-5 py-2.5 font-display text-[13px] font-semibold text-navy transition-colors hover:bg-coral/90"
+      >
+        Open on Google Fonts
+        <span aria-hidden>↗</span>
+      </a>
+    </div>
+  );
+}
+
 function DriveSection({
   id,
   eyebrow,
