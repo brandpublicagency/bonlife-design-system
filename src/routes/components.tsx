@@ -2,6 +2,7 @@ import * as React from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Phone, MessageCircle, MapPin } from "lucide-react";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
+import { PageSidebar } from "@/components/bonlife/PageSidebar";
 import { Badge } from "@/components/bonlife/Badge";
 import { Card } from "@/components/bonlife/Card";
 import { Button } from "@/components/bonlife/Button";
