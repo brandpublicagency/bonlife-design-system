@@ -8,12 +8,9 @@ import {
   Home,
   LogIn,
   LogOut,
-  Mail,
   Megaphone,
   Menu,
-  MessageCircle,
   Palette,
-  Phone,
   ShieldCheck,
   Share2,
   Sparkles,
@@ -190,29 +187,8 @@ export function NavDrawer() {
             ))}
           </nav>
 
-          {/* Footer / Contact + Auth */}
+          {/* Footer / Auth */}
           <div className="border-t border-hairline bg-white px-4 py-5">
-            <div className="mb-3 grid gap-1.5 rounded-xl bg-surface-tint px-3 py-3">
-              <a
-                href="tel:+264833371730"
-                className="flex items-center gap-2 text-[12.5px] text-navy hover:text-coral"
-              >
-                <Phone size={13} strokeWidth={1.5} className="text-coral" />
-                +264 83 337 1730
-              </a>
-              <a
-                href="mailto:info@bonlifenam.com"
-                className="flex items-center gap-2 text-[12.5px] text-navy hover:text-coral"
-              >
-                <Mail size={13} strokeWidth={1.5} className="text-coral" />
-                info@bonlifenam.com
-              </a>
-              <div className="flex items-center gap-2 text-[12.5px] text-navy/70">
-                <MessageCircle size={13} strokeWidth={1.5} className="text-coral" />
-                SMS <span className="font-mono text-navy">74448</span>
-              </div>
-            </div>
-
             {!session ? (
               <Link
                 to="/auth"
