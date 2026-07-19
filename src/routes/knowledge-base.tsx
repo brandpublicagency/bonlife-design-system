@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
-import { Check, Copy, Download, ShieldCheck } from "lucide-react";
+import { Check, Copy, Download, Link as LinkIcon, ShieldCheck } from "lucide-react";
 import { PageHeader, SiteFooter, SiteHeader } from "@/components/bonlife/SiteChrome";
 import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
 import { KbMarkdown, type KbSectionRow } from "@/components/bonlife/KbSection";
@@ -138,12 +138,25 @@ function KnowledgeBasePage() {
 
 function KbSectionCard({ section, index }: { section: KbSectionRow; index: number }) {
   const [copied, setCopied] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(section.body_markdown);
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(
+        `https://brand.bonlifenam.com/knowledge-base#${section.slug}`,
+      );
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 1500);
     } catch {
       /* ignore */
     }
@@ -176,8 +189,7 @@ function KbSectionCard({ section, index }: { section: KbSectionRow; index: numbe
         </div>
         <hr className="my-8 border-hairline" />
         <KbMarkdown>{section.body_markdown || "_This section is empty._"}</KbMarkdown>
-        <hr className="my-8 border-hairline" />
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="mt-8 flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={handleCopy}
@@ -194,6 +206,15 @@ function KbSectionCard({ section, index }: { section: KbSectionRow; index: numbe
             aria-label="Download section as markdown"
           >
             <Download size={13} /> Download
+          </button>
+          <button
+            type="button"
+            onClick={handleCopyLink}
+            className="inline-flex h-9 items-center gap-1.5 rounded-full border border-hairline px-3.5 text-[12.5px] font-semibold text-navy transition hover:bg-surface-tint"
+            aria-label="Copy section link"
+          >
+            {linkCopied ? <Check size={13} /> : <LinkIcon size={13} />}
+            {linkCopied ? "Copied" : "Copy link"}
           </button>
         </div>
       </div>
