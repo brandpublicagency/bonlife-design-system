@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
 import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
+import { PageSection } from "@/components/bonlife/PageSection";
 import {
   Palette,
   Type as TypeIcon,
@@ -60,36 +61,6 @@ const TOC = [
   { id: "photography", label: "Photography", icon: ImageIcon },
 ];
 
-function Section({
-  id,
-  eyebrow,
-  title,
-  intro,
-  children,
-}: {
-  id?: string;
-  eyebrow: string;
-  title: string;
-  intro?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section id={id} className="scroll-mt-24 py-12 first:pt-0 sm:py-16">
-      <div className="mb-8 max-w-3xl">
-        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
-          {eyebrow}
-        </div>
-        <h2 className="mt-2 !text-[32px] !leading-[1.1] sm:!text-[36px]">{title}</h2>
-        {intro ? (
-          <p className="mt-3 text-[15px] leading-[1.65] text-muted-foreground">
-            {intro}
-          </p>
-        ) : null}
-      </div>
-      {children}
-    </section>
-  );
-}
 
 
 function Swatch({
@@ -139,20 +110,20 @@ function FoundationsPage() {
       <PageWithSidebar sidebar={<PageSidebar label="Foundations" items={TOC} />}>
 
 
-      <Section
+      <PageSection
         id="color"
         eyebrow="Colour · Primary"
         title="Navy anchor, warm coral accent."
-        intro="Bonlife is not a pastel-insurance brand — it reads corporate-serious first, friendly second. Navy owns text and chrome; coral owns CTAs and highlights against it."
+        lead="Bonlife is not a pastel-insurance brand — it reads corporate-serious first, friendly second. Navy owns text and chrome; coral owns CTAs and highlights against it."
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
           <Swatch color="#0C1C3E" name="Navy 900" hex="#0C1C3E" token="--navy-900" />
           <Swatch color="#FF876A" name="Coral 500" hex="#FF876A" token="--coral-500" fg="navy" />
           <Swatch color="#01FBC0" name="Mint 400" hex="#01FBC0" token="--mint-400" fg="navy" />
         </div>
-      </Section>
+      </PageSection>
 
-      <Section
+      <PageSection
         eyebrow="Colour · Categories"
         title="Four plans, four colours."
         intro="Each product category owns a saturated identifier colour. Use it to tint plan cards and badges for its own category — never as a general UI colour."
@@ -163,9 +134,9 @@ function FoundationsPage() {
           <Swatch color="#0D2B90" name="Savings" hex="#0D2B90" token="--category-savings" />
           <Swatch color="#A80A4D" name="Accident" hex="#A80A4D" token="--category-accident" />
         </div>
-      </Section>
+      </PageSection>
 
-      <Section
+      <PageSection
         eyebrow="Colour · Surfaces & semantic"
         title="Two near-whites, two states."
         intro="Surface tint sits under navy text; muted fills cards and inputs. Semantic red and mint cover error and success only — never decorative."
@@ -177,9 +148,9 @@ function FoundationsPage() {
           <Swatch color="#FF5F5F" name="Error" hex="#FF5F5F" token="--state-error" />
           <Swatch color="#41FFB6" name="Success" hex="#41FFB6" token="--state-success" fg="navy" />
         </div>
-      </Section>
+      </PageSection>
 
-      <Section
+      <PageSection
         id="type"
         eyebrow="Typography"
         title="Onest for display, Inter for body."
@@ -251,9 +222,9 @@ function FoundationsPage() {
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-coral text-navy transition-transform group-hover:scale-105" aria-hidden>↗</span>
           </a>
         </div>
-      </Section>
+      </PageSection>
 
-      <Section id="spacing" eyebrow="Spacing" title="4px base, generous rhythm.">
+      <PageSection id="spacing" eyebrow="Spacing" title="4px base, generous rhythm.">
         <div className="rounded-xl border border-hairline bg-surface p-8">
           <div className="flex flex-wrap items-end gap-6">
             {[
@@ -278,9 +249,9 @@ function FoundationsPage() {
             ))}
           </div>
         </div>
-      </Section>
+      </PageSection>
 
-      <Section id="radius" eyebrow="Radius & shadow" title="Friendly, trust-first.">
+      <PageSection id="radius" eyebrow="Radius & shadow" title="Friendly, trust-first.">
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
           {[
             { name: "sm", size: "8px", cls: "rounded-sm" },
@@ -304,9 +275,9 @@ function FoundationsPage() {
             </div>
           ))}
         </div>
-      </Section>
+      </PageSection>
 
-      <Section id="motion" eyebrow="Motion" title="Calm, never showy.">
+      <PageSection id="motion" eyebrow="Motion" title="Calm, never showy.">
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
           {[
             { name: "instant", ms: "100ms", use: "presses" },
@@ -327,9 +298,9 @@ function FoundationsPage() {
             </div>
           ))}
         </div>
-      </Section>
+      </PageSection>
 
-      <Section id="logos" eyebrow="Logos" title="Wordmark and mark lockups.">
+      <PageSection id="logos" eyebrow="Logos" title="Wordmark and mark lockups.">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           <div className="flex h-32 items-center justify-center rounded-xl border border-hairline bg-surface p-6">
             <img src={wordmarkDark} alt="Wordmark dark" className="max-h-8" />
@@ -347,9 +318,9 @@ function FoundationsPage() {
             <img src={markMint} alt="Mark mint" className="max-h-14" />
           </div>
         </div>
-      </Section>
+      </PageSection>
 
-      <Section
+      <PageSection
         id="gradients"
         eyebrow="Gradients"
         title="Noise gradients for hero moments."
@@ -362,9 +333,9 @@ function FoundationsPage() {
             </div>
           ))}
         </div>
-      </Section>
+      </PageSection>
 
-      <Section
+      <PageSection
         id="photography"
         eyebrow="Photography"
         title="Warm, candid, Namibian."
@@ -377,7 +348,7 @@ function FoundationsPage() {
             </div>
           ))}
         </div>
-      </Section>
+      </PageSection>
       </PageWithSidebar>
 
       <SiteFooter />
