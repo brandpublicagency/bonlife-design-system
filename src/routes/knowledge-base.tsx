@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
-import { Check, Copy, Download, ShieldCheck } from "lucide-react";
+import { Check, Copy, Download, Link as LinkIcon, ShieldCheck } from "lucide-react";
 import { PageHeader, SiteFooter, SiteHeader } from "@/components/bonlife/SiteChrome";
 import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
 import { KbMarkdown, type KbSectionRow } from "@/components/bonlife/KbSection";
