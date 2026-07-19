@@ -97,7 +97,7 @@ function Spec({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-24 border-t border-hairline pt-14 first:border-t-0 first:pt-0">
+    <section id={id} className="scroll-mt-24 pt-4 first:pt-0">
       <div className="mb-5 flex items-baseline justify-between gap-4">
         <h3 className="!m-0 !text-[26px]">{name}</h3>
         {count ? (
