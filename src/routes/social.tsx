@@ -201,7 +201,7 @@ function SocialPage() {
             ))}
           </div>
         </Section>
-      </main>
+      </PageWithSidebar>
 
       <SiteFooter />
     </div>
