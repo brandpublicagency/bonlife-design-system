@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
+import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
+import { Square, Layers, Smartphone, Image as ImageIcon, Link as LinkIcon, BookOpen } from "lucide-react";
 import {
   TemplateInstantCash,
   TemplateLifeCover,
