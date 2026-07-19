@@ -15,6 +15,7 @@ import { Route as KnowledgeBaseRouteImport } from './routes/knowledge-base'
 import { Route as IconographyRouteImport } from './routes/iconography'
 import { Route as FoundationsRouteImport } from './routes/foundations'
 import { Route as DownloadsRouteImport } from './routes/downloads'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
@@ -51,6 +52,11 @@ const DownloadsRoute = DownloadsRouteImport.update({
   path: '/downloads',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ComponentsRoute = ComponentsRouteImport.update({
   id: '/components',
   path: '/components',
@@ -81,6 +87,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/components': typeof ComponentsRoute
+  '/contact': typeof ContactRoute
   '/downloads': typeof DownloadsRoute
   '/foundations': typeof FoundationsRoute
   '/iconography': typeof IconographyRoute
@@ -93,6 +100,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/components': typeof ComponentsRoute
+  '/contact': typeof ContactRoute
   '/downloads': typeof DownloadsRoute
   '/foundations': typeof FoundationsRoute
   '/iconography': typeof IconographyRoute
@@ -107,6 +115,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/components': typeof ComponentsRoute
+  '/contact': typeof ContactRoute
   '/downloads': typeof DownloadsRoute
   '/foundations': typeof FoundationsRoute
   '/iconography': typeof IconographyRoute
@@ -121,6 +130,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/components'
+    | '/contact'
     | '/downloads'
     | '/foundations'
     | '/iconography'
@@ -133,6 +143,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/components'
+    | '/contact'
     | '/downloads'
     | '/foundations'
     | '/iconography'
@@ -146,6 +157,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/components'
+    | '/contact'
     | '/downloads'
     | '/foundations'
     | '/iconography'
@@ -160,6 +172,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ComponentsRoute: typeof ComponentsRoute
+  ContactRoute: typeof ContactRoute
   DownloadsRoute: typeof DownloadsRoute
   FoundationsRoute: typeof FoundationsRoute
   IconographyRoute: typeof IconographyRoute
@@ -210,6 +223,13 @@ declare module '@tanstack/react-router' {
       path: '/downloads'
       fullPath: '/downloads'
       preLoaderRoute: typeof DownloadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/components': {
@@ -266,6 +286,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ComponentsRoute: ComponentsRoute,
+  ContactRoute: ContactRoute,
   DownloadsRoute: DownloadsRoute,
   FoundationsRoute: FoundationsRoute,
   IconographyRoute: IconographyRoute,
