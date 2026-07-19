@@ -553,7 +553,7 @@ function DownloadsPage() {
             { url: gradient4.url, alt: "Gradient 04" },
           ]}
         />
-      </main>
+      </PageWithSidebar>
       <SiteFooter />
     </>
   );
