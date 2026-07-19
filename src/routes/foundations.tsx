@@ -378,6 +378,7 @@ function FoundationsPage() {
           ))}
         </div>
       </Section>
+      </PageWithSidebar>
 
       <SiteFooter />
     </div>
