@@ -189,8 +189,7 @@ function KbSectionCard({ section, index }: { section: KbSectionRow; index: numbe
         </div>
         <hr className="my-8 border-hairline" />
         <KbMarkdown>{section.body_markdown || "_This section is empty._"}</KbMarkdown>
-        <hr className="my-8 border-hairline" />
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="mt-8 flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={handleCopy}
@@ -207,6 +206,15 @@ function KbSectionCard({ section, index }: { section: KbSectionRow; index: numbe
             aria-label="Download section as markdown"
           >
             <Download size={13} /> Download
+          </button>
+          <button
+            type="button"
+            onClick={handleCopyLink}
+            className="inline-flex h-9 items-center gap-1.5 rounded-full border border-hairline px-3.5 text-[12.5px] font-semibold text-navy transition hover:bg-surface-tint"
+            aria-label="Copy section link"
+          >
+            {linkCopied ? <Check size={13} /> : <LinkIcon size={13} />}
+            {linkCopied ? "Copied" : "Copy link"}
           </button>
         </div>
       </div>
