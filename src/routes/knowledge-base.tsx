@@ -3,6 +3,7 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { ShieldCheck } from "lucide-react";
 import { PageHeader, SiteFooter, SiteHeader } from "@/components/bonlife/SiteChrome";
+import { PageSidebar } from "@/components/bonlife/PageSidebar";
 import { KbMarkdown, type KbSectionRow } from "@/components/bonlife/KbSection";
 import { listKbSections } from "@/lib/kb.functions";
 import { getMyAdminStatus } from "@/lib/admin.functions";
