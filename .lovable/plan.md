@@ -1,28 +1,56 @@
-Add the provided font and icon download links to the relevant design-system pages.
+## Goals
 
-### Changes
+Fix the three concrete issues on `/iconography`:
+1. The Download banner sits flush against the page header and its left edge doesn't align with the rest of the page grid.
+2. In dark mode, body text inside the Download and Preview-surface bars is unreadable (dark text on dark surface).
+3. The wrapping TOC pills below the page header look messy.
 
-1. **Downloads page** (`src/routes/downloads.tsx`)
-   - Add a new **Fonts** section (after Logos, before Colours) with two external link cards/buttons:
-     - **Onest** → `https://fonts.google.com/specimen/Onest`
-     - **Inter** → `https://fonts.google.com/specimen/Inter`
-   - Add a new **Icons** section (after Colours, before Photography) with a Drive card linking to the provided folder: `https://drive.google.com/drive/folders/1W_OspNdCrFBoq3R7HFNPhk7XqzecMOsU?usp=sharing`
-   - Update the page TOC to include the new sections.
-   - Use the existing card/link pattern (rounded coral button, external icon ↗) for consistency.
+Replace the pills with a sticky sidebar and tighten the content column.
 
-2. **Foundations page** (`src/routes/foundations.tsx`)
-   - In the Typography section, add a small download card or inline CTA row pointing to the Onest and Inter Google Fonts links.
-   - Keep the existing type specimens and grid layout unchanged.
+## Layout
 
-3. **Iconography page** (`src/routes/iconography.tsx`)
-   - Add a **Download icon set** callout near the top of the page (above or alongside the surface toggle) linking to the same Google Drive folder.
-   - Use the existing rounded coral button style to match Downloads/Foundations.
+Two-column layout inside a single `max-w-[1200px]` container so left edges align:
 
-### URLs to use
-- Onest: `https://fonts.google.com/specimen/Onest`
-- Inter: `https://fonts.google.com/specimen/Inter`
-- Icons: `https://drive.google.com/drive/folders/1W_OspNdCrFBoq3R7HFNPhk7XqzecMOsU?usp=sharing`
+```text
++--------------------------------------------------------+
+| SiteHeader                                             |
++--------------------------------------------------------+
+| PageHeader (eyebrow, title, lead)  — no TOC pills      |
++--------------------------------------------------------+
+| [ Sidebar (sticky)      ] [ Content column           ] |
+| - Category nav           - Utility bar (download +    |
+|   (anchor links, active   preview toggle, unified)    |
+|   state via IntersectionObserver)                     |
+|                          - Group sections             |
++--------------------------------------------------------+
+| SiteFooter                                             |
+```
 
-### Scope
-- Pure frontend/presentation changes. No backend, auth, or DB work.
-- No new packages required.
+- Sidebar: ~240px, sticky at `top-24`, hidden below `md`. Lists all 8 groups with active-state highlight and a small category icon.
+- On mobile: sidebar collapses into a single horizontal scroll strip above the content (no wrapping).
+
+## Fixes to the header/download seam
+
+- Add a spacer (`pt-10`) between `PageHeader` and the utility bar so it no longer touches the header.
+- Merge the current "Download the full icon set" banner and the "Preview surface" toggle into a **single utility bar** at the top of the content column, aligned to the same grid as the group cards.
+- Utility bar always uses light surface tokens (`bg-surface`, `text-navy`, `text-muted-foreground`) regardless of the preview toggle — the toggle only affects the group cards below, not the chrome. This fixes the dark-mode unreadable text.
+
+## Group sections
+
+- Keep grouped structure but tighten:
+  - Remove the outer wrapping `<section>` extra vertical padding (`py-12 sm:py-14` → `py-8`).
+  - Reduce category-header icon chip from `h-14 w-14` to `h-11 w-11`.
+  - Title from 28/32px to 22/24px; single-line lead beside it.
+  - Grid remains 2/3/4 cols; unchanged tile component.
+- Add `id` anchors kept as-is so sidebar links continue to scroll-jump.
+
+## Files
+
+- `src/routes/iconography.tsx` — rewrite layout, drop TOC prop from `PageHeader`, add sidebar + unified utility bar, tighten `GroupHeader`.
+- `src/components/bonlife/SiteChrome.tsx` — only if `PageHeader` requires the `toc` prop; make it optional (no visual change to other pages).
+
+No changes to `ICON_GROUPS`, `IconTile`, or download logic.
+
+## Out of scope
+
+- Icon set contents, stroke rules, download behavior, other pages.
