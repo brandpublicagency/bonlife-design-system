@@ -134,8 +134,10 @@ function FoundationsPage() {
         eyebrow="Foundations"
         title="The tokens beneath every Bonlife surface."
         lead="Color, type, spacing, motion, logos and photography — all traced back to the brand book, no invented values."
-        toc={TOC}
       />
+
+      <PageWithSidebar sidebar={<PageSidebar label="Foundations" items={TOC} />}>
+
 
       <Section
         id="color"
