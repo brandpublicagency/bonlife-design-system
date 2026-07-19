@@ -138,12 +138,25 @@ function KnowledgeBasePage() {
 
 function KbSectionCard({ section, index }: { section: KbSectionRow; index: number }) {
   const [copied, setCopied] = useState(false);
+  const [linkCopied, setLinkCopied] = useState(false);
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(section.body_markdown);
       setCopied(true);
       setTimeout(() => setCopied(false), 1500);
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const handleCopyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(
+        `https://brand.bonlifenam.com/knowledge-base#${section.slug}`,
+      );
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 1500);
     } catch {
       /* ignore */
     }
