@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
 import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
+import { PageSection } from "@/components/bonlife/PageSection";
 import { Square, Layers, Smartphone, Image as ImageIcon, Link as LinkIcon, BookOpen } from "lucide-react";
 import {
   TemplateInstantCash,
@@ -38,34 +39,6 @@ export const Route = createFileRoute("/social")({
   component: SocialPage,
 });
 
-function Section({
-  id,
-  eyebrow,
-  title,
-  lead,
-  children,
-}: {
-  id: string;
-  eyebrow: string;
-  title: string;
-  lead?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section id={id} className="scroll-mt-24 py-12 first:pt-0 sm:py-16">
-      <div className="mb-10 max-w-2xl">
-        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
-          {eyebrow}
-        </div>
-        <h2 className="mt-2 !text-[32px] !leading-[1.1] sm:!text-[36px]">{title}</h2>
-        {lead ? (
-          <p className="mt-3 text-[15px] leading-[1.65] text-muted-foreground">{lead}</p>
-        ) : null}
-      </div>
-      {children}
-    </section>
-  );
-}
 
 function SocialPage() {
   return (
@@ -92,7 +65,7 @@ function SocialPage() {
           />
         }
       >
-        <Section
+        <PageSection
           id="feed"
 
           eyebrow="Feed · 1080 × 1080"
@@ -106,19 +79,19 @@ function SocialPage() {
             <TemplateFuneralCover />
             <TemplateTestimonial />
           </div>
-        </Section>
+        </PageSection>
 
-        <Section
+        <PageSection
           id="carousel"
           eyebrow="Carousel · multi-slide"
           title="Instagram & LinkedIn carousels"
           lead="Story-driven, swipe-through decks built on the same SocialFrame primitives. Each panel exports individually at native ratio."
         >
           <TemplateHowItWorksCarousel />
-        </Section>
+        </PageSection>
 
 
-        <Section
+        <PageSection
           id="story"
           eyebrow="Story · 1080 × 1920"
           title="Vertical for stories and reels"
@@ -128,9 +101,9 @@ function SocialPage() {
             <TemplateStatStory />
             <TemplateOneLifeStory />
           </div>
-        </Section>
+        </PageSection>
 
-        <Section
+        <PageSection
           id="portrait"
           eyebrow="Portrait · 1080 × 1350"
           title="Portrait for premium feed placement"
@@ -139,9 +112,9 @@ function SocialPage() {
           <div className="grid gap-8 md:grid-cols-2">
             <TemplatePaydayReminder />
           </div>
-        </Section>
+        </PageSection>
 
-        <Section
+        <PageSection
           id="link"
           eyebrow="Link preview · 1200 × 628"
           title="Landscape for links & WhatsApp cards"
@@ -150,9 +123,9 @@ function SocialPage() {
           <div className="grid gap-8">
             <TemplateBranchEvent />
           </div>
-        </Section>
+        </PageSection>
 
-        <Section
+        <PageSection
           id="usage"
           eyebrow="Rules of the road"
           title="How to use the templates"
@@ -200,7 +173,7 @@ function SocialPage() {
               </div>
             ))}
           </div>
-        </Section>
+        </PageSection>
       </PageWithSidebar>
 
       <SiteFooter />
