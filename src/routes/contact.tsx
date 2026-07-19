@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
 import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
+import { PageSection } from "@/components/bonlife/PageSection";
 import { Input } from "@/components/bonlife/Input";
 import { Button } from "@/components/bonlife/Button";
 
@@ -83,34 +84,6 @@ const PARTNERS: { name: string; note: string }[] = [
   { name: "Model", note: "Retail payment network" },
 ];
 
-function Section({
-  id,
-  eyebrow,
-  title,
-  intro,
-  children,
-}: {
-  id: string;
-  eyebrow: string;
-  title: string;
-  intro?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section id={id} className="scroll-mt-24 py-12 first:pt-0 sm:py-16">
-      <div className="mb-8 max-w-2xl">
-        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
-          {eyebrow}
-        </div>
-        <h2 className="mt-2 !text-[32px] !leading-[1.1] sm:!text-[36px]">{title}</h2>
-        {intro ? (
-          <p className="mt-3 text-[15px] leading-[1.65] text-muted-foreground">{intro}</p>
-        ) : null}
-      </div>
-      {children}
-    </section>
-  );
-}
 
 function ContactPage() {
   const [name, setName] = useState("");
@@ -134,11 +107,11 @@ function ContactPage() {
       />
 
       <PageWithSidebar sidebar={<PageSidebar label="Contact" items={TOC} />}>
-        <Section
+        <PageSection
           id="direct"
           eyebrow="01 · Direct"
           title="Get in touch."
-          intro="Send a message and it lands with the design-system owner. For policies or claims, use the contact methods below."
+          lead="Send a message and it lands with the design-system owner. For policies or claims, use the contact methods below."
         >
           <div className="grid gap-6 md:grid-cols-[1fr_1.1fr]">
             <div className="rounded-2xl border border-hairline bg-surface p-6">
@@ -222,13 +195,13 @@ function ContactPage() {
               </div>
             </form>
           </div>
-        </Section>
+        </PageSection>
 
-        <Section
+        <PageSection
           id="head-office"
           eyebrow="02 · Head office"
           title="Bonlife Assurance Namibia."
-          intro="Head office is in Windhoek. Walk in during business hours or call ahead."
+          lead="Head office is in Windhoek. Walk in during business hours or call ahead."
         >
           <div className="grid gap-4 md:grid-cols-3">
             <InfoCard icon={MapPin} title="Address">
@@ -247,13 +220,13 @@ function ContactPage() {
               </a>
             </InfoCard>
           </div>
-        </Section>
+        </PageSection>
 
-        <Section
+        <PageSection
           id="channels"
           eyebrow="03 · Direct methods"
           title="Fastest ways to reach Bonlife."
-          intro="Customer Support Centre is open six days a week. WhatsApp is the quickest for a call-back."
+          lead="Customer Support Centre is open six days a week. WhatsApp is the quickest for a call-back."
         >
           <div className="grid gap-4 md:grid-cols-3">
             <ChannelCard
@@ -300,13 +273,13 @@ function ContactPage() {
               <SocialLink href="https://linkedin.com/company/bonlife" label="LinkedIn" icon={Linkedin} />
             </div>
           </div>
-        </Section>
+        </PageSection>
 
-        <Section
+        <PageSection
           id="branches"
           eyebrow="04 · Branches"
           title="Twenty branches, one Namibia."
-          intro="Every branch takes cash payments and can answer plan questions."
+          lead="Every branch takes cash payments and can answer plan questions."
         >
           <div className="overflow-hidden rounded-2xl border border-hairline bg-surface">
             <div className="grid divide-y divide-hairline">
@@ -331,13 +304,13 @@ function ContactPage() {
               ))}
             </div>
           </div>
-        </Section>
+        </PageSection>
 
-        <Section
+        <PageSection
           id="partners"
           eyebrow="05 · Payment partners"
           title="Every way to pay a policy."
-          intro="Bonlife premiums can be paid across all major Namibian channels."
+          lead="Bonlife premiums can be paid across all major Namibian channels."
         >
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {PARTNERS.map((p) => (
@@ -355,7 +328,7 @@ function ContactPage() {
               </div>
             ))}
           </div>
-        </Section>
+        </PageSection>
       </PageWithSidebar>
 
       <SiteFooter />
