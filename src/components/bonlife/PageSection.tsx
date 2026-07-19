@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 
 export type PageSectionProps = {
-  id: string;
+  id?: string;
   eyebrow?: string;
   title?: string;
   lead?: React.ReactNode;
