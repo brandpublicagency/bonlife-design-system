@@ -3,6 +3,7 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { ShieldCheck } from "lucide-react";
 import { PageHeader, SiteFooter, SiteHeader } from "@/components/bonlife/SiteChrome";
+import { PageSidebar } from "@/components/bonlife/PageSidebar";
 import { KbMarkdown, type KbSectionRow } from "@/components/bonlife/KbSection";
 import { listKbSections } from "@/lib/kb.functions";
 import { getMyAdminStatus } from "@/lib/admin.functions";
@@ -118,29 +119,12 @@ function KnowledgeBasePage() {
       />
 
       <main className="mx-auto max-w-[1200px] px-6 py-12 sm:px-8">
-        <div className="lg:grid lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-12">
-          {/* Sticky TOC */}
-          <aside className="mb-8 lg:mb-0">
-            <div className="lg:sticky lg:top-24">
-              <div className="mb-3 text-[10px] font-semibold uppercase tracking-[0.14em] text-navy/50">
-                Contents
-              </div>
-              <nav>
-                <ul className="grid gap-1 border-l border-hairline">
-                  {sections.map((s) => (
-                    <li key={s.id}>
-                      <a
-                        href={`#${s.slug}`}
-                        className="-ml-px block border-l-2 border-transparent py-1.5 pl-4 text-[13px] leading-[1.4] text-navy/70 transition hover:border-coral hover:text-navy"
-                      >
-                        {s.title}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-          </aside>
+        <div className="grid gap-8 md:grid-cols-[220px_minmax(0,1fr)] md:gap-10">
+          <PageSidebar
+            label="Contents"
+            items={sections.map((s) => ({ id: s.slug, label: s.title }))}
+          />
+
 
           {/* Content */}
           <div className="grid gap-6">

@@ -1,5 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
+import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
+import {
+  Palette,
+  Type as TypeIcon,
+  Ruler,
+  Square,
+  Zap,
+  Star,
+  Waves,
+  ImageIcon,
+} from "lucide-react";
 import markNavy from "@/assets/bonlife/logos/bonlife-mark-navy.svg";
 import markCoral from "@/assets/bonlife/logos/bonlife-mark-coral.svg";
 import markMint from "@/assets/bonlife/logos/bonlife-mark-mint.svg";
@@ -39,14 +50,14 @@ export const Route = createFileRoute("/foundations")({
 });
 
 const TOC = [
-  { id: "color", label: "Color" },
-  { id: "type", label: "Typography" },
-  { id: "spacing", label: "Spacing" },
-  { id: "radius", label: "Radius & shadow" },
-  { id: "motion", label: "Motion" },
-  { id: "logos", label: "Logos" },
-  { id: "gradients", label: "Gradients" },
-  { id: "photography", label: "Photography" },
+  { id: "color", label: "Color", icon: Palette },
+  { id: "type", label: "Typography", icon: TypeIcon },
+  { id: "spacing", label: "Spacing", icon: Ruler },
+  { id: "radius", label: "Radius & shadow", icon: Square },
+  { id: "motion", label: "Motion", icon: Zap },
+  { id: "logos", label: "Logos", icon: Star },
+  { id: "gradients", label: "Gradients", icon: Waves },
+  { id: "photography", label: "Photography", icon: ImageIcon },
 ];
 
 function Section({
@@ -63,24 +74,23 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-24 border-t border-hairline py-16 first:border-t-0 sm:py-20">
-      <div className="mx-auto max-w-[1200px] px-6 sm:px-8">
-        <div className="mb-8 max-w-3xl">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
-            {eyebrow}
-          </div>
-          <h2 className="mt-2 !text-[36px] !leading-[1.1]">{title}</h2>
-          {intro ? (
-            <p className="mt-3 text-[15px] leading-[1.65] text-muted-foreground">
-              {intro}
-            </p>
-          ) : null}
+    <section id={id} className="scroll-mt-24 border-t border-hairline py-14 first:border-t-0 first:pt-0 sm:py-16">
+      <div className="mb-8 max-w-3xl">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
+          {eyebrow}
         </div>
-        {children}
+        <h2 className="mt-2 !text-[32px] !leading-[1.1] sm:!text-[36px]">{title}</h2>
+        {intro ? (
+          <p className="mt-3 text-[15px] leading-[1.65] text-muted-foreground">
+            {intro}
+          </p>
+        ) : null}
       </div>
+      {children}
     </section>
   );
 }
+
 
 function Swatch({
   color,
@@ -124,8 +134,10 @@ function FoundationsPage() {
         eyebrow="Foundations"
         title="The tokens beneath every Bonlife surface."
         lead="Color, type, spacing, motion, logos and photography — all traced back to the brand book, no invented values."
-        toc={TOC}
       />
+
+      <PageWithSidebar sidebar={<PageSidebar label="Foundations" items={TOC} />}>
+
 
       <Section
         id="color"
@@ -366,6 +378,7 @@ function FoundationsPage() {
           ))}
         </div>
       </Section>
+      </PageWithSidebar>
 
       <SiteFooter />
     </div>

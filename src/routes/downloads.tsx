@@ -1,6 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
+import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
+import {
+  LayoutTemplate,
+  Star,
+  Type as TypeIcon,
+  Palette,
+  Sparkles,
+  ImageIcon,
+  Waves,
+} from "lucide-react";
 
 import wordmarkLight from "@/assets/bonlife/logos/bonlife-wordmark-light.svg";
 import wordmarkDark from "@/assets/bonlife/logos/bonlife-wordmark-dark.svg";
@@ -391,13 +401,13 @@ function DownloadsPage() {
   ];
 
   const toc = [
-    { id: "design-system", label: "Design system" },
-    { id: "logos", label: "Logos" },
-    { id: "fonts", label: "Fonts" },
-    { id: "colours", label: "Colours" },
-    { id: "icons", label: "Icons" },
-    { id: "photography", label: "Photography" },
-    { id: "gradients", label: "Gradients" },
+    { id: "design-system", label: "Design system", icon: LayoutTemplate },
+    { id: "logos", label: "Logos", icon: Star },
+    { id: "fonts", label: "Fonts", icon: TypeIcon },
+    { id: "colours", label: "Colours", icon: Palette },
+    { id: "icons", label: "Icons", icon: Sparkles },
+    { id: "photography", label: "Photography", icon: ImageIcon },
+    { id: "gradients", label: "Gradients", icon: Waves },
   ];
 
   return (
@@ -407,10 +417,10 @@ function DownloadsPage() {
         eyebrow="Downloads"
         title="Brand assets, ready to grab."
         lead="Logos, fonts, and icons download inline or from Google Fonts / Drive. Click a colour to copy its hex. Photography and gradients live in the shared Google Drive."
-        toc={toc}
       />
-      <main className="mx-auto max-w-[1200px] px-6 sm:px-8">
+      <PageWithSidebar sidebar={<PageSidebar label="Downloads" items={toc} />}>
         <XDLinkSection />
+
 
         <Section
           id="logos"
@@ -543,7 +553,7 @@ function DownloadsPage() {
             { url: gradient4.url, alt: "Gradient 04" },
           ]}
         />
-      </main>
+      </PageWithSidebar>
       <SiteFooter />
     </>
   );

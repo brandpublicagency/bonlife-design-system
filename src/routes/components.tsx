@@ -2,6 +2,7 @@ import * as React from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Phone, MessageCircle, MapPin } from "lucide-react";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
+import { PageSidebar } from "@/components/bonlife/PageSidebar";
 import { Badge } from "@/components/bonlife/Badge";
 import { Card } from "@/components/bonlife/Card";
 import { Button } from "@/components/bonlife/Button";
@@ -136,29 +137,9 @@ function ComponentsPage() {
       <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-8">
         <div className="grid gap-10 md:grid-cols-[220px_minmax(0,1fr)]">
           {/* Sidebar TOC */}
-          <aside className="md:sticky md:top-24 md:self-start">
-            <nav className="space-y-5">
-              {GROUPS.map((g) => (
-                <div key={g.label}>
-                  <div className="mb-2 text-[10.5px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-                    {g.label}
-                  </div>
-                  <ul className="space-y-0.5">
-                    {g.items.map((it) => (
-                      <li key={it.id}>
-                        <a
-                          href={`#${it.id}`}
-                          className="block rounded-md px-2.5 py-1.5 font-display text-[13px] font-semibold text-navy/70 transition-colors hover:bg-surface-muted hover:text-navy"
-                        >
-                          {it.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </nav>
-          </aside>
+          <PageSidebar groups={GROUPS} />
+
+
 
           <div className="min-w-0 space-y-14">
             <Spec id="button" name="Button" count="4 variants · 3 sizes" intro="Primary navy, secondary coral, ghost, outline.">

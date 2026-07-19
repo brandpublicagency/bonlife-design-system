@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
+import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
+import { Square, Layers, Smartphone, Image as ImageIcon, Link as LinkIcon, BookOpen } from "lucide-react";
 import {
   TemplateInstantCash,
   TemplateLifeCover,
@@ -73,20 +75,26 @@ function SocialPage() {
         eyebrow="Templates · v0.1"
         title="Social post templates"
         lead="Nine on-brand layouts built from Bonlife tokens. Drop copy in, export at native resolution, ship. Every template honours the Instant Cash promise, the 74448 SMS line, and the four category colours."
-        toc={[
-          { id: "feed", label: "Feed · 1:1" },
-          { id: "carousel", label: "Carousel · multi-slide" },
-          { id: "story", label: "Story · 9:16" },
-          { id: "portrait", label: "Portrait · 4:5" },
-          { id: "link", label: "Link · 1.91:1" },
-          { id: "usage", label: "Usage rules" },
-        ]}
       />
 
-
-      <main className="mx-auto max-w-[1200px] px-6 sm:px-8">
+      <PageWithSidebar
+        sidebar={
+          <PageSidebar
+            label="Templates"
+            items={[
+              { id: "feed", label: "Feed · 1:1", icon: Square },
+              { id: "carousel", label: "Carousel", icon: Layers },
+              { id: "story", label: "Story · 9:16", icon: Smartphone },
+              { id: "portrait", label: "Portrait · 4:5", icon: ImageIcon },
+              { id: "link", label: "Link · 1.91:1", icon: LinkIcon },
+              { id: "usage", label: "Usage rules", icon: BookOpen },
+            ]}
+          />
+        }
+      >
         <Section
           id="feed"
+
           eyebrow="Feed · 1080 × 1080"
           title="Square templates for Instagram & Facebook"
           lead="Everyday feed posts. Lead with a single idea and let type do the work."
@@ -193,7 +201,7 @@ function SocialPage() {
             ))}
           </div>
         </Section>
-      </main>
+      </PageWithSidebar>
 
       <SiteFooter />
     </div>
