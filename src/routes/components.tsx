@@ -133,14 +133,8 @@ function ComponentsPage() {
         lead="Every component is built from the Bonlife tokens — navy chrome, coral CTAs, Onest headings, Inter body. Nothing hard-coded, nothing decorative."
       />
 
-      <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-8">
-        <div className="grid gap-10 md:grid-cols-[220px_minmax(0,1fr)]">
-          {/* Sidebar TOC */}
-          <PageSidebar groups={GROUPS} />
-
-
-
-          <div className="min-w-0 space-y-14">
+      <PageWithSidebar className="py-16" sidebar={<PageSidebar groups={GROUPS} />}>
+        <div className="min-w-0 space-y-14">
             <PageSection id="button" title="Button" headerAction={<span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">4 variants · 3 sizes</span>} lead="Primary navy, secondary coral, ghost, outline.">
               <div className="flex flex-wrap items-center gap-3">
                 <Button>Primary</Button>
