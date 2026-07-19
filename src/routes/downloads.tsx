@@ -21,8 +21,12 @@ import gradient4 from "@/assets/bonlife/gradients/gradient-04.png.asset.json";
 
 const DRIVE_URL =
   "https://drive.google.com/drive/folders/1-BYSNul3hlWG1B3lqOxtEZlwSy2L5_nI?usp=sharing";
+const ICON_DRIVE_URL =
+  "https://drive.google.com/drive/folders/1W_OspNdCrFBoq3R7HFNPhk7XqzecMOsU?usp=sharing";
 const XD_URL =
   "https://xd.adobe.com/view/47817079-994c-4681-9f8b-78fea6abfd3a-12d2/grid";
+const ONEST_URL = "https://fonts.google.com/specimen/Onest";
+const INTER_URL = "https://fonts.google.com/specimen/Inter";
 
 export const Route = createFileRoute("/downloads")({
   head: () => ({
@@ -228,6 +232,34 @@ function SwatchGroup({
   );
 }
 
+function FontCard({
+  name,
+  url,
+  use,
+}: {
+  name: string;
+  url: string;
+  use: string;
+}) {
+  return (
+    <div className="flex flex-col overflow-hidden rounded-2xl border border-hairline bg-surface p-5">
+      <div>
+        <div className="font-display text-[18px] font-semibold text-navy">{name}</div>
+        <p className="mt-1 text-[13px] leading-[1.55] text-muted-foreground">{use}</p>
+      </div>
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-coral px-5 py-2.5 font-display text-[13px] font-semibold text-navy transition-colors hover:bg-coral/90"
+      >
+        Open on Google Fonts
+        <span aria-hidden>↗</span>
+      </a>
+    </div>
+  );
+}
+
 function DriveSection({
   id,
   eyebrow,
@@ -361,7 +393,9 @@ function DownloadsPage() {
   const toc = [
     { id: "design-system", label: "Design system" },
     { id: "logos", label: "Logos" },
+    { id: "fonts", label: "Fonts" },
     { id: "colours", label: "Colours" },
+    { id: "icons", label: "Icons" },
     { id: "photography", label: "Photography" },
     { id: "gradients", label: "Gradients" },
   ];
@@ -372,7 +406,7 @@ function DownloadsPage() {
       <PageHeader
         eyebrow="Downloads"
         title="Brand assets, ready to grab."
-        lead="Logos download inline. Click a colour to copy its hex. Photography and gradients live in the shared Google Drive."
+        lead="Logos, fonts, and icons download inline or from Google Fonts / Drive. Click a colour to copy its hex. Photography and gradients live in the shared Google Drive."
         toc={toc}
       />
       <main className="mx-auto max-w-[1200px] px-6 sm:px-8">
@@ -392,8 +426,28 @@ function DownloadsPage() {
         </Section>
 
         <Section
+          id="fonts"
+          eyebrow="02 · Fonts"
+          title="Typefaces"
+          lead="Onest carries display type; Inter carries body copy. Both are free on Google Fonts."
+        >
+          <div className="grid gap-5 md:grid-cols-2">
+            <FontCard
+              name="Onest"
+              url={ONEST_URL}
+              use="Display headings and bold UI labels. Tight tracking, geometric, confident."
+            />
+            <FontCard
+              name="Inter"
+              url={INTER_URL}
+              use="Body copy, captions, and interface text. Clean, readable, extensive weights."
+            />
+          </div>
+        </Section>
+
+        <Section
           id="colours"
-          eyebrow="02 · Colours"
+          eyebrow="03 · Colours"
           title="Palette"
           lead="Click any swatch to copy its hex. Token names match the CSS variables in the design system."
         >
@@ -435,9 +489,36 @@ function DownloadsPage() {
           </div>
         </Section>
 
+        <Section id="icons" eyebrow="04 · Icons" title="Icon library">
+          <div className="overflow-hidden rounded-2xl border border-hairline bg-surface">
+            <div className="grid gap-8 p-8 md:grid-cols-[1.1fr_1fr] md:items-center">
+              <div>
+                <p className="max-w-lg text-[15px] leading-[1.65] text-muted-foreground">
+                  The full Bonlife icon set — curated Lucide glyphs, category icons, and custom SVGs — lives in the shared Drive folder. Download individual SVGs from the Iconography page, or grab the complete set from Drive.
+                </p>
+                <a
+                  href={ICON_DRIVE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-coral px-5 py-2.5 font-display text-[13px] font-semibold text-navy transition-colors hover:bg-coral/90"
+                >
+                  Open icon folder
+                  <span aria-hidden>↗</span>
+                </a>
+                <div className="mt-3 font-mono text-[11px] text-muted-foreground">
+                  Google Drive · shared folder
+                </div>
+              </div>
+              <div className="flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-hairline bg-navy">
+                <img src={markWhite} alt="Bonlife mark" className="max-h-24 max-w-[70%]" />
+              </div>
+            </div>
+          </div>
+        </Section>
+
         <DriveSection
           id="photography"
-          eyebrow="03 · Photography"
+          eyebrow="05 · Photography"
           title="Campaign photography"
           lead="High-resolution photography lives in the shared Drive because files are licensed per campaign and too large to ship with the design system. Open the folder to browse the full set."
           buttonLabel="Open photography folder"
@@ -451,7 +532,7 @@ function DownloadsPage() {
 
         <DriveSection
           id="gradients"
-          eyebrow="04 · Gradients"
+          eyebrow="06 · Gradients"
           title="Gradient backgrounds"
           lead="Gradients ship as layered PSDs and hi-res JPGs alongside the photography — grab them from the same Drive folder."
           buttonLabel="Open gradients folder"

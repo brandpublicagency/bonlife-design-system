@@ -101,6 +101,22 @@ function IconographyPage() {
       />
 
       <main className="mx-auto max-w-[1200px] px-6 sm:px-8">
+        <div className="flex flex-col gap-5 rounded-2xl border border-hairline bg-surface p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="text-[13px] leading-[1.6] text-muted-foreground">
+            <span className="font-display font-semibold text-navy">Download the full icon set.</span>{" "}
+            All SVGs, source files, and future icon additions live in the shared Google Drive.
+          </div>
+          <a
+            href="https://drive.google.com/drive/folders/1W_OspNdCrFBoq3R7HFNPhk7XqzecMOsU?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-coral px-5 py-2.5 font-display text-[13px] font-semibold text-navy transition-colors hover:bg-coral/90"
+          >
+            Open icon folder
+            <span aria-hidden>↗</span>
+          </a>
+        </div>
+
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-hairline py-5">
           <div className="text-[13px] leading-[1.6] text-muted-foreground">
             <span className="font-display font-semibold text-navy">Preview surface.</span>{" "}
