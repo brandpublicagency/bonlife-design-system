@@ -518,7 +518,7 @@ function DownloadsPage() {
 
         <DriveSection
           id="photography"
-          eyebrow="03 · Photography"
+          eyebrow="05 · Photography"
           title="Campaign photography"
           lead="High-resolution photography lives in the shared Drive because files are licensed per campaign and too large to ship with the design system. Open the folder to browse the full set."
           buttonLabel="Open photography folder"
@@ -532,7 +532,7 @@ function DownloadsPage() {
 
         <DriveSection
           id="gradients"
-          eyebrow="04 · Gradients"
+          eyebrow="06 · Gradients"
           title="Gradient backgrounds"
           lead="Gradients ship as layered PSDs and hi-res JPGs alongside the photography — grab them from the same Drive folder."
           buttonLabel="Open gradients folder"
