@@ -126,7 +126,7 @@ function FoundationsPage() {
       <PageSection
         eyebrow="Colour · Categories"
         title="Four plans, four colours."
-        intro="Each product category owns a saturated identifier colour. Use it to tint plan cards and badges for its own category — never as a general UI colour."
+        lead="Each product category owns a saturated identifier colour. Use it to tint plan cards and badges for its own category — never as a general UI colour."
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
           <Swatch color="#04413F" name="Funeral" hex="#04413F" token="--category-funeral" />
@@ -139,7 +139,7 @@ function FoundationsPage() {
       <PageSection
         eyebrow="Colour · Surfaces & semantic"
         title="Two near-whites, two states."
-        intro="Surface tint sits under navy text; muted fills cards and inputs. Semantic red and mint cover error and success only — never decorative."
+        lead="Surface tint sits under navy text; muted fills cards and inputs. Semantic red and mint cover error and success only — never decorative."
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           <Swatch color="#FFFFFF" name="Surface" hex="#FFFFFF" token="--surface-white" fg="navy" />
@@ -154,7 +154,7 @@ function FoundationsPage() {
         id="type"
         eyebrow="Typography"
         title="Onest for display, Inter for body."
-        intro="Bold Onest with tight negative tracking on headings loosens to 0 by H5. Inter carries everything long-form. No serif, no script, no display faces."
+        lead="Bold Onest with tight negative tracking on headings loosens to 0 by H5. Inter carries everything long-form. No serif, no script, no display faces."
       >
         <div className="overflow-hidden rounded-xl border border-hairline bg-surface">
           {[
@@ -324,7 +324,7 @@ function FoundationsPage() {
         id="gradients"
         eyebrow="Gradients"
         title="Noise gradients for hero moments."
-        intro="Grain-textured blends of brand and category colors. A tool for hero and marketing surfaces, never the default state of a card, and never behind body text without a scrim."
+        lead="Grain-textured blends of brand and category colors. A tool for hero and marketing surfaces, never the default state of a card, and never behind body text without a scrim."
       >
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[g1, g2, g3, g4].map((g, i) => (
@@ -339,7 +339,7 @@ function FoundationsPage() {
         id="photography"
         eyebrow="Photography"
         title="Warm, candid, Namibian."
-        intro="Real portraiture — multi-generational, hugging, laughing, often looking at camera. Full-bleed or generously cropped. Never behind heavy dark overlays."
+        lead="Real portraiture — multi-generational, hugging, laughing, often looking at camera. Full-bleed or generously cropped. Never behind heavy dark overlays."
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
           {[p1, p2, p3, p4, p5, p6].map((p, i) => (
