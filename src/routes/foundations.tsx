@@ -50,7 +50,7 @@ export const Route = createFileRoute("/foundations")({
 });
 
 const TOC = [
-  { id: "color", label: "Color", icon: Palette },
+  { id: "color", label: "Colour", icon: Palette },
   { id: "type", label: "Typography", icon: TypeIcon },
   { id: "spacing", label: "Spacing", icon: Ruler },
   { id: "radius", label: "Radius & shadow", icon: Square },
@@ -74,7 +74,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-24 border-t border-hairline py-14 first:border-t-0 first:pt-0 sm:py-16">
+    <section id={id} className="scroll-mt-24 py-12 first:pt-0 sm:py-16">
       <div className="mb-8 max-w-3xl">
         <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
           {eyebrow}
@@ -141,7 +141,7 @@ function FoundationsPage() {
 
       <Section
         id="color"
-        eyebrow="Color · Primary"
+        eyebrow="Colour · Primary"
         title="Navy anchor, warm coral accent."
         intro="Bonlife is not a pastel-insurance brand — it reads corporate-serious first, friendly second. Navy owns text and chrome; coral owns CTAs and highlights against it."
       >
@@ -153,9 +153,9 @@ function FoundationsPage() {
       </Section>
 
       <Section
-        eyebrow="Color · Categories"
-        title="Four plans, four colors."
-        intro="Each product category owns a saturated identifier color. Use it to tint plan cards and badges for its own category — never as a general UI color."
+        eyebrow="Colour · Categories"
+        title="Four plans, four colours."
+        intro="Each product category owns a saturated identifier colour. Use it to tint plan cards and badges for its own category — never as a general UI colour."
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
           <Swatch color="#04413F" name="Funeral" hex="#04413F" token="--category-funeral" />
@@ -166,7 +166,7 @@ function FoundationsPage() {
       </Section>
 
       <Section
-        eyebrow="Color · Surfaces & semantic"
+        eyebrow="Colour · Surfaces & semantic"
         title="Two near-whites, two states."
         intro="Surface tint sits under navy text; muted fills cards and inputs. Semantic red and mint cover error and success only — never decorative."
       >

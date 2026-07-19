@@ -55,10 +55,10 @@ function HomePage() {
       <SiteHeader />
 
       {/* Cover */}
-      <section className="border-b border-hairline">
+      <section>
         <div className="mx-auto max-w-[1200px] px-6 pb-16 pt-20 sm:px-8 md:pb-20 md:pt-28">
           <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-coral">
-            Bonlife Design System · v0.1
+            Bonlife Design System · v2.4
           </div>
           <h1 className="mt-5 max-w-[900px] !text-[44px] !leading-[1.05] tracking-[-0.025em] text-navy sm:!text-[56px]">
             The design system for everyone building Bonlife.
@@ -87,7 +87,7 @@ function HomePage() {
       </section>
 
       {/* Get started — by audience */}
-      <section className="border-b border-hairline bg-surface">
+      <section className="bg-surface">
         <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-8">
           <div className="mb-8">
             <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
@@ -196,7 +196,7 @@ function HomePage() {
       </section>
 
       {/* What's new */}
-      <section className="border-t border-hairline bg-surface">
+      <section className="bg-surface">
         <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-8">
           <div className="grid gap-10 md:grid-cols-[280px_1fr]">
             <div>

@@ -250,7 +250,7 @@ function IconographyPage() {
               </section>
             ))}
 
-            <section className="border-t border-hairline py-12">
+            <section className="py-12">
               <div className="grid gap-6 rounded-2xl border border-hairline bg-surface p-6 md:grid-cols-[1.4fr_1fr] md:items-center md:p-8">
                 <div>
                   <div className="font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">

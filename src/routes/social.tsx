@@ -52,7 +52,7 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section id={id} className="scroll-mt-24 border-t border-hairline py-16 sm:py-20">
+    <section id={id} className="scroll-mt-24 py-12 first:pt-0 sm:py-16">
       <div className="mb-10 max-w-2xl">
         <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
           {eyebrow}
@@ -72,7 +72,7 @@ function SocialPage() {
     <div className="min-h-screen bg-background">
       <SiteHeader />
       <PageHeader
-        eyebrow="Templates · v0.1"
+        eyebrow="Templates · v2.4"
         title="Social post templates"
         lead="Nine on-brand layouts built from Bonlife tokens. Drop copy in, export at native resolution, ship. Every template honours the Instant Cash promise, the 74448 SMS line, and the four category colours."
       />

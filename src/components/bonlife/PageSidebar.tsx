@@ -74,10 +74,13 @@ export function PageSidebar({ label = "Sections", items, groups }: Props) {
       <aside className="hidden md:block">
         <div className="sticky top-24">
           {groups ? (
-            <div className="flex flex-col gap-5">
+            <div className="flex flex-col gap-6">
+              <div className="px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
+                {label}
+              </div>
               {groups.map((g) => (
                 <div key={g.label}>
-                  <div className="mb-2 px-3 font-display text-[10.5px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                  <div className="mb-2 px-3 font-display text-[10.5px] font-semibold uppercase tracking-[0.14em] text-navy/50">
                     {g.label}
                   </div>
                   <ItemList items={g.items} activeId={activeId} />
@@ -86,7 +89,7 @@ export function PageSidebar({ label = "Sections", items, groups }: Props) {
             </div>
           ) : (
             <>
-              <div className="mb-3 px-3 font-display text-[10.5px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+              <div className="mb-4 px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
                 {label}
               </div>
               <ItemList items={items ?? []} activeId={activeId} numbered />
@@ -156,9 +159,9 @@ export function PageWithSidebar({
 }) {
   return (
     <main className={cn("mx-auto max-w-[1200px] px-6 py-12 sm:px-8", className)}>
-      <div className="grid gap-8 md:grid-cols-[220px_minmax(0,1fr)] md:gap-10">
+      <div className="grid gap-8 md:grid-cols-[220px_minmax(0,1fr)] md:gap-16">
         {sidebar}
-        <div className="min-w-0">{children}</div>
+        <div className="min-w-0 md:pl-2">{children}</div>
       </div>
     </main>
   );

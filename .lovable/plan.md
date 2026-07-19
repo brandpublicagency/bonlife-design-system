@@ -1,71 +1,102 @@
+## 1. Remove section dividers (all pages)
 
-## Goal
+- `PageSidebar.tsx`, `foundations.tsx`, `components.tsx`, `downloads.tsx`, `iconography.tsx`, `knowledge-base.tsx`, `social.tsx`: drop `border-t border-hairline` on `Section` wrappers and any inter-section hairlines. Keep card borders — remove only the horizontal dividers between sections/boxes the user pointed to.
+- Increase vertical rhythm between sections (`py-16` → `py-20`) so the removed dividers don't collapse spacing.
 
-Apply the iconography-style sticky sidebar to every content page that currently uses either header pills or an older sidebar/TOC, so navigation is consistent across the system.
+## 2. Sidebar / content alignment
 
-## Pages in scope
+Goal: when a sidebar item is clicked, the sidebar label ("Foundations") and the section eyebrow ("COLOR · PRIMARY") sit on the same baseline as the content top.
 
-Replace/upgrade the section nav on:
+- `PageWithSidebar`: change grid to `md:grid-cols-[220px_minmax(0,1fr)]` with `md:gap-16` (more left padding on the body block).
+- `PageSidebar`: the desktop sidebar heading currently uses a smaller uppercase style. Match it to the section eyebrow — same font, size (`text-[11px]`), tracking (`0.14em`), color `text-coral`, and place at the same `sticky top-24` offset used by `scroll-mt-24` sections so top-of-viewport aligns.
+- Add `pt-0` to the content column and remove any leading `mb-6` on mobile pill strip that pushes the first eyebrow down on desktop.
 
-- `/foundations` — currently header pills (`toc` on `PageHeader`)
-- `/components` — has an older left TOC (grouped, no active state, no mobile version)
-- `/downloads` — no side nav today; sections exist and warrant one
-- `/knowledge-base` — has a sticky TOC that predates the icon pattern
-- `/social` — no side nav today; sections exist and warrant one
+## 3. COLOR → COLOUR
 
-Out of scope:
+Replace across guideline copy only (eyebrows, headings, body). Keep CSS tokens (`--color-*`, `text-color`, etc.) unchanged.
 
-- `/iconography` — already the reference.
-- `/marketing` — a single demo homepage, no sectioned nav.
-- `/` (home) — no sections.
-- `/auth` and `/admin/*` — utility, no sections.
+Files: `foundations.tsx` (3 eyebrows), `downloads.tsx` (Colours section), `components.tsx`, `index.tsx`, `iconography.tsx`, `knowledge-base.tsx` seeded copy in DB is left alone (single source of truth stays as-is unless user asks).
 
-## The pattern (shared component)
+## 4. Footer improvement
 
-Extract the iconography pattern into `src/components/bonlife/PageSidebar.tsx` so every page consumes the same layout:
+Rewrite `SiteFooter` in `SiteChrome.tsx`:
 
-- **Mobile**: horizontal scrollable pill strip above the content, active pill navy-filled.
-- **Desktop (`md+`)**: 220px sticky column, top-24, with an uppercase "Sections" (or per-page label) header and vertical rounded rows. Each row shows an optional Lucide icon (1px stroke, size 16), the section label, and a right-aligned two-digit index. Active row: `border-hairline bg-surface-tint text-navy`; inactive: `text-navy/60 hover:bg-surface-tint hover:text-navy`.
-- **Active tracking**: IntersectionObserver with `rootMargin: "-120px 0px -60% 0px"` (same as iconography) picks the topmost visible section id.
-- **Grouped variant**: accepts either a flat `items` list or a `groups` list (label + items) so `/components` keeps its Core / Layout / Forms / Product / Navigation / Overlay grouping.
+- Four-column layout: brand + short tagline / System links / Resources (Downloads, Iconography, Knowledge Base) / Contact (SMS 74448, +264 83 337 1730, [info@bonlifenam.com](mailto:info@bonlifenam.com)).
+- Add small social row (WhatsApp, Facebook, Instagram, LinkedIn) using Lucide icons.
+- Bottom bar: © 2026 Bonlife Assurance Namibia · Version 2.4 · link to /contact.
+- Warmer spacing (`py-16`), subtle top hairline only, coral eyebrows kept.
 
-API sketch:
+## 5. Drawer navigation redesign
 
-```
-type Item = { id: string; label: string; icon?: LucideIcon };
-type Props =
-  | { label?: string; items: Item[]; groups?: never }
-  | { label?: string; groups: { label: string; items: Item[] }[]; items?: never };
-```
+Rework `NavDrawer.tsx` to feel native to the system:
 
-The component owns the observer, active state, and both mobile+desktop rendering. Pages just supply the section metadata and wrap their content in the same `grid md:grid-cols-[220px_minmax(0,1fr)] md:gap-10` layout.
+- Replace the plain nav list with a **two-section layout**: eyebrow "Navigate" then grouped items — *System* (Overview, Foundations, Iconography, Components), *Kits* (Social, Marketing, Downloads), *Content* (Knowledge Base, Contact).
+- Each item: Lucide icon + label + short helper caption (e.g. "Colour, type, motion"), matching the sidebar tile style used on `/`.
+- Active state uses `bg-surface-tint` + coral left border (not solid navy fill), matching PageSidebar.
+- Drawer header shows the wordmark + "Design System · v2.4" pill (same as SiteHeader).
+- Footer of drawer: SMS 74448 + auth block, restyled.
 
-Iconography itself keeps its inline implementation for now (no refactor needed for this request) — the shared component matches its markup so it's a drop-in.
+## 6. Version bump
 
-## Per-page changes
+`SiteHeader` pill: "Design System · v0.1" → "Design System · v2.4". Same string in the drawer header and footer.
 
-### /foundations
-- Drop the `toc={TOC}` prop on `PageHeader` (removes the header pills).
-- Wrap the existing `Section` list in the sidebar layout. Reuse `TOC` for the sidebar items; the ids already exist on the sections.
+## 7. New `/contact` page
 
-### /components
-- Delete the current `aside` markup.
-- Feed `GROUPS` straight into `PageSidebar` via its `groups` prop.
+New file `src/routes/contact.tsx` using `PageWithSidebar` + `PageSidebar` (matching pattern), sections:
 
-### /downloads
-- Build the items array from the existing section ids: `design-system`, `logos`, `fonts`, `colours`, `icons`, `photography`, `gradients`.
-- Wrap the `<main>` content in the sidebar layout.
+1. **Get in touch** — direct details block (name, role, email, phone) + a contact form (name, email, message) using existing `Input` / `Button` bonlife components. Form is presentational (submits to a `mailto:` for now; no backend added unless requested).
+2. **Head office** — address card for Bonlife Assurance Namibia, Windhoek, map placeholder, opening hours.
+3. **Direct contact methods** — three cards: WhatsApp / SMS / Call, all pointing to +264 83 337 1730, plus email `info@bonlifenam.com`, plus social links row.
+4. **Branches** — grid of 20 Namibian branches (placeholder list with name + town + phone; content can be filled from KB later).
+5. **Policy payment partners** — logos/list grid (NamPost, Standard Bank, FNB, Bank Windhoek, Checkers, Shoprite as placeholders — user can correct).
 
-### /knowledge-base
-- Replace the current TOC aside with `PageSidebar`. Sections are already generated from `kb_sections.slug`. Public read-only page — no behavioural change beyond the nav styling.
+Register in `NavDrawer` under Content, and link from the new footer.
 
-### /social
-- Add ids for existing sections (`feed`, `carousel`, `story`, `portrait`, `link`, `usage`) to the sidebar items list and wrap in the layout.
+## Technical notes
 
-## Files touched
+- No backend changes. Contact form is client-only (mailto) — a real submission endpoint can be added later.
+- `routeTree.gen.ts` regenerates automatically when `src/routes/contact.tsx` is added.
+- Sidebar alignment fix relies on matching the eyebrow's typographic block exactly; verified in Playwright screenshot after the change.
 
-- New: `src/components/bonlife/PageSidebar.tsx`
-- Edit: `src/routes/foundations.tsx`, `src/routes/components.tsx`, `src/routes/downloads.tsx`, `src/routes/knowledge-base.tsx`, `src/routes/social.tsx`
-- Edit: `src/components/bonlife/SiteChrome.tsx` — no functional change needed; `PageHeader`'s `toc` prop stays supported but goes unused on foundations.
+## Open question
 
-No token, backend, or content changes. This is a nav-presentation refactor.
+For section 5 (Payment partners) and section 4 (Branches list), do you want me to use placeholder data now and you'll send the real list, or should I pull what's in the Knowledge Base?
+
+## Bonlife Branches (20)
+
+
+| Branch                 | Telephone          | Address                                          |
+| ---------------------- | ------------------ | ------------------------------------------------ |
+| Windhoek (Head Office) | +264 61 250 339    | 73 John Meinert Street, Windhoek                 |
+| Katutura               | +264 61 250 551    | 6 Kalie Roodt Street, Windhoek                   |
+| Goreangab Mall         | +264 83 337 1730   | Dam Beach Street, Katutura, Windhoek             |
+| Eenhana                | +264 83 337 1737   | Erf 258, Unit 6, Eenhana                         |
+| Gobabis                | +264 83 377 7107   | Church Street, Shop 6, Gobabis                   |
+| Karibib                | +264 83 377 7128   | Erf 345, Unit 3, Main Road, Karibib              |
+| Keetmanshoop           | +264 83 377 7103   | Erf 835, Hampi Plichta Avenue, Keetmanshoop      |
+| Khorixas               | +264 67 332 244    | Erf 4255 Ext.1, Shop 2, Khorixas                 |
+| Lüderitz               | +264 83 377 7101   | Erf 280, Bismarck Street, Lüderitz               |
+| Mariental              | +264 83 377 7105   | Erf 1117, Dr. Sam Nujoma Ave, Shop 11, Mariental |
+| Omuthiya               | +264 83 377 7100   | Erf 450, Shop 3, Omuthiya                        |
+| Ondangwa               | +264 83 377 7113   | Main Road, Erf 5780, Shop 7, Ondangwa            |
+| Oshakati               | +264 83 377 7115   | Mandume Ndemufayo Rd, Unit 28, Oshakati          |
+| Otjiwarongo            | +264 83 377 7109   | Hage Geingob Street, Otjiwarongo                 |
+| Outapi                 | +264 83 377 7119   | Tsandi Road R/B 123, Shop No. 2, Outapi          |
+| Rehoboth               | +264 83 337 1738/9 | Erf 1240, Church Street, Office 1, Rehoboth      |
+| Rundu                  | +264 83 334 1901   | Markus Siwarongo Str, Shop 4, Rundu              |
+| Swakopmund             | +264 83 337 1736   | Erf 3289, Grootfontein Street, Swakopmund        |
+| Tsumeb                 | +264 83 377 7124   | Erf 1304, Shop 3, Tsumeb                         |
+| Walvis Bay             | +264 83 377 7121   | CNR Sam Nujoma Ave and 12th Rd, Walvis Bay       |
+
+
+## Payment partners: 
+
+- Cash at any Bonlife branch
+- Debit Order
+- EFT
+- NAMPOST
+- Woermann & Brock
+- Shoprite / Checkers / USave
+- Mobipay
+- Paytoday
+- Model
