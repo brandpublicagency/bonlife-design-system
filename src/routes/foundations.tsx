@@ -91,38 +91,6 @@ function Section({
   );
 }
 
-function Section({
-  id,
-  eyebrow,
-  title,
-  intro,
-  children,
-}: {
-  id?: string;
-  eyebrow: string;
-  title: string;
-  intro?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section id={id} className="scroll-mt-24 border-t border-hairline py-16 first:border-t-0 sm:py-20">
-      <div className="mx-auto max-w-[1200px] px-6 sm:px-8">
-        <div className="mb-8 max-w-3xl">
-          <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
-            {eyebrow}
-          </div>
-          <h2 className="mt-2 !text-[36px] !leading-[1.1]">{title}</h2>
-          {intro ? (
-            <p className="mt-3 text-[15px] leading-[1.65] text-muted-foreground">
-              {intro}
-            </p>
-          ) : null}
-        </div>
-        {children}
-      </div>
-    </section>
-  );
-}
 
 function Swatch({
   color,
