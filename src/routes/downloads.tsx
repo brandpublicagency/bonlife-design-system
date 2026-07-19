@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
 import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
+import { PageSection } from "@/components/bonlife/PageSection";
 import {
   LayoutTemplate,
   Star,
@@ -81,34 +82,6 @@ async function copyText(text: string) {
   }
 }
 
-function Section({
-  id,
-  eyebrow,
-  title,
-  lead,
-  children,
-}: {
-  id: string;
-  eyebrow: string;
-  title: string;
-  lead?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <section id={id} className="scroll-mt-24 py-12 first:pt-0 sm:py-16">
-      <div className="mb-10 max-w-2xl">
-        <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
-          {eyebrow}
-        </div>
-        <h2 className="mt-2 !text-[32px] !leading-[1.1] sm:!text-[36px]">{title}</h2>
-        {lead ? (
-          <p className="mt-3 text-[15px] leading-[1.65] text-muted-foreground">{lead}</p>
-        ) : null}
-      </div>
-      {children}
-    </section>
-  );
-}
 
 type LogoBg = "navy" | "light" | "coral" | "mint";
 
@@ -286,7 +259,7 @@ function DriveSection({
   thumbs: { url: string; alt: string }[];
 }) {
   return (
-    <Section id={id} eyebrow={eyebrow} title={title}>
+    <PageSection id={id} eyebrow={eyebrow} title={title}>
       <div className="overflow-hidden rounded-2xl border border-hairline bg-surface">
         <div className="grid gap-8 p-8 md:grid-cols-[1.1fr_1fr] md:items-center">
           <div>
@@ -313,13 +286,13 @@ function DriveSection({
           </div>
         </div>
       </div>
-    </Section>
+    </PageSection>
   );
 }
 
 function XDLinkSection() {
   return (
-    <Section id="design-system" eyebrow="Design system" title="Adobe XD source">
+    <PageSection id="design-system" eyebrow="Design system" title="Adobe XD source">
       <div className="overflow-hidden rounded-2xl border border-hairline bg-surface">
         <div className="grid gap-8 p-8 md:grid-cols-[1.1fr_1fr] md:items-center">
           <div>
@@ -344,7 +317,7 @@ function XDLinkSection() {
           </div>
         </div>
       </div>
-    </Section>
+    </PageSection>
   );
 }
 
@@ -422,7 +395,7 @@ function DownloadsPage() {
         <XDLinkSection />
 
 
-        <Section
+        <PageSection
           id="logos"
           eyebrow="01 · Logos"
           title="Wordmarks and marks"
@@ -433,9 +406,9 @@ function DownloadsPage() {
               <LogoCard key={l.filename} {...l} />
             ))}
           </div>
-        </Section>
+        </PageSection>
 
-        <Section
+        <PageSection
           id="fonts"
           eyebrow="02 · Fonts"
           title="Typefaces"
@@ -453,9 +426,9 @@ function DownloadsPage() {
               use="Body copy, captions, and interface text. Clean, readable, extensive weights."
             />
           </div>
-        </Section>
+        </PageSection>
 
-        <Section
+        <PageSection
           id="colours"
           eyebrow="03 · Colours"
           title="Palette"
@@ -497,9 +470,9 @@ function DownloadsPage() {
               ]}
             />
           </div>
-        </Section>
+        </PageSection>
 
-        <Section id="icons" eyebrow="04 · Icons" title="Icon library">
+        <PageSection id="icons" eyebrow="04 · Icons" title="Icon library">
           <div className="overflow-hidden rounded-2xl border border-hairline bg-surface">
             <div className="grid gap-8 p-8 md:grid-cols-[1.1fr_1fr] md:items-center">
               <div>
@@ -524,7 +497,7 @@ function DownloadsPage() {
               </div>
             </div>
           </div>
-        </Section>
+        </PageSection>
 
         <DriveSection
           id="photography"

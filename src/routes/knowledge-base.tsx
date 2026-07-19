@@ -3,7 +3,8 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
 import { ShieldCheck } from "lucide-react";
 import { PageHeader, SiteFooter, SiteHeader } from "@/components/bonlife/SiteChrome";
-import { PageSidebar } from "@/components/bonlife/PageSidebar";
+import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
+import { PageSection } from "@/components/bonlife/PageSection";
 import { KbMarkdown, type KbSectionRow } from "@/components/bonlife/KbSection";
 import { listKbSections } from "@/lib/kb.functions";
 import { getMyAdminStatus } from "@/lib/admin.functions";
@@ -118,36 +119,28 @@ function KnowledgeBasePage() {
         meta={meta}
       />
 
-      <main className="mx-auto max-w-[1200px] px-6 py-12 sm:px-8">
-        <div className="grid gap-8 md:grid-cols-[220px_minmax(0,1fr)] md:gap-10">
+      <PageWithSidebar
+        sidebar={
           <PageSidebar
             label="Contents"
             items={sections.map((s) => ({ id: s.slug, label: s.title }))}
           />
-
-
-          {/* Content */}
-          <div className="grid gap-6">
-            {sections.map((s) => (
-              <article
-                key={s.id}
-                id={s.slug}
-                className="scroll-mt-24 rounded-2xl border border-hairline bg-surface p-6 sm:p-8"
-              >
-                <header className="mb-4 border-b border-hairline pb-4">
-                  <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
-                    #{s.slug}
-                  </div>
-                  <h2 className="mt-1 font-display text-[26px] font-semibold text-navy sm:text-[30px]">
-                    {s.title}
-                  </h2>
-                </header>
-                <KbMarkdown>{s.body_markdown || "_This section is empty._"}</KbMarkdown>
-              </article>
-            ))}
-          </div>
-        </div>
-      </main>
+        }
+      >
+        {sections.map((s) => (
+          <PageSection
+            key={s.id}
+            id={s.slug}
+            eyebrow={`#${s.slug}`}
+            title={s.title}
+            bodyClassName="pt-4"
+          >
+            <div className="rounded-2xl border border-hairline bg-surface p-6 sm:p-8">
+              <KbMarkdown>{s.body_markdown || "_This section is empty._"}</KbMarkdown>
+            </div>
+          </PageSection>
+        ))}
+      </PageWithSidebar>
       <SiteFooter />
     </>
   );
