@@ -127,18 +127,8 @@ function KnowledgeBasePage() {
           />
         }
       >
-        {sections.map((s) => (
-          <PageSection
-            key={s.id}
-            id={s.slug}
-            eyebrow={`#${s.slug}`}
-            title={s.title}
-            bodyClassName="pt-4"
-          >
-            <div className="rounded-2xl border border-hairline bg-surface p-6 sm:p-8">
-              <KbMarkdown>{s.body_markdown || "_This section is empty._"}</KbMarkdown>
-            </div>
-          </PageSection>
+        {sections.map((s, i) => (
+          <KbSectionCard key={s.id} section={s} index={i} />
         ))}
       </PageWithSidebar>
       <SiteFooter />
