@@ -1,6 +1,16 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
+import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
+import {
+  LayoutTemplate,
+  Star,
+  Type as TypeIcon,
+  Palette,
+  Sparkles,
+  ImageIcon,
+  Waves,
+} from "lucide-react";
 
 import wordmarkLight from "@/assets/bonlife/logos/bonlife-wordmark-light.svg";
 import wordmarkDark from "@/assets/bonlife/logos/bonlife-wordmark-dark.svg";
