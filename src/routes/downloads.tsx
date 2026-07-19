@@ -393,7 +393,9 @@ function DownloadsPage() {
   const toc = [
     { id: "design-system", label: "Design system" },
     { id: "logos", label: "Logos" },
+    { id: "fonts", label: "Fonts" },
     { id: "colours", label: "Colours" },
+    { id: "icons", label: "Icons" },
     { id: "photography", label: "Photography" },
     { id: "gradients", label: "Gradients" },
   ];
@@ -404,7 +406,7 @@ function DownloadsPage() {
       <PageHeader
         eyebrow="Downloads"
         title="Brand assets, ready to grab."
-        lead="Logos download inline. Click a colour to copy its hex. Photography and gradients live in the shared Google Drive."
+        lead="Logos, fonts, and icons download inline or from Google Fonts / Drive. Click a colour to copy its hex. Photography and gradients live in the shared Google Drive."
         toc={toc}
       />
       <main className="mx-auto max-w-[1200px] px-6 sm:px-8">
