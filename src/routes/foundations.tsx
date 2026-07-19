@@ -213,6 +213,32 @@ function FoundationsPage() {
             </div>
           </div>
         </div>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          <a
+            href="https://fonts.google.com/specimen/Onest"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center justify-between rounded-xl border border-hairline bg-surface p-5 transition-colors hover:border-coral/40"
+          >
+            <div>
+              <div className="font-display text-[16px] font-semibold text-navy">Onest</div>
+              <div className="mt-0.5 text-[12.5px] text-muted-foreground">Download on Google Fonts</div>
+            </div>
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-coral text-navy transition-transform group-hover:scale-105" aria-hidden>↗</span>
+          </a>
+          <a
+            href="https://fonts.google.com/specimen/Inter"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex items-center justify-between rounded-xl border border-hairline bg-surface p-5 transition-colors hover:border-coral/40"
+          >
+            <div>
+              <div className="font-display text-[16px] font-semibold text-navy">Inter</div>
+              <div className="mt-0.5 text-[12.5px] text-muted-foreground">Download on Google Fonts</div>
+            </div>
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-coral text-navy transition-transform group-hover:scale-105" aria-hidden>↗</span>
+          </a>
+        </div>
       </Section>
 
       <Section id="spacing" eyebrow="Spacing" title="4px base, generous rhythm.">
