@@ -258,7 +258,7 @@ function AudienceCard({
 }) {
   return (
     <div className="flex h-full flex-col rounded-xl border border-hairline bg-white p-6">
-      <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-coral/10 text-coral-hover">
+      <div className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-coral bg-white text-coral">
         <Icon size={18} strokeWidth={1.5} />
       </div>
       <div className="mt-4 font-display text-[11px] font-semibold uppercase tracking-[0.14em] text-navy/60">
