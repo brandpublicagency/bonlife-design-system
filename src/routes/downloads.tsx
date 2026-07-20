@@ -377,8 +377,8 @@ function DownloadsPage() {
             description="Open the XD source to inspect spacing, typography, components, and every asset in the system. Suppliers and designers should use this as the master reference."
             meta="Adobe XD · developer view"
             preview={
-              <div className="flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-hairline bg-navy">
-                <img src={markWhite} alt="Bonlife mark" className="max-h-24 max-w-[70%]" />
+              <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-hairline bg-navy p-6">
+                <img src={wordmarkLight} alt="Bonlife wordmark" className="max-h-16 max-w-[80%]" />
               </div>
             }
             actions={[
