@@ -111,7 +111,7 @@ export function NavDrawer() {
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-[340px] border-l border-hairline bg-surface p-0 sm:w-[400px]"
+        className="w-[340px] border-l border-hairline bg-surface p-0 sm:w-[400px] [&>button:first-of-type]:hidden"
       >
         <SheetTitle className="sr-only">Navigation</SheetTitle>
         <SheetDescription className="sr-only">
@@ -124,9 +124,20 @@ export function NavDrawer() {
             <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-2.5">
               <img src={wordmarkDark} alt="Bonlife" className="h-[22px]" />
             </Link>
-            <span className="rounded-full border border-hairline px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-              Design System · {SYSTEM_VERSION}
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="rounded-full border border-hairline px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                Design System · {SYSTEM_VERSION}
+              </span>
+              <SheetClose asChild>
+                <button
+                  type="button"
+                  aria-label="Close navigation"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-navy/70 transition hover:bg-surface-tint hover:text-navy"
+                >
+                  <X size={18} strokeWidth={1.5} />
+                </button>
+              </SheetClose>
+            </div>
           </div>
 
           {/* Groups */}
