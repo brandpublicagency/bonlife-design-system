@@ -119,29 +119,55 @@ function ContactPage() {
                 Owner
               </div>
               <div className="mt-2 font-display text-[20px] font-semibold text-navy">
-                Bonlife brand team
+                Bonlife Brand team
               </div>
               <p className="mt-1 text-[13.5px] text-muted-foreground">
                 Design system enquiries, brand approvals, asset requests.
               </p>
-              <ul className="mt-5 space-y-3 text-[13.5px]">
-                <li className="flex items-center gap-2.5 text-navy">
-                  <Mail size={14} strokeWidth={1.5} className="text-coral" />
-                  <a href="mailto:info@bonlifenam.com" className="hover:text-coral">
-                    info@bonlifenam.com
-                  </a>
-                </li>
-                <li className="flex items-center gap-2.5 text-navy">
-                  <Phone size={14} strokeWidth={1.5} className="text-coral" />
-                  <a href="tel:+264833371730" className="hover:text-coral">
-                    +264 83 337 1730
-                  </a>
-                </li>
-                <li className="flex items-center gap-2.5 text-navy">
-                  <MapPin size={14} strokeWidth={1.5} className="text-coral" />
-                  Windhoek, Namibia
-                </li>
-              </ul>
+              <div className="mt-5 space-y-5">
+                <div>
+                  <div className="font-display text-[15px] font-semibold text-navy">
+                    LeRoux Germishuizen
+                  </div>
+                  <div className="text-[11px] text-muted-foreground">
+                    Chief Marketing & Advertising Officer
+                  </div>
+                  <ul className="mt-2 space-y-1.5 text-[13.5px]">
+                    <li className="flex items-center gap-2.5 text-navy">
+                      <Mail size={14} strokeWidth={1.5} className="text-coral" />
+                      <a href="mailto:leroux.g@bonlifenam.com" className="hover:text-coral">
+                        leroux.g@bonlifenam.com
+                      </a>
+                    </li>
+                    <li className="flex items-center gap-2.5 text-navy">
+                      <Phone size={14} strokeWidth={1.5} className="text-coral" />
+                      <a href="tel:+264814152857" className="hover:text-coral">
+                        +264 81 415 2857
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <div className="font-display text-[15px] font-semibold text-navy">
+                    Marius Lwaanda
+                  </div>
+                  <div className="text-[11px] text-muted-foreground">Marketing Operations</div>
+                  <ul className="mt-2 space-y-1.5 text-[13.5px]">
+                    <li className="flex items-center gap-2.5 text-navy">
+                      <Mail size={14} strokeWidth={1.5} className="text-coral" />
+                      <a href="mailto:marius.l@bonlifenam.com" className="hover:text-coral">
+                        marius.l@bonlifenam.com
+                      </a>
+                    </li>
+                    <li className="flex items-center gap-2.5 text-navy">
+                      <Phone size={14} strokeWidth={1.5} className="text-coral" />
+                      <a href="tel:+264815953880" className="hover:text-coral">
+                        +264 81 595 3880
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </div>
 
             <form
