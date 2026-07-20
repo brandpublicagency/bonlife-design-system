@@ -38,7 +38,7 @@ const FOOTER_RESOURCES: { to: "/downloads" | "/knowledge-base" | "/contact"; lab
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 bg-navy text-white">
+    <footer className="bg-navy text-white">
       <div className="mx-auto grid max-w-[1200px] gap-12 px-6 py-16 sm:px-8 md:grid-cols-[1.6fr_1fr_1fr_1.2fr]">
         <div>
           <img src={wordmarkLight} alt="Bonlife" className="mb-5 h-6" />
