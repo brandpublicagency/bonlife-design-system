@@ -286,7 +286,7 @@ function SwatchGroup({
 }
 
 function DownloadsPage() {
-  const logos: {
+  const wordmarks: {
     src: string;
     filename: string;
     label: string;
@@ -307,12 +307,21 @@ function DownloadsPage() {
       caption: "Primary wordmark for use on light backgrounds.",
       bg: "light",
     },
+  ];
+
+  const marks: {
+    src: string;
+    filename: string;
+    label: string;
+    caption: string;
+    bg: LogoBg;
+  }[] = [
     {
       src: markCoral,
       filename: "bonlife-mark-coral.svg",
       label: "Mark — Coral",
       caption: "Standalone mark in accent coral.",
-      bg: "light",
+      bg: "coral",
     },
     {
       src: markNavy,
@@ -333,9 +342,10 @@ function DownloadsPage() {
       filename: "bonlife-mark-white.svg",
       label: "Mark — White",
       caption: "Reversed mark for photography and coloured surfaces.",
-      bg: "coral",
+      bg: "navy",
     },
   ];
+
 
   const toc = [
     { id: "design-system", label: "Design system", icon: LayoutTemplate },
