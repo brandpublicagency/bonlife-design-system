@@ -113,7 +113,7 @@ function LogoCard({
           : "bg-surface-tint";
   return (
     <div className="flex flex-col overflow-hidden rounded-2xl border border-hairline bg-surface">
-      <div className={`flex h-44 items-center justify-center px-8 ${bgClass}`}>
+      <div className={`flex h-44 items-center justify-center rounded-t-2xl px-8 ${bgClass}`}>
         <img src={src} alt={label} className="max-h-16 max-w-[70%]" />
       </div>
       <div className="flex flex-1 flex-col gap-4 p-5">
@@ -148,6 +148,70 @@ function LogoCard({
             {copied ? "Copied" : "Copy URL"}
           </button>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function MarkRow({
+  src,
+  filename,
+  label,
+  caption,
+  bg,
+}: {
+  src: string;
+  filename: string;
+  label: string;
+  caption: string;
+  bg: LogoBg;
+}) {
+  const [copied, setCopied] = useState(false);
+  const bgClass =
+    bg === "navy"
+      ? "bg-navy"
+      : bg === "coral"
+        ? "bg-coral"
+        : bg === "mint"
+          ? "bg-[color:var(--mint-400)]"
+          : "bg-surface-tint";
+  return (
+    <div className="flex flex-col items-stretch gap-5 overflow-hidden rounded-2xl border border-hairline bg-surface p-5 sm:flex-row sm:items-center sm:gap-6">
+      <div
+        className={`flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl ${bgClass}`}
+      >
+        <img src={src} alt={label} className="max-h-14 max-w-[70%]" />
+      </div>
+      <div className="min-w-0 flex-1">
+        <div className="font-display text-[16px] font-semibold text-navy">{label}</div>
+        <p className="mt-1 text-[13px] leading-[1.55] text-muted-foreground">{caption}</p>
+        <div className="mt-1 font-mono text-[11px] text-muted-foreground">{filename}</div>
+      </div>
+      <div className="flex shrink-0 flex-wrap gap-2 sm:flex-nowrap">
+        <a
+          href={src}
+          download={filename}
+          className="inline-flex items-center justify-center gap-1.5 rounded-full bg-navy px-[18px] py-2 font-display text-[12.5px] font-semibold text-white transition-colors hover:bg-navy-700"
+        >
+          <Download size={13} />
+          Download SVG
+        </a>
+        <button
+          type="button"
+          onClick={async () => {
+            const abs = new URL(src, window.location.origin).toString();
+            const ok = await copyText(abs);
+            if (ok) {
+              setCopied(true);
+              setTimeout(() => setCopied(false), 1400);
+            }
+          }}
+          className="inline-flex items-center justify-center gap-1.5 rounded-full border border-hairline px-[18px] py-2 font-display text-[12.5px] font-semibold text-navy transition-colors hover:bg-surface-tint"
+          aria-live="polite"
+        >
+          {copied ? <Check size={13} /> : <Copy size={13} />}
+          {copied ? "Copied" : "Copy URL"}
+        </button>
       </div>
     </div>
   );
