@@ -20,10 +20,14 @@ import {
 
 import wordmarkLight from "@/assets/bonlife/logos/bonlife-wordmark-light.svg";
 import wordmarkDark from "@/assets/bonlife/logos/bonlife-wordmark-dark.svg";
-import markCoral from "@/assets/bonlife/logos/bonlife-mark-coral.svg";
-import markNavy from "@/assets/bonlife/logos/bonlife-mark-navy.svg";
-import markMint from "@/assets/bonlife/logos/bonlife-mark-mint.svg";
-import markWhite from "@/assets/bonlife/logos/bonlife-mark-white.svg";
+import markCoralAsset from "@/assets/bonlife/logos/bonlife-mark-coral.svg.asset.json";
+import markNavyAsset from "@/assets/bonlife/logos/bonlife-mark-navy.svg.asset.json";
+import markMintAsset from "@/assets/bonlife/logos/bonlife-mark-mint.svg.asset.json";
+import markWhiteAsset from "@/assets/bonlife/logos/bonlife-mark-white.svg.asset.json";
+const markCoral = markCoralAsset.url;
+const markNavy = markNavyAsset.url;
+const markMint = markMintAsset.url;
+const markWhite = markWhiteAsset.url;
 
 import photo1 from "@/assets/bonlife/photography/couple-sofa.jpg.asset.json";
 import photo2 from "@/assets/bonlife/photography/family-studio.jpg.asset.json";
@@ -158,30 +162,21 @@ function MarkRow({
   filename,
   label,
   caption,
-  bg,
 }: {
   src: string;
   filename: string;
   label: string;
   caption: string;
-  bg: LogoBg;
+  bg?: LogoBg;
 }) {
   const [copied, setCopied] = useState(false);
-  const bgClass =
-    bg === "navy"
-      ? "bg-navy"
-      : bg === "coral"
-        ? "bg-coral"
-        : bg === "mint"
-          ? "bg-[color:var(--mint-400)]"
-          : "bg-surface-tint";
   return (
     <div className="flex flex-col items-stretch gap-5 overflow-hidden rounded-2xl border border-hairline bg-surface p-5 sm:flex-row sm:items-center sm:gap-6">
-      <div
-        className={`flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl ${bgClass}`}
-      >
-        <img src={src} alt={label} className="max-h-14 max-w-[70%]" />
-      </div>
+      <img
+        src={src}
+        alt={label}
+        className="h-24 w-24 shrink-0 overflow-hidden rounded-2xl object-cover"
+      />
       <div className="min-w-0 flex-1">
         <div className="font-display text-[16px] font-semibold text-navy">{label}</div>
         <p className="mt-1 text-[13px] leading-[1.55] text-muted-foreground">{caption}</p>
@@ -216,6 +211,7 @@ function MarkRow({
     </div>
   );
 }
+
 
 function SwatchTile({
   name,

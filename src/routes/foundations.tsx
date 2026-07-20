@@ -12,10 +12,14 @@ import {
   Waves,
   ImageIcon,
 } from "lucide-react";
-import markNavy from "@/assets/bonlife/logos/bonlife-mark-navy.svg";
-import markCoral from "@/assets/bonlife/logos/bonlife-mark-coral.svg";
-import markMint from "@/assets/bonlife/logos/bonlife-mark-mint.svg";
-import markWhite from "@/assets/bonlife/logos/bonlife-mark-white.svg";
+import markNavyAsset from "@/assets/bonlife/logos/bonlife-mark-navy.svg.asset.json";
+import markCoralAsset from "@/assets/bonlife/logos/bonlife-mark-coral.svg.asset.json";
+import markMintAsset from "@/assets/bonlife/logos/bonlife-mark-mint.svg.asset.json";
+import markWhiteAsset from "@/assets/bonlife/logos/bonlife-mark-white.svg.asset.json";
+const markNavy = markNavyAsset.url;
+const markCoral = markCoralAsset.url;
+const markMint = markMintAsset.url;
+const markWhite = markWhiteAsset.url;
 import wordmarkDark from "@/assets/bonlife/logos/bonlife-wordmark-dark.svg";
 import g1 from "@/assets/bonlife/gradients/gradient-01.jpg.asset.json";
 import g2 from "@/assets/bonlife/gradients/gradient-02.jpg.asset.json";
