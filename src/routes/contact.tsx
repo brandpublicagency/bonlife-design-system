@@ -290,13 +290,16 @@ function ContactPage() {
                 Follow Bonlife
               </div>
               <p className="mt-1 text-[13px] text-muted-foreground">
-                Campaigns, testimonials and branch updates.
+                WhatsApp, social channels and career updates.
               </p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <SocialLink href="https://facebook.com/bonlifenamibia" label="Facebook" icon={Facebook} />
-              <SocialLink href="https://instagram.com/bonlifenamibia" label="Instagram" icon={Instagram} />
-              <SocialLink href="https://linkedin.com/company/bonlife" label="LinkedIn" icon={Linkedin} />
+              <SocialLink href="https://wa.me/264818550027" label="WhatsApp" icon={MessageCircle} />
+              <SocialLink href="https://www.facebook.com/BonlifeNAM/" label="Facebook" icon={Facebook} />
+              <SocialLink href="https://instagram.com/bonlife.namibia" label="Instagram" icon={Instagram} />
+              <SocialLink href="https://www.tiktok.com/@bonlife.namibia" label="TikTok" icon={TikTokIcon} />
+              <SocialLink href="https://x.com/bonlife_namibia" label="X" icon={XIcon} />
+              <SocialLink href="https://www.linkedin.com/company/bonlife-namibia/" label="LinkedIn" icon={Linkedin} />
             </div>
           </div>
         </PageSection>
