@@ -131,11 +131,13 @@ function IconographyPage() {
           <PageSection
             key={group.id}
             id={group.id}
+            className={i === 0 ? "mt-12" : undefined}
             eyebrow={`${String(i + 1).padStart(2, "0")} · Category`}
             title={group.title}
             lead={group.lead}
             headerAction={<CategoryIcon group={group} />}
-            bodyClassName="pt-4"
+            surface
+            bodyClassName="pt-6"
           >
             <div
               className={cn(

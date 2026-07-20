@@ -14,15 +14,18 @@ import {
   ShieldCheck,
   Share2,
   Sparkles,
+  X,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import {
   Sheet,
+  SheetClose,
   SheetContent,
   SheetTrigger,
   SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
 import { useSession } from "@/hooks/use-auth";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
@@ -108,7 +111,7 @@ export function NavDrawer() {
       </SheetTrigger>
       <SheetContent
         side="right"
-        className="w-[340px] border-l border-hairline bg-surface p-0 sm:w-[400px]"
+        className="w-[340px] border-l border-hairline bg-surface p-0 sm:w-[400px] [&>button:first-of-type]:hidden"
       >
         <SheetTitle className="sr-only">Navigation</SheetTitle>
         <SheetDescription className="sr-only">
@@ -121,9 +124,20 @@ export function NavDrawer() {
             <Link to="/" onClick={() => setOpen(false)} className="flex items-center gap-2.5">
               <img src={wordmarkDark} alt="Bonlife" className="h-[22px]" />
             </Link>
-            <span className="rounded-full border border-hairline px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
-              Design System · {SYSTEM_VERSION}
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="rounded-full border border-hairline px-2 py-0.5 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                Design System · {SYSTEM_VERSION}
+              </span>
+              <SheetClose asChild>
+                <button
+                  type="button"
+                  aria-label="Close navigation"
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-full text-navy/70 transition hover:bg-surface-tint hover:text-navy"
+                >
+                  <X size={18} strokeWidth={1.5} />
+                </button>
+              </SheetClose>
+            </div>
           </div>
 
           {/* Groups */}
@@ -142,35 +156,24 @@ export function NavDrawer() {
                         <Link
                           to={it.to}
                           onClick={() => setOpen(false)}
-                          className={
-                            "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors " +
-                            (active
-                              ? "bg-surface-tint"
-                              : "hover:bg-surface-tint")
-                          }
+                          className="group relative flex items-center gap-3 rounded-xl px-3 py-2.5 transition-colors hover:bg-surface-tint"
                         >
-                          {active ? (
-                            <span
-                              aria-hidden
-                              className="absolute left-0 top-1/2 h-6 w-[3px] -translate-y-1/2 rounded-r-full bg-coral"
-                            />
-                          ) : null}
                           <span
-                            className={
-                              "inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg " +
-                              (active
+                            className={cn(
+                              "inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg",
+                              active
                                 ? "bg-navy text-white"
-                                : "bg-white text-navy/70 group-hover:text-navy")
-                            }
+                                : "bg-white text-navy/70 group-hover:text-navy",
+                            )}
                           >
                             <Icon size={15} strokeWidth={1.5} />
                           </span>
                           <span className="min-w-0 flex-1">
                             <span
-                              className={
-                                "block font-display text-[14px] font-semibold " +
-                                (active ? "text-navy" : "text-navy/90")
-                              }
+                              className={cn(
+                                "block font-display text-[14px] font-semibold",
+                                active ? "text-coral" : "text-navy/90",
+                              )}
                             >
                               {it.label}
                             </span>
