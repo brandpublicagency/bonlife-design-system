@@ -466,7 +466,12 @@ function DownloadsPage() {
             meta="Google Drive · shared folder"
             preview={
               <div className="grid grid-cols-2 gap-2">
-                {[photo1, photo2, photo3, photo4].map((p, i) => (
+                {[
+                  { url: photo1.url, alt: "Couple on sofa" },
+                  { url: photo2.url, alt: "Family studio portrait" },
+                  { url: photo3.url, alt: "Senior couple on beach" },
+                  { url: photo4.url, alt: "Celebration fist pump" },
+                ].map((p, i) => (
                   <div
                     key={i}
                     className="aspect-square overflow-hidden rounded-lg border border-hairline"
