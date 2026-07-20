@@ -343,27 +343,27 @@ const CHANGELOG: Array<{
   to: SectionLink;
 }> = [
   {
-    date: "Jul 2026",
-    title: "Iconography overhaul",
-    body: "Sticky sidebar layout, unified utility bar and a Google Drive link for the full icon set.",
-    to: "/iconography",
+    date: "Apr 2025",
+    title: "Social templates",
+    body: "Nine post templates plus a five-slide 'How Bonlife works' carousel.",
+    to: "/social",
   },
   {
-    date: "Jul 2026",
+    date: "Jun 2025",
+    title: "Knowledge base with admin",
+    body: "Single source of truth for brand facts. Import from PDFs, admin-only editing.",
+    to: "/knowledge-base",
+  },
+  {
+    date: "Nov 2025",
     title: "Downloads page",
     body: "Logos as SVG, colour swatches with click-to-copy hex, plus font and asset links.",
     to: "/downloads",
   },
   {
     date: "Jul 2026",
-    title: "Knowledge base with admin",
-    body: "Single source of truth for brand facts. Import from PDFs, admin-only editing.",
-    to: "/knowledge-base",
-  },
-  {
-    date: "Jul 2026",
-    title: "Social templates",
-    body: "Nine post templates plus a five-slide 'How Bonlife works' carousel.",
-    to: "/social",
+    title: "Iconography overhaul",
+    body: "Sticky sidebar layout, unified utility bar and a Google Drive link for the full icon set.",
+    to: "/iconography",
   },
 ];
