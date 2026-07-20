@@ -22,13 +22,13 @@ const kbSectionsQuery = queryOptions({
 export const Route = createFileRoute("/knowledge-base")({
   head: () => ({
     meta: [
-      { title: "Knowledge Base — Bonlife" },
+      { title: "Knowledge Base - Bonlife" },
       {
         name: "description",
         content:
-          "The Bonlife knowledge base — the single source of truth about who Bonlife is, what it sells, and how it talks.",
+          "The Bonlife knowledge base - the single source of truth about who Bonlife is, what it sells, and how it talks.",
       },
-      { property: "og:title", content: "Knowledge Base — Bonlife" },
+      { property: "og:title", content: "Knowledge Base - Bonlife" },
       {
         property: "og:description",
         content:
@@ -115,7 +115,7 @@ function KnowledgeBasePage() {
       <PageHeader
         eyebrow="Knowledge Base"
         title="The single source of truth for Bonlife."
-        lead="Everything a person, chatbot, or agency needs to understand Bonlife — the mission, the products, the voice, the branch network."
+        lead="Everything a person, chatbot, or agency needs to understand Bonlife - the mission, the products, the voice, the branch network."
         meta={meta}
       />
 

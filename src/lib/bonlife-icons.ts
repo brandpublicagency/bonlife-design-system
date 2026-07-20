@@ -69,7 +69,7 @@ import {
 } from "lucide-react";
 import type { IconEntry } from "@/components/bonlife/IconTile";
 
-// Lucide doesn't ship a WhatsApp glyph — build one via createLucideIcon so it
+// Lucide doesn't ship a WhatsApp glyph - build one via createLucideIcon so it
 // participates in the same stroke/draw pipeline as every other icon.
 const WhatsApp = createLucideIcon("WhatsApp", [
   [
@@ -100,7 +100,7 @@ export const ICON_GROUPS: IconGroup[] = [
   {
     id: "funeral",
     title: "Funeral cover",
-    lead: "Four funeral plans, each with its own audience — from full families to legacy beneficiaries.",
+    lead: "Four funeral plans, each with its own audience - from full families to legacy beneficiaries.",
     Icon: Flower2,
     icons: [
       { name: "family-plan", label: "Family Plan", Icon: Users },
@@ -122,7 +122,7 @@ export const ICON_GROUPS: IconGroup[] = [
   {
     id: "savings",
     title: "Savings & education plans",
-    lead: "Building capital for the future — general savings and school fees.",
+    lead: "Building capital for the future - general savings and school fees.",
     Icon: Wallet,
     icons: [
       { name: "savings-plan", label: "Savings Plan", Icon: PiggyBank },
@@ -141,7 +141,7 @@ export const ICON_GROUPS: IconGroup[] = [
   {
     id: "value-added",
     title: "Value-added benefits",
-    lead: "Extra payouts and services that ride alongside the core funeral cover — food, transport, headstone and casket.",
+    lead: "Extra payouts and services that ride alongside the core funeral cover - food, transport, headstone and casket.",
     Icon: Gift,
     icons: [
       { name: "onyama-meatfeast", label: "Onyama MeatFeast", Icon: Utensils },
@@ -155,7 +155,7 @@ export const ICON_GROUPS: IconGroup[] = [
   {
     id: "key-benefits",
     title: "Key benefits",
-    lead: "The promises included with every plan — no medical tests, instant cash, family cover and a national branch network.",
+    lead: "The promises included with every plan - no medical tests, instant cash, family cover and a national branch network.",
     Icon: Sparkles,
     icons: [
       { name: "no-medical-tests", label: "No medical tests", Icon: Stethoscope },
@@ -210,7 +210,7 @@ export const ICON_GROUPS: IconGroup[] = [
   {
     id: "utility",
     title: "Shared utility",
-    lead: "Interface glue — used across headers, forms, buttons and confirmations.",
+    lead: "Interface glue - used across headers, forms, buttons and confirmations.",
     Icon: LayoutGrid,
     icons: [
       { name: "search", label: "Search", Icon: Search },

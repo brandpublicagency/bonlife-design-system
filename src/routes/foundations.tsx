@@ -35,13 +35,13 @@ import p6 from "@/assets/bonlife/photography/father-daughter-laughing.jpg.asset.
 export const Route = createFileRoute("/foundations")({
   head: () => ({
     meta: [
-      { title: "Foundations — Bonlife Design System" },
+      { title: "Foundations - Bonlife Design System" },
       {
         name: "description",
         content:
           "Bonlife color palette, typography, spacing, radius, motion, logos, gradients and photography.",
       },
-      { property: "og:title", content: "Foundations — Bonlife Design System" },
+      { property: "og:title", content: "Foundations - Bonlife Design System" },
       {
         property: "og:description",
         content:
@@ -108,7 +108,7 @@ function FoundationsPage() {
       <PageHeader
         eyebrow="Foundations"
         title="The tokens beneath every Bonlife surface."
-        lead="Color, type, spacing, motion, logos and photography — all traced back to the brand book, no invented values."
+        lead="Color, type, spacing, motion, logos and photography - all traced back to the brand book, no invented values."
       />
 
       <PageWithSidebar sidebar={<PageSidebar label="Foundations" items={TOC} />}>
@@ -118,7 +118,7 @@ function FoundationsPage() {
         id="color"
         eyebrow="Colour · Primary"
         title="Navy anchor, warm coral accent."
-        lead="Bonlife is not a pastel-insurance brand — it reads corporate-serious first, friendly second. Navy owns text and chrome; coral owns CTAs and highlights against it."
+        lead="Bonlife is not a pastel-insurance brand - it reads corporate-serious first, friendly second. Navy owns text and chrome; coral owns CTAs and highlights against it."
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
           <Swatch color="#0C1C3E" name="Navy 900" hex="#0C1C3E" token="--navy-900" />
@@ -130,7 +130,7 @@ function FoundationsPage() {
       <PageSection
         eyebrow="Colour · Categories"
         title="Four plans, four colours."
-        lead="Each product category owns a saturated identifier colour. Use it to tint plan cards and badges for its own category — never as a general UI colour."
+        lead="Each product category owns a saturated identifier colour. Use it to tint plan cards and badges for its own category - never as a general UI colour."
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
           <Swatch color="#04413F" name="Funeral" hex="#04413F" token="--category-funeral" />
@@ -143,7 +143,7 @@ function FoundationsPage() {
       <PageSection
         eyebrow="Colour · Surfaces & semantic"
         title="Two near-whites, two states."
-        lead="Surface tint sits under navy text; muted fills cards and inputs. Semantic red and mint cover error and success only — never decorative."
+        lead="Surface tint sits under navy text; muted fills cards and inputs. Semantic red and mint cover error and success only - never decorative."
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           <Swatch color="#FFFFFF" name="Surface" hex="#FFFFFF" token="--surface-white" fg="navy" />
@@ -343,7 +343,7 @@ function FoundationsPage() {
         id="photography"
         eyebrow="Photography"
         title="Warm, candid, Namibian."
-        lead="Real portraiture — multi-generational, hugging, laughing, often looking at camera. Full-bleed or generously cropped. Never behind heavy dark overlays."
+        lead="Real portraiture - multi-generational, hugging, laughing, often looking at camera. Full-bleed or generously cropped. Never behind heavy dark overlays."
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
           {[p1, p2, p3, p4, p5, p6].map((p, i) => (

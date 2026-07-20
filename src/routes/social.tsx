@@ -20,13 +20,13 @@ import {
 export const Route = createFileRoute("/social")({
   head: () => ({
     meta: [
-      { title: "Social Templates — Bonlife Design System" },
+      { title: "Social Templates - Bonlife Design System" },
       {
         name: "description",
         content:
-          "Ready-to-use social post templates for Bonlife — feed, story and link-preview formats built on brand tokens.",
+          "Ready-to-use social post templates for Bonlife - feed, story and link-preview formats built on brand tokens.",
       },
-      { property: "og:title", content: "Social Templates — Bonlife Design System" },
+      { property: "og:title", content: "Social Templates - Bonlife Design System" },
       {
         property: "og:description",
         content:
@@ -118,7 +118,7 @@ function SocialPage() {
           id="link"
           eyebrow="Link preview · 1200 × 628"
           title="Landscape for links & WhatsApp cards"
-          lead="Split photography and message — the format most people see before they click."
+          lead="Split photography and message - the format most people see before they click."
         >
           <div className="grid gap-8">
             <TemplateBranchEvent />
@@ -135,7 +135,7 @@ function SocialPage() {
               {
                 k: "Always",
                 items: [
-                  'Use "cover benefit" — never "payout" outside OneLife.',
+                  'Use "cover benefit" - never "payout" outside OneLife.',
                   '"Lump sum" is reserved for OneLife only.',
                   "Currency is N$ with a hard space (N$45).",
                   "Every post includes the 74448 SMS lockup.",
@@ -144,9 +144,9 @@ function SocialPage() {
               {
                 k: "Never",
                 items: [
-                  "No em dashes in body copy — use hyphens or full stops.",
+                  "No em dashes in body copy - use hyphens or full stops.",
                   "No stock imagery outside the Bonlife photography set.",
-                  "Do not recolour category tags — funeral/life/savings/accident are fixed.",
+                  "Do not recolour category tags - funeral/life/savings/accident are fixed.",
                   "Do not stretch or crop the wordmark.",
                 ],
               },
