@@ -24,17 +24,17 @@ import { BonlifeToaster, toast } from "@/components/bonlife/Toast";
 export const Route = createFileRoute("/components")({
   head: () => ({
     meta: [
-      { title: "Components — Bonlife Design System" },
+      { title: "Components - Bonlife Design System" },
       {
         name: "description",
         content:
-          "Buttons, inputs, cards, plan cards, dialogs, tooltips — every Bonlife component with live variants.",
+          "Buttons, inputs, cards, plan cards, dialogs, tooltips - every Bonlife component with live variants.",
       },
-      { property: "og:title", content: "Components — Bonlife Design System" },
+      { property: "og:title", content: "Components - Bonlife Design System" },
       {
         property: "og:description",
         content:
-          "Buttons, inputs, cards, plan cards, dialogs, tooltips — every Bonlife component with live variants.",
+          "Buttons, inputs, cards, plan cards, dialogs, tooltips - every Bonlife component with live variants.",
       },
       { property: "og:url", content: "/components" },
     ],
@@ -130,7 +130,7 @@ function ComponentsPage() {
       <PageHeader
         eyebrow="Components"
         title="Seventeen building blocks."
-        lead="Every component is built from the Bonlife tokens — navy chrome, coral CTAs, Onest headings, Inter body. Nothing hard-coded, nothing decorative."
+        lead="Every component is built from the Bonlife tokens - navy chrome, coral CTAs, Onest headings, Inter body. Nothing hard-coded, nothing decorative."
       />
 
       <PageWithSidebar className="py-16" sidebar={<PageSidebar groups={GROUPS} />}>
@@ -180,7 +180,7 @@ function ComponentsPage() {
               </div>
             </PageSection>
 
-            <PageSection id="forms" title="Form controls" lead="Inputs, select, checkbox, radio, switch — navy focus, coral outline ring.">
+            <PageSection id="forms" title="Form controls" lead="Inputs, select, checkbox, radio, switch - navy focus, coral outline ring.">
               <div className="grid gap-6 md:grid-cols-2">
                 <Input label="Full name" placeholder="Aina Nangolo" />
                 <Input label="ID number" placeholder="00000000" hint="13 digits, no spaces." />
@@ -206,7 +206,7 @@ function ComponentsPage() {
               </div>
             </PageSection>
 
-            <PageSection id="plancard" title="PlanCard" lead="Category marketing card — flat category fill, coral eyebrow and CTA, white Onest title.">
+            <PageSection id="plancard" title="PlanCard" lead="Category marketing card - flat category fill, coral eyebrow and CTA, white Onest title.">
               <div className="grid gap-5 md:grid-cols-2">
                 <PlanCard category="funeral" title="Protection your family can count on." cta="Compare Funeral Plans" />
                 <PlanCard category="life" title="A lump sum that protects what you've built." cta="Compare Life Insurance" />
@@ -215,7 +215,7 @@ function ComponentsPage() {
               </div>
             </PageSection>
 
-            <PageSection id="planrow" title="PlanRow" lead="Plan list row — plain white, navy Onest, 3px category left tick.">
+            <PageSection id="planrow" title="PlanRow" lead="Plan list row - plain white, navy Onest, 3px category left tick.">
               <div className="rounded-lg border border-hairline bg-surface px-6">
                 <PlanRow category="funeral" name="Family Plan" tagline="Ages 18-65 · Main life, spouse, children" price="From N$85/m" />
                 <PlanRow category="funeral" name="Prime Plan" tagline="Ages 18-60 · N$25,000 or N$50,000 cover" price="From N$120/m" />
@@ -253,7 +253,7 @@ function ComponentsPage() {
               <div className="rounded-lg bg-surface px-6">
                 <Accordion
                   items={[
-                    { id: "waiting", title: "How does the waiting period work?", content: "Full details up front — no fine print, no surprises. The waiting period is stated on your policy schedule." },
+                    { id: "waiting", title: "How does the waiting period work?", content: "Full details up front - no fine print, no surprises. The waiting period is stated on your policy schedule." },
                     { id: "claim", title: "How do I claim?", content: "SMS your name to 74448 or walk into any of our 20 branches. Approved funeral claims get N$1,000 Instant Cash the same day." },
                     { id: "lapse", title: "What if I miss a premium?", content: "You are covered by a grace period. We will call and remind you before anything lapses." },
                   ]}

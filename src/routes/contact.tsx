@@ -22,13 +22,13 @@ import { Button } from "@/components/bonlife/Button";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Bonlife Design System" },
+      { title: "Contact - Bonlife Design System" },
       {
         name: "description",
         content:
           "Get in touch with Bonlife. Direct details, head office, WhatsApp, SMS, call, email, branches and policy payment partners.",
       },
-      { property: "og:title", content: "Contact — Bonlife Design System" },
+      { property: "og:title", content: "Contact - Bonlife Design System" },
       {
         property: "og:description",
         content:
@@ -92,8 +92,8 @@ function ContactPage() {
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    const subject = encodeURIComponent(`Design system enquiry — ${name || "no name"}`);
-    const body = encodeURIComponent(`${message}\n\n—\n${name}\n${email}`);
+    const subject = encodeURIComponent(`Design system enquiry - ${name || "no name"}`);
+    const body = encodeURIComponent(`${message}\n\n-\n${name}\n${email}`);
     window.location.href = `mailto:info@bonlifenam.com?subject=${subject}&body=${body}`;
   }
 

@@ -18,7 +18,7 @@ import { SiteHeader, SiteFooter } from "@/components/bonlife/SiteChrome";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Bonlife Design System — for designers, suppliers and partners" },
+      { title: "Bonlife Design System - for designers, suppliers and partners" },
       {
         name: "description",
         content:
@@ -26,7 +26,7 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:title",
-        content: "Bonlife Design System — for designers, suppliers and partners",
+        content: "Bonlife Design System - for designers, suppliers and partners",
       },
       {
         property: "og:description",
@@ -66,7 +66,7 @@ function HomePage() {
           <p className="mt-6 max-w-[640px] text-[17px] leading-[1.6] text-muted-foreground">
             One place for designers, suppliers, agencies and internal teams to
             find Bonlife's logos, colours, typography, components, icons,
-            social templates and brand facts — all traceable to the knowledge
+            social templates and brand facts - all traceable to the knowledge
             base.
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
@@ -86,7 +86,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Get started — by audience */}
+      {/* Get started - by audience */}
       <section className="bg-surface">
         <div className="mx-auto max-w-[1200px] px-6 py-16 sm:px-8">
           <div className="mb-8">
@@ -136,7 +136,7 @@ function HomePage() {
               </h2>
             </div>
             <p className="max-w-sm text-[14px] leading-[1.65] text-muted-foreground">
-              Seven sections, each one self-contained. Deep-link any tile —
+              Seven sections, each one self-contained. Deep-link any tile -
               they're all shareable URLs.
             </p>
           </div>

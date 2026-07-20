@@ -7,7 +7,7 @@ import { requireSupabaseAdmin } from "@/integrations/supabase/admin-middleware";
 
 // Reads (listKbSections) are public via the server publishable client.
 // Writes (create/update/delete/reorder/extract) require an authenticated
-// admin — enforced by `requireSupabaseAdmin` middleware AND by RLS on
+// admin - enforced by `requireSupabaseAdmin` middleware AND by RLS on
 // `public.kb_sections` (INSERT/UPDATE/DELETE gated by has_role='admin').
 
 function getPublicSupabase(): SupabaseClient<Database> {

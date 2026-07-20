@@ -32,7 +32,7 @@ const kbSectionsQuery = queryOptions({
 export const Route = createFileRoute("/_authenticated/admin/knowledge-base")({
   head: () => ({
     meta: [
-      { title: "KB Backend — Bonlife" },
+      { title: "KB Backend - Bonlife" },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -66,7 +66,7 @@ function AdminKbPage() {
             Restricted
           </div>
           <h1 className="mt-3 font-display text-[32px] font-semibold text-navy">
-            You're signed in — but not an admin yet
+            You're signed in - but not an admin yet
           </h1>
           <p className="mt-4 text-[15px] leading-[1.6] text-navy/70">
             Ask an existing admin to promote your account. They can do it from
@@ -242,7 +242,7 @@ function NewSectionForm({
         value={body}
         onChange={(e) => setBody(e.target.value)}
         rows={12}
-        placeholder="Use Markdown — headings, lists, tables, links."
+        placeholder="Use Markdown - headings, lists, tables, links."
         className="mt-2 w-full rounded-md border border-hairline bg-surface-tint p-3 font-mono text-[13px] leading-[1.55] text-navy focus:border-navy focus:outline-none"
       />
       <div className="mt-4 flex items-center gap-2">

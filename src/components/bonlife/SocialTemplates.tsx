@@ -23,7 +23,7 @@ import gradient01 from "@/assets/bonlife/gradients/gradient-01.jpg.asset.json";
    navy-on-navy invisibility trap. Real semantic h2 lives on light surfaces. */
 
 /* ================================================================
-   1 · INSTANT CASH PROMISE — hero editorial (square)
+   1 · INSTANT CASH PROMISE - hero editorial (square)
    ================================================================ */
 export function TemplateInstantCash() {
   return (
@@ -69,7 +69,7 @@ export function TemplateInstantCash() {
 }
 
 /* ================================================================
-   2 · CATEGORY PROMO — Life Cover (square)
+   2 · CATEGORY PROMO - Life Cover (square)
    ================================================================ */
 export function TemplateLifeCover() {
   return (
@@ -125,7 +125,7 @@ export function TemplateLifeCover() {
 
 
 /* ================================================================
-   3 · CATEGORY PROMO — Funeral Cover (square)
+   3 · CATEGORY PROMO - Funeral Cover (square)
    ================================================================ */
 export function TemplateFuneralCover() {
   return (
@@ -233,7 +233,7 @@ export function TemplateTestimonial() {
 }
 
 /* ================================================================
-   5 · STAT / AWARENESS — story format
+   5 · STAT / AWARENESS - story format
    ================================================================ */
 export function TemplateStatStory() {
   return (
@@ -283,7 +283,7 @@ export function TemplateStatStory() {
 }
 
 /* ================================================================
-   6 · ONELIFE LUMP SUM — story
+   6 · ONELIFE LUMP SUM - story
    ================================================================ */
 export function TemplateOneLifeStory() {
   return (
@@ -342,7 +342,7 @@ export function TemplateOneLifeStory() {
 }
 
 /* ================================================================
-   7 · SMS CALLBACK — bold typographic (square)
+   7 · SMS CALLBACK - bold typographic (square)
    ================================================================ */
 export function TemplateSmsCallback() {
   return (
@@ -387,7 +387,7 @@ export function TemplateSmsCallback() {
 }
 
 /* ================================================================
-   8 · BRANCH / EVENT — landscape (link preview / Facebook cover)
+   8 · BRANCH / EVENT - landscape (link preview / Facebook cover)
    ================================================================ */
 export function TemplateBranchEvent() {
   return (
@@ -433,7 +433,7 @@ export function TemplateBranchEvent() {
 }
 
 /* ================================================================
-   9 · PAYDAY REMINDER — portrait 4:5
+   9 · PAYDAY REMINDER - portrait 4:5
    ================================================================ */
 export function TemplatePaydayReminder() {
   return (
@@ -483,7 +483,7 @@ export function TemplatePaydayReminder() {
 }
 
 /* ================================================================
-   10 · CAROUSEL — "How Bonlife works in 60 seconds" (5 slides · square)
+   10 · CAROUSEL - "How Bonlife works in 60 seconds" (5 slides · square)
    ================================================================ */
 export function TemplateHowItWorksCarousel() {
   const steps = [
@@ -512,7 +512,7 @@ export function TemplateHowItWorksCarousel() {
     label: string;
     render: (ctx: { index: number; total: number }) => React.ReactNode;
   }[] = [
-    // Slide 1 — cover
+    // Slide 1 - cover
     {
       id: "cover",
       label: "Cover",
@@ -552,7 +552,7 @@ export function TemplateHowItWorksCarousel() {
         </div>
       ),
     },
-    // Slides 2-4 — steps
+    // Slides 2-4 - steps
     ...steps.map((s, i) => ({
       id: `step-${i + 1}`,
       label: `Step ${i + 1}`,
@@ -593,7 +593,7 @@ export function TemplateHowItWorksCarousel() {
       ),
     })),
 
-    // Slide 5 — CTA
+    // Slide 5 - CTA
     {
       id: "cta",
       label: "CTA",

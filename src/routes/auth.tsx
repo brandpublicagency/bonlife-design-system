@@ -13,7 +13,7 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/auth")({
   head: () => ({
     meta: [
-      { title: "Sign in — Bonlife" },
+      { title: "Sign in - Bonlife" },
       {
         name: "description",
         content: "Sign in to manage the Bonlife knowledge base.",

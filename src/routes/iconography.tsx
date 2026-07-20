@@ -11,13 +11,13 @@ import { PageSection } from "@/components/bonlife/PageSection";
 export const Route = createFileRoute("/iconography")({
   head: () => ({
     meta: [
-      { title: "Iconography — Bonlife Design System" },
+      { title: "Iconography - Bonlife Design System" },
       {
         name: "description",
         content:
-          "Bonlife icon library — Lucide icons at 1px stroke, curated for product categories, customer actions and shared utility. Download any icon as SVG.",
+          "Bonlife icon library - Lucide icons at 1px stroke, curated for product categories, customer actions and shared utility. Download any icon as SVG.",
       },
-      { property: "og:title", content: "Iconography — Bonlife Design System" },
+      { property: "og:title", content: "Iconography - Bonlife Design System" },
       {
         property: "og:description",
         content:
@@ -68,14 +68,14 @@ function IconographyPage() {
       <PageHeader
         eyebrow="Iconography"
         title="One thin line, eight groups."
-        lead="Bonlife icons are Lucide at 1px stroke — outlined, never filled. Stroke inherits colour from the surface it sits on, so a single set covers light and dark. Hover any tile to download the SVG."
+        lead="Bonlife icons are Lucide at 1px stroke - outlined, never filled. Stroke inherits colour from the surface it sits on, so a single set covers light and dark. Hover any tile to download the SVG."
       />
 
       <PageWithSidebar
         className="pt-10"
         sidebar={<PageSidebar label="Categories" items={sidebarItems} />}
       >
-        {/* Unified utility bar — always light chrome */}
+        {/* Unified utility bar - always light chrome */}
         <div className="grid gap-4 rounded-2xl border border-hairline bg-surface p-5 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
           <div className="min-w-0 text-[13px] leading-[1.55] text-muted-foreground">
             <span className="font-display font-semibold text-navy">Full icon set.</span>{" "}
@@ -160,7 +160,7 @@ function IconographyPage() {
           id="usage"
           eyebrow="Usage"
           title="Always 1px stroke, always currentColor"
-          lead="Set strokeWidth={1} on every Lucide icon in product. Colour the parent — the icon inherits. On dark surfaces the same icons render in white without a second weight."
+          lead="Set strokeWidth={1} on every Lucide icon in product. Colour the parent - the icon inherits. On dark surfaces the same icons render in white without a second weight."
           bodyClassName="pt-4"
         >
           <div className="grid gap-6 rounded-2xl border border-hairline bg-surface p-6 md:grid-cols-[1.4fr_1fr] md:items-center md:p-8">
@@ -170,7 +170,7 @@ function IconographyPage() {
                 <code className="rounded bg-surface-tint px-1.5 py-0.5 font-mono text-[12px] text-navy">
                   {`strokeWidth={1}`}
                 </code>{" "}
-                and set the icon’s colour from the parent. The default Lucide stroke is 2px, so override it everywhere — components, marketing, and social templates.
+                and set the icon’s colour from the parent. The default Lucide stroke is 2px, so override it everywhere - components, marketing, and social templates.
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">

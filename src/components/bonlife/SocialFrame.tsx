@@ -4,7 +4,7 @@ import wordmarkLight from "@/assets/bonlife/logos/bonlife-wordmark-light.svg";
 import wordmarkDark from "@/assets/bonlife/logos/bonlife-wordmark-dark.svg";
 
 /* -------------------------------------------------------------------
- * SOCIAL SPACING SCALE — apply consistently across all templates.
+ * SOCIAL SPACING SCALE - apply consistently across all templates.
  *
  *   Frame padding    → p-10 (40px)       square / portrait / landscape default
  *   Story frame      → px-8 pt-9 pb-10   respects IG story safe area
@@ -23,10 +23,10 @@ import wordmarkDark from "@/assets/bonlife/logos/bonlife-wordmark-dark.svg";
 export type SocialFormat = "square" | "story" | "landscape" | "portrait";
 
 const RATIOS: Record<SocialFormat, string> = {
-  square: "aspect-square",           // 1:1  — 1080×1080
-  story: "aspect-[9/16]",             // 9:16 — 1080×1920
-  portrait: "aspect-[4/5]",           // 4:5  — 1080×1350
-  landscape: "aspect-[1.91/1]",       // 1.91:1 — link preview
+  square: "aspect-square",           // 1:1  - 1080×1080
+  story: "aspect-[9/16]",             // 9:16 - 1080×1920
+  portrait: "aspect-[4/5]",           // 4:5  - 1080×1350
+  landscape: "aspect-[1.91/1]",       // 1.91:1 - link preview
 };
 
 const LABEL: Record<SocialFormat, string> = {

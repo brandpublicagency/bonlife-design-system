@@ -51,13 +51,13 @@ const INTER_URL = "https://fonts.google.com/specimen/Inter";
 export const Route = createFileRoute("/downloads")({
   head: () => ({
     meta: [
-      { title: "Downloads — Bonlife Design System" },
+      { title: "Downloads - Bonlife Design System" },
       {
         name: "description",
         content:
           "Download Bonlife logos, copy brand colours, and grab photography and gradients from the shared Drive.",
       },
-      { property: "og:title", content: "Downloads — Bonlife Design System" },
+      { property: "og:title", content: "Downloads - Bonlife Design System" },
       {
         property: "og:description",
         content:
@@ -292,14 +292,14 @@ function DownloadsPage() {
     {
       src: wordmarkLight,
       filename: "bonlife-wordmark-light.svg",
-      label: "Wordmark — Light",
+      label: "Wordmark - Light",
       caption: "Primary wordmark for use on dark backgrounds.",
       bg: "navy",
     },
     {
       src: wordmarkDark,
       filename: "bonlife-wordmark-dark.svg",
-      label: "Wordmark — Dark",
+      label: "Wordmark - Dark",
       caption: "Primary wordmark for use on light backgrounds.",
       bg: "light",
     },
@@ -315,28 +315,28 @@ function DownloadsPage() {
     {
       src: markCoral,
       filename: "bonlife-mark-coral.svg",
-      label: "Mark — Coral",
+      label: "Mark - Coral",
       caption: "Standalone mark in accent coral.",
       bg: "coral",
     },
     {
       src: markNavy,
       filename: "bonlife-mark-navy.svg",
-      label: "Mark — Navy",
+      label: "Mark - Navy",
       caption: "Standalone mark in anchor navy.",
       bg: "light",
     },
     {
       src: markMint,
       filename: "bonlife-mark-mint.svg",
-      label: "Mark — Mint",
+      label: "Mark - Mint",
       caption: "Mint mark reserved for high-contrast dark surfaces.",
       bg: "navy",
     },
     {
       src: markWhite,
       filename: "bonlife-mark-white.svg",
-      label: "Mark — White",
+      label: "Mark - White",
       caption: "Reversed mark for photography and coloured surfaces.",
       bg: "navy",
     },
@@ -574,7 +574,7 @@ function DownloadsPage() {
           id="gradients"
           eyebrow="06 · Gradients"
           title="Gradient backgrounds"
-          lead="Gradients ship as layered PSDs and hi-res JPGs alongside the photography — grab them from the same Drive folder."
+          lead="Gradients ship as layered PSDs and hi-res JPGs alongside the photography - grab them from the same Drive folder."
         >
           <DownloadCard
             title="Gradient backgrounds"
