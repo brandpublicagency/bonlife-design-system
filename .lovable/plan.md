@@ -1,29 +1,44 @@
-Goal: when any sidebar item is active/scrolled-to, the small coral eyebrow (e.g. `02 • Fonts`) sits on the same baseline as the sidebar page label (`Downloads`), and the big heading below it has a slightly larger gap.
+The Downloads page currently mixes three different visual treatments: grid cards (logos, fonts, colours), large two-column promo cards (Adobe XD, icons, photography, gradients), and different button styles. This makes the page feel uneven for suppliers and designers.
 
-Current state observed
-- The Downloads section header is pushed 64px below the top of its `section` because `Section` uses `py-12 sm:py-16` on the wrapper.
-- The sticky sidebar label sits at `top-24` (96px from viewport), so the section eyebrow ends up ~64px lower than the label.
-- Each page with a sidebar repeats its own `Section` / `Spec` / `article` header, so the offset is inconsistent.
+Plan: introduce a shared `DownloadCard` component and apply one container style across every section.
 
-What we will build
-1. A shared `PageSection` component in `src/components/bonlife/PageSection.tsx` that every sidebar page uses.
-   - Outer `<section id>` is `scroll-mt-24 pt-0 pb-12 sm:pb-16` (no top padding, so the eyebrow is flush with the section top).
-   - Header block contains the eyebrow at the very top, the title below with `mt-3` (increased from the current `mt-2`), and an optional lead with `mt-3`.
-   - Body wrapper adds `pt-10 sm:pt-12` after the heading, so content stays visually separated from the heading without pushing the eyebrow down.
-   - Supports an optional `headerAction` slot for counts/badges (needed on the Components page).
-2. Keep `PageSidebar` sticky top at `top-24` and keep the page label at the top of the sticky container with no extra top offset.
+Changes:
 
-Per-page changes
-- `src/routes/downloads.tsx` — replace the local `Section` with `PageSection`.
-- `src/routes/foundations.tsx` — replace the local `Section` with `PageSection`.
-- `src/routes/social.tsx` — replace the local `Section` with `PageSection`.
-- `src/routes/contact.tsx` — replace the local `Section` with `PageSection`.
-- `src/routes/components.tsx` — refactor `Spec` into `PageSection` (no eyebrow, title + count as `headerAction`). The existing dotted preview box becomes the body content.
-- `src/routes/iconography.tsx` — move the group header out of the rounded card so the eyebrow is flush with the sidebar label; the dark/light icon grid card becomes the body.
-- `src/routes/knowledge-base.tsx` — remove the top padding from each `<article>` so the `#slug` eyebrow and title align with the label, and move the article body padding to the content area below the header.
+1. Create a reusable `DownloadCard` component
+   - White surface (`bg-surface`), rounded-2xl, `border-hairline`.
+   - Consistent internal padding and spacing.
+   - Optional header (title + description), optional preview area (image/thumbnail/grid), and a standardized action bar at the bottom.
+   - Action bar supports one primary action (navy pill) and one secondary action (outline pill).
+   - Meta line (e.g. "Google Drive · shared folder", "SVG · 12 KB") in small monospace text.
 
-Verification
-- After the change, scroll to any section on any sidebar page and check that the eyebrow’s top edge matches the sidebar label’s top edge within a few pixels.
-- Run `bunx tsc --noEmit` to confirm no type errors from the refactor.
+2. Refactor each section to use the same card pattern
+   - Adobe XD: single `DownloadCard` with preview image.
+   - Logos: keep the grid of six logo cards, but restyle each card to match the new `DownloadCard` shell (white surface, rounded-2xl, hairline border, navy Download + outline Copy URL actions).
+   - Fonts: convert the two font cards to `DownloadCard`s with external-link actions.
+   - Colours: wrap the swatch groups in a single `DownloadCard`, or keep the colourful swatches as clickable tiles inside a consistent white container. Keep the click-to-copy hex behaviour.
+   - Icons: single `DownloadCard` linking to the icon Drive folder, with an icon preview.
+   - Photography: single `DownloadCard` with the 4 thumbnail previews and Drive link.
+   - Gradients: single `DownloadCard` with the 4 gradient thumbnails and Drive link.
 
-Open question: I will use `mt-3` (12px) between the eyebrow and the heading. If you want a bigger gap (e.g. 16px), let me know and I will update it.
+3. Standardize button hierarchy
+   - Primary action: navy pill (`bg-navy text-white`). Used for downloads, copy actions, and file downloads.
+   - Secondary action: outline pill (`border-hairline text-navy`). Used for copy URL, copy hex, alternate formats.
+   - External link action: coral pill (`bg-coral text-navy`). Used for Google Fonts, Google Drive, Adobe XD links.
+   - Remove mixed button styles so every section reads the same.
+
+4. Section container consistency
+   - Every `PageSection` on Downloads renders either a single `DownloadCard` or a grid of `DownloadCard`s.
+   - No section uses a custom one-off wrapper.
+
+5. Responsive behaviour
+   - Cards stack cleanly on mobile.
+   - Thumbnail grids inside cards stay 2×2 or 4-column depending on density.
+   - Action buttons remain reachable and readable at small sizes.
+
+6. Technical notes
+   - No new dependencies.
+   - No backend or database changes.
+   - Only `src/routes/downloads.tsx` and a new `src/components/bonlife/DownloadCard.tsx` are modified/created.
+   - Existing assets and copy stay the same.
+
+After this change, the page will read as one coherent directory of downloadable assets rather than a collection of different UI patterns.
