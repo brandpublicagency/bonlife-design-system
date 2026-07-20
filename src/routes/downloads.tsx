@@ -3,6 +3,7 @@ import { useState } from "react";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
 import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
 import { PageSection } from "@/components/bonlife/PageSection";
+import { DownloadCard } from "@/components/bonlife/DownloadCard";
 import {
   LayoutTemplate,
   Star,
@@ -11,6 +12,10 @@ import {
   Sparkles,
   ImageIcon,
   Waves,
+  Check,
+  Copy,
+  Download,
+  ArrowUpRight,
 } from "lucide-react";
 
 import wordmarkLight from "@/assets/bonlife/logos/bonlife-wordmark-light.svg";
@@ -82,7 +87,6 @@ async function copyText(text: string) {
   }
 }
 
-
 type LogoBg = "navy" | "light" | "coral" | "mint";
 
 function LogoCard({
@@ -118,12 +122,13 @@ function LogoCard({
           <p className="mt-1 text-[13px] leading-[1.55] text-muted-foreground">{caption}</p>
           <div className="mt-2 font-mono text-[11px] text-muted-foreground">{filename}</div>
         </div>
-        <div className="mt-auto flex gap-2">
+        <div className="mt-auto flex flex-wrap gap-2">
           <a
             href={src}
             download={filename}
-            className="inline-flex flex-1 items-center justify-center rounded-full bg-navy px-4 py-2 font-display text-[12px] font-semibold text-white transition-colors hover:bg-navy/90"
+            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-navy px-[18px] py-2 font-display text-[12.5px] font-semibold text-white transition-colors hover:bg-navy-700"
           >
+            <Download size={13} />
             Download SVG
           </a>
           <button
@@ -136,10 +141,11 @@ function LogoCard({
                 setTimeout(() => setCopied(false), 1400);
               }
             }}
-            className="inline-flex items-center justify-center rounded-full border border-hairline px-4 py-2 font-display text-[12px] font-semibold text-navy transition-colors hover:border-navy"
+            className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full border border-hairline px-[18px] py-2 font-display text-[12.5px] font-semibold text-navy transition-colors hover:bg-surface-tint"
             aria-live="polite"
           >
-            {copied ? "Copied ✓" : "Copy URL"}
+            {copied ? <Check size={13} /> : <Copy size={13} />}
+            {copied ? "Copied" : "Copy URL"}
           </button>
         </div>
       </div>
@@ -183,7 +189,7 @@ function SwatchTile({
           } ${copied ? "opacity-100" : "opacity-0 group-hover:opacity-100"}`}
           aria-live="polite"
         >
-          {copied ? "Copied ✓" : "Copy hex"}
+          {copied ? "Copied" : "Copy hex"}
         </span>
       </div>
       <div className={`space-y-0.5 ${labelColor}`}>
@@ -203,7 +209,7 @@ function SwatchGroup({
 }) {
   return (
     <div>
-      <div className="mb-4 font-display text-[13px] font-semibold uppercase tracking-[0.12em] text-navy/70">
+      <div className="mb-3 font-display text-[12px] font-semibold uppercase tracking-[0.12em] text-navy/70">
         {title}
       </div>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
@@ -212,112 +218,6 @@ function SwatchGroup({
         ))}
       </div>
     </div>
-  );
-}
-
-function FontCard({
-  name,
-  url,
-  use,
-}: {
-  name: string;
-  url: string;
-  use: string;
-}) {
-  return (
-    <div className="flex flex-col overflow-hidden rounded-2xl border border-hairline bg-surface p-5">
-      <div>
-        <div className="font-display text-[18px] font-semibold text-navy">{name}</div>
-        <p className="mt-1 text-[13px] leading-[1.55] text-muted-foreground">{use}</p>
-      </div>
-      <a
-        href={url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="mt-5 inline-flex items-center justify-center gap-2 rounded-full bg-coral px-5 py-2.5 font-display text-[13px] font-semibold text-navy transition-colors hover:bg-coral/90"
-      >
-        Open on Google Fonts
-        <span aria-hidden>↗</span>
-      </a>
-    </div>
-  );
-}
-
-function DriveSection({
-  id,
-  eyebrow,
-  title,
-  lead,
-  buttonLabel,
-  thumbs,
-}: {
-  id: string;
-  eyebrow: string;
-  title: string;
-  lead: string;
-  buttonLabel: string;
-  thumbs: { url: string; alt: string }[];
-}) {
-  return (
-    <PageSection id={id} eyebrow={eyebrow} title={title}>
-      <div className="overflow-hidden rounded-2xl border border-hairline bg-surface">
-        <div className="grid gap-8 p-8 md:grid-cols-[1.1fr_1fr] md:items-center">
-          <div>
-            <p className="max-w-lg text-[15px] leading-[1.65] text-muted-foreground">{lead}</p>
-            <a
-              href={DRIVE_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-coral px-5 py-2.5 font-display text-[13px] font-semibold text-navy transition-colors hover:bg-coral/90"
-            >
-              {buttonLabel}
-              <span aria-hidden>↗</span>
-            </a>
-            <div className="mt-3 font-mono text-[11px] text-muted-foreground">
-              Google Drive · shared folder
-            </div>
-          </div>
-          <div className="grid grid-cols-4 gap-2">
-            {thumbs.map((t) => (
-              <div key={t.url} className="aspect-square overflow-hidden rounded-lg border border-hairline">
-                <img src={t.url} alt={t.alt} className="h-full w-full object-cover" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </PageSection>
-  );
-}
-
-function XDLinkSection() {
-  return (
-    <PageSection id="design-system" eyebrow="Design system" title="Adobe XD source">
-      <div className="overflow-hidden rounded-2xl border border-hairline bg-surface">
-        <div className="grid gap-8 p-8 md:grid-cols-[1.1fr_1fr] md:items-center">
-          <div>
-            <p className="max-w-lg text-[15px] leading-[1.65] text-muted-foreground">
-              The full Bonlife Design System lives in Adobe XD. Inspect components, copy assets, and download everything from the developer link.
-            </p>
-            <a
-              href={XD_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-full bg-coral px-5 py-2.5 font-display text-[13px] font-semibold text-navy transition-colors hover:bg-coral/90"
-            >
-              Open Adobe XD
-              <span aria-hidden>↗</span>
-            </a>
-            <div className="mt-3 font-mono text-[11px] text-muted-foreground">
-              Adobe XD · developer view
-            </div>
-          </div>
-          <div className="flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-hairline bg-navy">
-            <img src={markWhite} alt="Bonlife mark" className="max-h-24 max-w-[70%]" />
-          </div>
-        </div>
-      </div>
-    </PageSection>
   );
 }
 
@@ -392,8 +292,32 @@ function DownloadsPage() {
         lead="Logos, fonts, and icons download inline or from Google Fonts / Drive. Click a colour to copy its hex. Photography and gradients live in the shared Google Drive."
       />
       <PageWithSidebar sidebar={<PageSidebar label="Downloads" items={toc} />}>
-        <XDLinkSection />
-
+        <PageSection
+          id="design-system"
+          eyebrow="Design system"
+          title="Adobe XD source"
+          lead="The full Bonlife Design System lives in Adobe XD. Inspect components, copy assets, and download everything from the developer link."
+        >
+          <DownloadCard
+            title="Adobe XD developer view"
+            description="Open the XD source to inspect spacing, typography, components, and every asset in the system. Suppliers and designers should use this as the master reference."
+            meta="Adobe XD · developer view"
+            preview={
+              <div className="flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-hairline bg-navy">
+                <img src={markWhite} alt="Bonlife mark" className="max-h-24 max-w-[70%]" />
+              </div>
+            }
+            actions={[
+              {
+                type: "link",
+                label: "Open Adobe XD",
+                variant: "secondary",
+                href: XD_URL,
+                icon: <ArrowUpRight size={13} />,
+              },
+            ]}
+          />
+        </PageSection>
 
         <PageSection
           id="logos"
@@ -415,15 +339,33 @@ function DownloadsPage() {
           lead="Onest carries display type; Inter carries body copy. Both are free on Google Fonts."
         >
           <div className="grid gap-5 md:grid-cols-2">
-            <FontCard
-              name="Onest"
-              url={ONEST_URL}
-              use="Display headings and bold UI labels. Tight tracking, geometric, confident."
+            <DownloadCard
+              title="Onest"
+              description="Display headings and bold UI labels. Tight tracking, geometric, confident."
+              meta="Google Fonts · open source"
+              actions={[
+                {
+                  type: "link",
+                  label: "Open on Google Fonts",
+                  variant: "secondary",
+                  href: ONEST_URL,
+                  icon: <ArrowUpRight size={13} />,
+                },
+              ]}
             />
-            <FontCard
-              name="Inter"
-              url={INTER_URL}
-              use="Body copy, captions, and interface text. Clean, readable, extensive weights."
+            <DownloadCard
+              title="Inter"
+              description="Body copy, captions, and interface text. Clean, readable, extensive weights."
+              meta="Google Fonts · open source"
+              actions={[
+                {
+                  type: "link",
+                  label: "Open on Google Fonts",
+                  variant: "secondary",
+                  href: INTER_URL,
+                  icon: <ArrowUpRight size={13} />,
+                },
+              ]}
             />
           </div>
         </PageSection>
@@ -434,98 +376,151 @@ function DownloadsPage() {
           title="Palette"
           lead="Click any swatch to copy its hex. Token names match the CSS variables in the design system."
         >
-          <div className="space-y-10">
-            <SwatchGroup
-              title="Brand"
-              swatches={[
-                { name: "Navy 900", hex: "#0C1C3E", token: "--navy-900", textOn: "light" },
-                { name: "Coral 500", hex: "#FF876A", token: "--coral-500", textOn: "dark" },
-                { name: "Mint 400", hex: "#01FBC0", token: "--mint-400", textOn: "dark" },
-              ]}
-            />
-            <SwatchGroup
-              title="Category"
-              swatches={[
-                { name: "Funeral", hex: "#04413F", token: "--category-funeral", textOn: "light" },
-                { name: "Life", hex: "#541467", token: "--category-life", textOn: "light" },
-                { name: "Savings", hex: "#0D2B90", token: "--category-savings", textOn: "light" },
-                { name: "Accident", hex: "#A80A4D", token: "--category-accident", textOn: "light" },
-              ]}
-            />
-            <SwatchGroup
-              title="State"
-              swatches={[
-                { name: "Error", hex: "#FF5F5F", token: "--state-error", textOn: "light" },
-                { name: "Success", hex: "#41FFB6", token: "--state-success", textOn: "dark" },
-              ]}
-            />
-            <SwatchGroup
-              title="Surface & text"
-              swatches={[
-                { name: "Surface white", hex: "#FFFFFF", token: "--surface-white", textOn: "dark" },
-                { name: "Surface tint", hex: "#F7F8FB", token: "--surface-tint", textOn: "dark" },
-                { name: "Surface muted", hex: "#EAEDF4", token: "--surface-muted", textOn: "dark" },
-                { name: "Border hairline", hex: "#E1E4E9", token: "--border-hairline", textOn: "dark" },
-                { name: "Gray 600", hex: "#5B6472", token: "--gray-600", textOn: "light" },
-              ]}
-            />
-          </div>
-        </PageSection>
-
-        <PageSection id="icons" eyebrow="04 · Icons" title="Icon library">
-          <div className="overflow-hidden rounded-2xl border border-hairline bg-surface">
-            <div className="grid gap-8 p-8 md:grid-cols-[1.1fr_1fr] md:items-center">
-              <div>
-                <p className="max-w-lg text-[15px] leading-[1.65] text-muted-foreground">
-                  The full Bonlife icon set — curated Lucide glyphs, category icons, and custom SVGs — lives in the shared Drive folder. Download individual SVGs from the Iconography page, or grab the complete set from Drive.
-                </p>
-                <a
-                  href={ICON_DRIVE_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-6 inline-flex items-center gap-2 rounded-full bg-coral px-5 py-2.5 font-display text-[13px] font-semibold text-navy transition-colors hover:bg-coral/90"
-                >
-                  Open icon folder
-                  <span aria-hidden>↗</span>
-                </a>
-                <div className="mt-3 font-mono text-[11px] text-muted-foreground">
-                  Google Drive · shared folder
-                </div>
-              </div>
-              <div className="flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-hairline bg-navy">
-                <img src={markWhite} alt="Bonlife mark" className="max-h-24 max-w-[70%]" />
-              </div>
+          <DownloadCard
+            title="Colour tokens"
+            description="Brand, category, state, and surface colours. Click a swatch to copy its hex to the clipboard."
+            meta="Click to copy · CSS variables in src/styles.css"
+          >
+            <div className="space-y-8">
+              <SwatchGroup
+                title="Brand"
+                swatches={[
+                  { name: "Navy 900", hex: "#0C1C3E", token: "--navy-900", textOn: "light" },
+                  { name: "Coral 500", hex: "#FF876A", token: "--coral-500", textOn: "dark" },
+                  { name: "Mint 400", hex: "#01FBC0", token: "--mint-400", textOn: "dark" },
+                ]}
+              />
+              <SwatchGroup
+                title="Category"
+                swatches={[
+                  { name: "Funeral", hex: "#04413F", token: "--category-funeral", textOn: "light" },
+                  { name: "Life", hex: "#541467", token: "--category-life", textOn: "light" },
+                  { name: "Savings", hex: "#0D2B90", token: "--category-savings", textOn: "light" },
+                  { name: "Accident", hex: "#A80A4D", token: "--category-accident", textOn: "light" },
+                ]}
+              />
+              <SwatchGroup
+                title="State"
+                swatches={[
+                  { name: "Error", hex: "#FF5F5F", token: "--state-error", textOn: "light" },
+                  { name: "Success", hex: "#41FFB6", token: "--state-success", textOn: "dark" },
+                ]}
+              />
+              <SwatchGroup
+                title="Surface & text"
+                swatches={[
+                  { name: "Surface white", hex: "#FFFFFF", token: "--surface-white", textOn: "dark" },
+                  { name: "Surface tint", hex: "#F7F8FB", token: "--surface-tint", textOn: "dark" },
+                  { name: "Surface muted", hex: "#EAEDF4", token: "--surface-muted", textOn: "dark" },
+                  { name: "Border hairline", hex: "#E1E4E9", token: "--border-hairline", textOn: "dark" },
+                  { name: "Gray 600", hex: "#5B6472", token: "--gray-600", textOn: "light" },
+                ]}
+              />
             </div>
-          </div>
+          </DownloadCard>
         </PageSection>
 
-        <DriveSection
+        <PageSection
+          id="icons"
+          eyebrow="04 · Icons"
+          title="Icon library"
+          lead="The full Bonlife icon set lives in the shared Drive folder. Download individual SVGs from the Iconography page, or grab the complete set from Drive."
+        >
+          <DownloadCard
+            title="Icon library"
+            description="Curated Lucide glyphs, category icons, and custom SVGs. Use the Iconography page to browse, or download the full set from the Drive folder."
+            meta="Google Drive · shared folder"
+            preview={
+              <div className="flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-hairline bg-navy">
+                <Sparkles className="h-12 w-12 text-white" />
+              </div>
+            }
+            actions={[
+              {
+                type: "link",
+                label: "Open icon folder",
+                variant: "secondary",
+                href: ICON_DRIVE_URL,
+                icon: <ArrowUpRight size={13} />,
+              },
+              {
+                type: "link",
+                label: "Browse iconography",
+                variant: "outline",
+                href: "/iconography",
+                external: false,
+              },
+            ]}
+          />
+        </PageSection>
+
+        <PageSection
           id="photography"
           eyebrow="05 · Photography"
           title="Campaign photography"
-          lead="High-resolution photography lives in the shared Drive because files are licensed per campaign and too large to ship with the design system. Open the folder to browse the full set."
-          buttonLabel="Open photography folder"
-          thumbs={[
-            { url: photo1.url, alt: "Couple on sofa" },
-            { url: photo2.url, alt: "Family studio portrait" },
-            { url: photo3.url, alt: "Senior couple on beach" },
-            { url: photo4.url, alt: "Celebration fist pump" },
-          ]}
-        />
+          lead="High-resolution photography lives in the shared Drive because files are licensed per campaign and too large to ship with the design system."
+        >
+          <DownloadCard
+            title="Campaign photography"
+            description="Open the folder to browse the full set of licensed campaign photography."
+            meta="Google Drive · shared folder"
+            preview={
+              <div className="grid grid-cols-2 gap-2">
+                {[photo1, photo2, photo3, photo4].map((p, i) => (
+                  <div
+                    key={i}
+                    className="aspect-square overflow-hidden rounded-lg border border-hairline"
+                  >
+                    <img src={p.url} alt={p.alt} className="h-full w-full object-cover" />
+                  </div>
+                ))}
+              </div>
+            }
+            actions={[
+              {
+                type: "link",
+                label: "Open photography folder",
+                variant: "secondary",
+                href: DRIVE_URL,
+                icon: <ArrowUpRight size={13} />,
+              },
+            ]}
+          />
+        </PageSection>
 
-        <DriveSection
+        <PageSection
           id="gradients"
           eyebrow="06 · Gradients"
           title="Gradient backgrounds"
           lead="Gradients ship as layered PSDs and hi-res JPGs alongside the photography — grab them from the same Drive folder."
-          buttonLabel="Open gradients folder"
-          thumbs={[
-            { url: gradient1.url, alt: "Gradient 01" },
-            { url: gradient2.url, alt: "Gradient 02" },
-            { url: gradient3.url, alt: "Gradient 03" },
-            { url: gradient4.url, alt: "Gradient 04" },
-          ]}
-        />
+        >
+          <DownloadCard
+            title="Gradient backgrounds"
+            description="Grab layered PSDs and hi-res JPGs from the same shared Drive folder as the photography."
+            meta="Google Drive · shared folder"
+            preview={
+              <div className="grid grid-cols-2 gap-2">
+                {[gradient1, gradient2, gradient3, gradient4].map((g, i) => (
+                  <div
+                    key={i}
+                    className="aspect-square overflow-hidden rounded-lg border border-hairline"
+                  >
+                    <img src={g.url} alt={g.alt} className="h-full w-full object-cover" />
+                  </div>
+                ))}
+              </div>
+            }
+            actions={[
+              {
+                type: "link",
+                label: "Open gradients folder",
+                variant: "secondary",
+                href: DRIVE_URL,
+                icon: <ArrowUpRight size={13} />,
+              },
+            ]}
+          />
+        </PageSection>
       </PageWithSidebar>
       <SiteFooter />
     </>
