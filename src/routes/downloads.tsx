@@ -162,30 +162,21 @@ function MarkRow({
   filename,
   label,
   caption,
-  bg,
 }: {
   src: string;
   filename: string;
   label: string;
   caption: string;
-  bg: LogoBg;
+  bg?: LogoBg;
 }) {
   const [copied, setCopied] = useState(false);
-  const bgClass =
-    bg === "navy"
-      ? "bg-navy"
-      : bg === "coral"
-        ? "bg-coral"
-        : bg === "mint"
-          ? "bg-[color:var(--mint-400)]"
-          : "bg-surface-tint";
   return (
     <div className="flex flex-col items-stretch gap-5 overflow-hidden rounded-2xl border border-hairline bg-surface p-5 sm:flex-row sm:items-center sm:gap-6">
-      <div
-        className={`flex h-24 w-24 shrink-0 items-center justify-center rounded-2xl ${bgClass}`}
-      >
-        <img src={src} alt={label} className="max-h-14 max-w-[70%]" />
-      </div>
+      <img
+        src={src}
+        alt={label}
+        className="h-24 w-24 shrink-0 overflow-hidden rounded-2xl object-cover"
+      />
       <div className="min-w-0 flex-1">
         <div className="font-display text-[16px] font-semibold text-navy">{label}</div>
         <p className="mt-1 text-[13px] leading-[1.55] text-muted-foreground">{caption}</p>
@@ -220,6 +211,7 @@ function MarkRow({
     </div>
   );
 }
+
 
 function SwatchTile({
   name,
