@@ -505,7 +505,12 @@ function DownloadsPage() {
             meta="Google Drive · shared folder"
             preview={
               <div className="grid grid-cols-2 gap-2">
-                {[gradient1, gradient2, gradient3, gradient4].map((g, i) => (
+                {[
+                  { url: gradient1.url, alt: "Gradient 01" },
+                  { url: gradient2.url, alt: "Gradient 02" },
+                  { url: gradient3.url, alt: "Gradient 03" },
+                  { url: gradient4.url, alt: "Gradient 04" },
+                ].map((g, i) => (
                   <div
                     key={i}
                     className="aspect-square overflow-hidden rounded-lg border border-hairline"
