@@ -27,7 +27,6 @@ export const Route = createFileRoute("/auth")({
 function AuthPage() {
   const navigate = useNavigate();
   const { redirect } = Route.useSearch();
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
@@ -47,17 +46,8 @@ function AuthPage() {
     setBusy(true);
     setError(null);
     try {
-      if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: { emailRedirectTo: window.location.origin + "/auth" },
-        });
-        if (error) throw error;
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
       navigate({ to: (redirect as "/admin/knowledge-base") ?? "/admin/knowledge-base" });
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
@@ -74,12 +64,11 @@ function AuthPage() {
           Admin access
         </div>
         <h1 className="mt-2 font-display text-[36px] font-semibold leading-[1.1] text-navy">
-          {mode === "signin" ? "Sign in" : "Create an account"}
+          Sign in
         </h1>
         <p className="mt-3 text-[14px] leading-[1.6] text-navy/70">
-          The Knowledge Base backend is admin-only. The first person to sign up
-          becomes admin automatically; existing admins can invite others from
-          the backend.
+          The Knowledge Base backend is admin-only. Access is managed by existing
+          administrators.
         </p>
 
         <form onSubmit={onSubmit} className="mt-8 grid gap-4">
@@ -102,7 +91,7 @@ function AuthPage() {
             </span>
             <input
               type="password"
-              autoComplete={mode === "signup" ? "new-password" : "current-password"}
+              autoComplete="current-password"
               required
               minLength={8}
               value={password}
@@ -119,22 +108,9 @@ function AuthPage() {
 
           <Button type="submit" variant="primary" disabled={busy}>
             {busy ? <Loader2 size={14} className="animate-spin" /> : null}
-            {mode === "signin" ? "Sign in" : "Sign up"}
+            Sign in
           </Button>
         </form>
-
-        <button
-          type="button"
-          onClick={() => {
-            setError(null);
-            setMode(mode === "signin" ? "signup" : "signin");
-          }}
-          className="mt-6 text-[13px] text-navy/70 underline underline-offset-2 hover:text-navy"
-        >
-          {mode === "signin"
-            ? "No account yet? Create one"
-            : "Already have an account? Sign in"}
-        </button>
       </main>
       <SiteFooter />
     </>
