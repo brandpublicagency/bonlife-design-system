@@ -399,10 +399,17 @@ function DownloadsPage() {
           title="Wordmarks and marks"
           lead="Six SVGs cover every surface. Use the light wordmark on navy and photography; the dark wordmark on white and tint surfaces."
         >
-          <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {logos.map((l) => (
-              <LogoCard key={l.filename} {...l} />
-            ))}
+          <div className="space-y-5">
+            <div className="grid gap-5 md:grid-cols-2">
+              {wordmarks.map((l) => (
+                <LogoCard key={l.filename} {...l} />
+              ))}
+            </div>
+            <div className="grid gap-3">
+              {marks.map((m) => (
+                <MarkRow key={m.filename} {...m} />
+              ))}
+            </div>
           </div>
         </PageSection>
 
