@@ -20,10 +20,14 @@ import {
 
 import wordmarkLight from "@/assets/bonlife/logos/bonlife-wordmark-light.svg";
 import wordmarkDark from "@/assets/bonlife/logos/bonlife-wordmark-dark.svg";
-import markCoral from "@/assets/bonlife/logos/bonlife-mark-coral.svg";
-import markNavy from "@/assets/bonlife/logos/bonlife-mark-navy.svg";
-import markMint from "@/assets/bonlife/logos/bonlife-mark-mint.svg";
-import markWhite from "@/assets/bonlife/logos/bonlife-mark-white.svg";
+import markCoralAsset from "@/assets/bonlife/logos/bonlife-mark-coral.svg.asset.json";
+import markNavyAsset from "@/assets/bonlife/logos/bonlife-mark-navy.svg.asset.json";
+import markMintAsset from "@/assets/bonlife/logos/bonlife-mark-mint.svg.asset.json";
+import markWhiteAsset from "@/assets/bonlife/logos/bonlife-mark-white.svg.asset.json";
+const markCoral = markCoralAsset.url;
+const markNavy = markNavyAsset.url;
+const markMint = markMintAsset.url;
+const markWhite = markWhiteAsset.url;
 
 import photo1 from "@/assets/bonlife/photography/couple-sofa.jpg.asset.json";
 import photo2 from "@/assets/bonlife/photography/family-studio.jpg.asset.json";
