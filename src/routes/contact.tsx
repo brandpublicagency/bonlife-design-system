@@ -72,17 +72,25 @@ const BRANCHES: { name: string; phone: string; address: string }[] = [
   { name: "Walvis Bay", phone: "+264 83 377 7121", address: "CNR Sam Nujoma Ave and 12th Rd, Walvis Bay" },
 ];
 
-const PARTNERS: { name: string; note: string }[] = [
-  { name: "Cash at any Bonlife branch", note: "20 branches nationwide" },
+const PAYMENT_METHODS: { name: string; note: string }[] = [
   { name: "Debit order", note: "Set up once, run monthly" },
+  { name: "Cash", note: "At any Bonlife branch" },
   { name: "EFT", note: "From any Namibian bank" },
+  { name: "Card", note: "New - on Bonlife 90" },
+];
+
+const PAYMENT_LOCATIONS: { name: string; note: string }[] = [
   { name: "NamPost", note: "Nationwide post-office network" },
-  { name: "Woermann & Brock", note: "In-store payment" },
-  { name: "Shoprite / Checkers / USave", note: "In-store payment" },
   { name: "MobiPay", note: "Mobile wallet payment" },
   { name: "PayToday", note: "Mobile payment app" },
+  { name: "USave", note: "In-store payment" },
+  { name: "Checkers", note: "In-store payment" },
+  { name: "Shoprite", note: "In-store payment" },
   { name: "Model", note: "Retail payment network" },
+  { name: "Airtime City", note: "Retail payment network" },
+  { name: "Woermann & Brock", note: "In-store payment" },
 ];
+
 
 
 function ContactPage() {
@@ -339,29 +347,50 @@ function ContactPage() {
           id="partners"
           eyebrow="05 · Payment partners"
           title="Every way to pay a policy."
-          lead="Bonlife premiums can be paid across all major Namibian channels."
+          lead="Bonlife premiums can be paid across all major Namibian channels - now including card payments on Bonlife 90."
         >
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {PARTNERS.map((p) => (
-              <div
-                key={p.name}
-                className="rounded-2xl border border-hairline bg-surface p-5"
-              >
-                <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-coral/10 text-coral-hover">
-                  <Handshake size={15} strokeWidth={1.5} />
-                </div>
-                <div className="mt-3 font-display text-[15px] font-semibold text-navy">
-                  {p.name}
-                </div>
-                <div className="mt-1 text-[12.5px] text-muted-foreground">{p.note}</div>
+          <div className="space-y-8">
+            <div>
+              <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy/60">
+                Payment methods
               </div>
-            ))}
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {PAYMENT_METHODS.map((p) => (
+                  <PartnerCard key={p.name} name={p.name} note={p.note} />
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy/60">
+                Where to pay
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {PAYMENT_LOCATIONS.map((p) => (
+                  <PartnerCard key={p.name} name={p.name} note={p.note} />
+                ))}
+              </div>
+            </div>
           </div>
         </PageSection>
+
       </PageWithSidebar>
 
       <SiteFooter />
     </>
+  );
+}
+
+function PartnerCard({ name, note }: { name: string; note: string }) {
+  return (
+    <div className="group rounded-2xl border border-hairline bg-surface p-5 transition-colors">
+      <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-coral bg-transparent text-coral transition-colors group-hover:border-coral group-hover:bg-coral group-hover:text-white">
+        <Handshake size={15} strokeWidth={1.5} />
+      </div>
+      <div className="mt-3 font-display text-[15px] font-semibold text-navy">
+        {name}
+      </div>
+      <div className="mt-1 text-[12.5px] text-muted-foreground">{note}</div>
+    </div>
   );
 }
 
