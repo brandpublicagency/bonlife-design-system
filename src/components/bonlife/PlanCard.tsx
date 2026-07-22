@@ -14,7 +14,7 @@ const bg: Record<Category, string> = {
 const labels: Record<Category, string> = {
   funeral: "Funeral Cover",
   life: "Life Insurance",
-  savings: "Saving & Education Plans",
+  savings: "Saving & Study Plans",
   accident: "Accident & Disability Cover",
 };
 

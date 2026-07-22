@@ -470,10 +470,10 @@ function DownloadsPage() {
               <SwatchGroup
                 title="Category"
                 swatches={[
-                  { name: "Funeral", hex: "#04413F", token: "--category-funeral", textOn: "light" },
-                  { name: "Life", hex: "#541467", token: "--category-life", textOn: "light" },
-                  { name: "Savings", hex: "#0D2B90", token: "--category-savings", textOn: "light" },
-                  { name: "Accident", hex: "#A80A4D", token: "--category-accident", textOn: "light" },
+                  { name: "Funeral Cover", hex: "#04413F", token: "--category-funeral", textOn: "light" },
+                  { name: "Life Insurance", hex: "#541467", token: "--category-life", textOn: "light" },
+                  { name: "Saving & Study Plans", hex: "#0D2B90", token: "--category-savings", textOn: "light" },
+                  { name: "Accident & Disability Cover", hex: "#A80A4D", token: "--category-accident", textOn: "light" },
                 ]}
               />
               <SwatchGroup

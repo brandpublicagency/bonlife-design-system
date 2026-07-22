@@ -69,13 +69,13 @@ export function TemplateInstantCash() {
 }
 
 /* ================================================================
-   2 · CATEGORY PROMO - Life Cover (square)
+   2 · CATEGORY PROMO - Life Insurance (square)
    ================================================================ */
 export function TemplateLifeCover() {
   return (
     <SocialFrame
       format="square"
-      title="Life Cover Promo"
+      title="Life Insurance Promo"
       caption="Category = Life (purple). Product benefit with soft photography."
     >
       <div className="grid h-full w-full grid-rows-[1.05fr_0.95fr]">
@@ -91,7 +91,7 @@ export function TemplateLifeCover() {
               className="rounded-full px-3.5 py-1.5 font-display text-[10px] font-bold uppercase tracking-[0.16em] text-white"
               style={{ backgroundColor: "var(--category-life)" }}
             >
-              Life Cover
+              Life Insurance
             </span>
           </div>
         </div>
@@ -459,10 +459,10 @@ export function TemplatePaydayReminder() {
         </div>
         <div className="mt-8 grid grid-cols-2 gap-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white">
           {[
-            { label: "Funeral", color: "var(--category-funeral)" },
-            { label: "Life", color: "var(--category-life)" },
-            { label: "Savings", color: "var(--category-savings)" },
-            { label: "Accident", color: "var(--category-accident)" },
+            { label: "Funeral Cover", color: "var(--category-funeral)" },
+            { label: "Life Insurance", color: "var(--category-life)" },
+            { label: "Saving & Study Plans", color: "var(--category-savings)" },
+            { label: "Accident & Disability Cover", color: "var(--category-accident)" },
           ].map((c) => (
             <div
               key={c.label}

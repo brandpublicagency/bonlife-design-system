@@ -99,7 +99,7 @@ export type IconGroup = {
 export const ICON_GROUPS: IconGroup[] = [
   {
     id: "funeral",
-    title: "Funeral cover",
+    title: "Funeral Cover",
     lead: "Four funeral plans, each with its own audience - from full families to legacy beneficiaries.",
     Icon: Flower2,
     icons: [
@@ -111,7 +111,7 @@ export const ICON_GROUPS: IconGroup[] = [
   },
   {
     id: "life",
-    title: "Life insurance",
+    title: "Life Insurance",
     lead: "Long-term life cover and short-term cash payouts.",
     Icon: HeartPulse,
     icons: [
@@ -121,8 +121,8 @@ export const ICON_GROUPS: IconGroup[] = [
   },
   {
     id: "savings",
-    title: "Savings & education plans",
-    lead: "Building capital for the future - general savings and school fees.",
+    title: "Saving & Study Plans",
+    lead: "Building capital for the future - saving for study and general life goals.",
     Icon: Wallet,
     icons: [
       { name: "savings-plan", label: "Savings Plan", Icon: PiggyBank },
@@ -131,7 +131,7 @@ export const ICON_GROUPS: IconGroup[] = [
   },
   {
     id: "accident",
-    title: "Accident & disability cover",
+    title: "Accident & Disability Cover",
     lead: "Protection when the unexpected happens.",
     Icon: ShieldAlert,
     icons: [
