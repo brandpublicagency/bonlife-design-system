@@ -133,10 +133,10 @@ function FoundationsPage() {
         lead="Each product category owns a saturated identifier colour. Use it to tint plan cards and badges for its own category - never as a general UI colour."
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-          <Swatch color="#04413F" name="Funeral" hex="#04413F" token="--category-funeral" />
-          <Swatch color="#541467" name="Life" hex="#541467" token="--category-life" />
-          <Swatch color="#0D2B90" name="Savings" hex="#0D2B90" token="--category-savings" />
-          <Swatch color="#A80A4D" name="Accident" hex="#A80A4D" token="--category-accident" />
+          <Swatch color="#04413F" name="Funeral Cover" hex="#04413F" token="--category-funeral" />
+          <Swatch color="#541467" name="Life Insurance" hex="#541467" token="--category-life" />
+          <Swatch color="#0D2B90" name="Saving & Study Plans" hex="#0D2B90" token="--category-savings" />
+          <Swatch color="#A80A4D" name="Accident & Disability Cover" hex="#A80A4D" token="--category-accident" />
         </div>
       </PageSection>
 
