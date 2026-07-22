@@ -67,7 +67,7 @@ const PLANS: Record<
   },
   accident: {
     title: "Cash support when the unexpected happens.",
-    cta: "Compare LifeGuard",
+    cta: "Compare Accident & Disability Cover",
     rows: [
       { name: "LifeGuard Plan", tagline: "Accident and disability cash benefit", price: "From N$75/m" },
     ],
