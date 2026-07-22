@@ -459,10 +459,10 @@ export function TemplatePaydayReminder() {
         </div>
         <div className="mt-8 grid grid-cols-2 gap-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-white">
           {[
-            { label: "Funeral", color: "var(--category-funeral)" },
-            { label: "Life", color: "var(--category-life)" },
-            { label: "Savings", color: "var(--category-savings)" },
-            { label: "Accident", color: "var(--category-accident)" },
+            { label: "Funeral Cover", color: "var(--category-funeral)" },
+            { label: "Life Insurance", color: "var(--category-life)" },
+            { label: "Saving & Study Plans", color: "var(--category-savings)" },
+            { label: "Accident & Disability Cover", color: "var(--category-accident)" },
           ].map((c) => (
             <div
               key={c.label}

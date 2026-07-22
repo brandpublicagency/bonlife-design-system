@@ -165,10 +165,10 @@ function ComponentsPage() {
                 <Badge tone="coral">Coral</Badge>
                 <Badge tone="success">Approved</Badge>
                 <Badge tone="error">Overdue</Badge>
-                <Badge tone="funeral">Funeral</Badge>
-                <Badge tone="life">Life</Badge>
-                <Badge tone="savings">Savings</Badge>
-                <Badge tone="accident">Accident</Badge>
+                <Badge tone="funeral">Funeral Cover</Badge>
+                <Badge tone="life">Life Insurance</Badge>
+                <Badge tone="savings">Saving & Study Plans</Badge>
+                <Badge tone="accident">Accident & Disability Cover</Badge>
               </div>
             </PageSection>
 
