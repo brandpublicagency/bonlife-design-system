@@ -44,7 +44,7 @@ const DRIVE_URL =
 const ICON_DRIVE_URL =
   "https://drive.google.com/drive/folders/1W_OspNdCrFBoq3R7HFNPhk7XqzecMOsU?usp=sharing";
 const XD_URL =
-  "https://xd.adobe.com/view/47817079-994c-4681-9f8b-78fea6abfd3a-12d2/grid";
+  "https://xd.adobe.com/view/275ada2c-3189-49e8-9024-75ad70e49fcc-7209/grid";
 const ONEST_URL = "https://fonts.google.com/specimen/Onest";
 const INTER_URL = "https://fonts.google.com/specimen/Inter";
 
