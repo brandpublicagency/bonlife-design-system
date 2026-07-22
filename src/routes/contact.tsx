@@ -380,6 +380,20 @@ function ContactPage() {
   );
 }
 
+function PartnerCard({ name, note }: { name: string; note: string }) {
+  return (
+    <div className="group rounded-2xl border border-hairline bg-surface p-5 transition-colors">
+      <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-coral bg-transparent text-coral transition-colors group-hover:border-coral group-hover:bg-coral group-hover:text-white">
+        <Handshake size={15} strokeWidth={1.5} />
+      </div>
+      <div className="mt-3 font-display text-[15px] font-semibold text-navy">
+        {name}
+      </div>
+      <div className="mt-1 text-[12.5px] text-muted-foreground">{note}</div>
+    </div>
+  );
+}
+
 function InfoCard({
   icon: Icon,
   title,
