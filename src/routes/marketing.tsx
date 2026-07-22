@@ -59,7 +59,7 @@ const PLANS: Record<
   },
   savings: {
     title: "Grow it steadily, for the years that matter.",
-    cta: "Compare Saving Plans",
+    cta: "Compare Saving & Study Plans",
     rows: [
       { name: "Savings Plan", tagline: "Structured savings, flexible term", price: "From N$100/m" },
       { name: "Study Plan", tagline: "Education-focused, matures at enrolment age", price: "From N$150/m" },
