@@ -41,7 +41,7 @@ const PLANS: Record<
 > = {
   funeral: {
     title: "Protection your family can count on.",
-    cta: "Compare Funeral Plans",
+    cta: "Compare Funeral Cover",
     rows: [
       { name: "Family Plan", tagline: "Ages 18-65 · Main life, spouse, children", price: "From N$85/m" },
       { name: "Prime Plan", tagline: "Ages 18-60 · N$25,000 or N$50,000 cover", price: "From N$120/m" },

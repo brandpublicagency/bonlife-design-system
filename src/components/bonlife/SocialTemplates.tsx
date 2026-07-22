@@ -69,13 +69,13 @@ export function TemplateInstantCash() {
 }
 
 /* ================================================================
-   2 · CATEGORY PROMO - Life Cover (square)
+   2 · CATEGORY PROMO - Life Insurance (square)
    ================================================================ */
 export function TemplateLifeCover() {
   return (
     <SocialFrame
       format="square"
-      title="Life Cover Promo"
+      title="Life Insurance Promo"
       caption="Category = Life (purple). Product benefit with soft photography."
     >
       <div className="grid h-full w-full grid-rows-[1.05fr_0.95fr]">
@@ -91,7 +91,7 @@ export function TemplateLifeCover() {
               className="rounded-full px-3.5 py-1.5 font-display text-[10px] font-bold uppercase tracking-[0.16em] text-white"
               style={{ backgroundColor: "var(--category-life)" }}
             >
-              Life Cover
+              Life Insurance
             </span>
           </div>
         </div>
