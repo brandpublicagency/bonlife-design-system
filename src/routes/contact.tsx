@@ -72,17 +72,25 @@ const BRANCHES: { name: string; phone: string; address: string }[] = [
   { name: "Walvis Bay", phone: "+264 83 377 7121", address: "CNR Sam Nujoma Ave and 12th Rd, Walvis Bay" },
 ];
 
-const PARTNERS: { name: string; note: string }[] = [
-  { name: "Cash at any Bonlife branch", note: "20 branches nationwide" },
+const PAYMENT_METHODS: { name: string; note: string }[] = [
   { name: "Debit order", note: "Set up once, run monthly" },
+  { name: "Cash", note: "At any Bonlife branch" },
   { name: "EFT", note: "From any Namibian bank" },
+  { name: "Card", note: "New - on Bonlife 90" },
+];
+
+const PAYMENT_LOCATIONS: { name: string; note: string }[] = [
   { name: "NamPost", note: "Nationwide post-office network" },
-  { name: "Woermann & Brock", note: "In-store payment" },
-  { name: "Shoprite / Checkers / USave", note: "In-store payment" },
   { name: "MobiPay", note: "Mobile wallet payment" },
   { name: "PayToday", note: "Mobile payment app" },
+  { name: "USave", note: "In-store payment" },
+  { name: "Checkers", note: "In-store payment" },
+  { name: "Shoprite", note: "In-store payment" },
   { name: "Model", note: "Retail payment network" },
+  { name: "Airtime City", note: "Retail payment network" },
+  { name: "Woermann & Brock", note: "In-store payment" },
 ];
+
 
 
 function ContactPage() {
