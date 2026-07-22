@@ -347,25 +347,32 @@ function ContactPage() {
           id="partners"
           eyebrow="05 · Payment partners"
           title="Every way to pay a policy."
-          lead="Bonlife premiums can be paid across all major Namibian channels."
+          lead="Bonlife premiums can be paid across all major Namibian channels - now including card payments on Bonlife 90."
         >
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-            {PARTNERS.map((p) => (
-              <div
-                key={p.name}
-                className="rounded-2xl border border-hairline bg-surface p-5"
-              >
-                <div className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-coral/10 text-coral-hover">
-                  <Handshake size={15} strokeWidth={1.5} />
-                </div>
-                <div className="mt-3 font-display text-[15px] font-semibold text-navy">
-                  {p.name}
-                </div>
-                <div className="mt-1 text-[12.5px] text-muted-foreground">{p.note}</div>
+          <div className="space-y-8">
+            <div>
+              <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy/60">
+                Payment methods
               </div>
-            ))}
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                {PAYMENT_METHODS.map((p) => (
+                  <PartnerCard key={p.name} name={p.name} note={p.note} />
+                ))}
+              </div>
+            </div>
+            <div>
+              <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy/60">
+                Where to pay
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {PAYMENT_LOCATIONS.map((p) => (
+                  <PartnerCard key={p.name} name={p.name} note={p.note} />
+                ))}
+              </div>
+            </div>
           </div>
         </PageSection>
+
       </PageWithSidebar>
 
       <SiteFooter />
