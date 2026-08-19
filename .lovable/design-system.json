@@ -1,0 +1,1163 @@
+{
+  "meta": {
+    "name": "Bonlife Design System",
+    "package": "@ws-pkww2p8xqxnopjvtkdh8/9d449797-2b4f-4c19-83b8-3d1678b3bc78",
+    "version": "1.0.0",
+    "framework": "react",
+    "css_framework": "tailwind",
+    "starter_template": "custom_design_system_tailwind",
+    "theme_files": [
+      "src/styles.css"
+    ],
+    "source_type": "local",
+    "source_manifest": {
+      "#enrichment": "2b7a596f585d5e07ab565a1b4c33987e68210649a32de8512ff35f7d29bd9d7f",
+      ".gitignore": "6d9e901a692b46a83707c245fb03bc91",
+      ".lovable/memory/features/knowledge-base.md": "8d6b4d89c574be5f37c447d6ea9636fc",
+      ".lovable/plan.md": "a6d44ff33cfed77f22c422b9728e2d0a",
+      ".lovable/project.json": "eca8998f80bccca873c1b590aa6b8bf3",
+      ".prettierignore": "7279a476f196a2da5f7edd18db568dc6",
+      ".prettierrc": "185ef0234746ab738ac1ab6cec5e2bd9",
+      "AGENTS.md": "3da3c4cd15b686e79a248c25735d6aaf",
+      "bunfig.toml": "6bba18884679812ad2b6cd0c31d34c56",
+      "components.json": "30d3d035361ce807021f5c54620962e9",
+      "eslint.config.js": "345bdd57e188e0e4525edcd00e5003f5",
+      "package.json": "4d1190055cd9fb7b9329a00c2374a039",
+      "public/favicon.ico": "42d0488573dd3f41e2e6b059a9eed282",
+      "src/assets/bonlife/gradients/gradient-01.jpg.asset.json": "227e204969d6943d593ea0c157e4a4ff",
+      "src/assets/bonlife/gradients/gradient-02.jpg.asset.json": "fd7451091e2bcbf8ed38c3a84519197f",
+      "src/assets/bonlife/gradients/gradient-03.jpg.asset.json": "477544086e0872fbbb6a20bec95ff6c2",
+      "src/assets/bonlife/gradients/gradient-04.png.asset.json": "45880c345212af4b761fe9f72838ca06",
+      "src/assets/bonlife/logos/bonlife-mark-coral.svg.asset.json": "8bc2553e5897e86982fe0cb7069b6873",
+      "src/assets/bonlife/logos/bonlife-mark-mint.svg.asset.json": "142725bf691abecdb790be8dee3c5a61",
+      "src/assets/bonlife/logos/bonlife-mark-navy.svg.asset.json": "a5a4d00e0cb90e9f9cbd3a5d57fdfebc",
+      "src/assets/bonlife/logos/bonlife-mark-white.svg.asset.json": "1db607db98a26ee3ce4176154016e4f6",
+      "src/assets/bonlife/logos/bonlife-wordmark-dark.svg": "e4cf3290e8613d96818a57e211be9486",
+      "src/assets/bonlife/logos/bonlife-wordmark-light.svg": "7cc02894035efd48a60b098824ee164b",
+      "src/assets/bonlife/photography/celebration-fistpump.jpg.asset.json": "1100af48b7a70d2271d79f18fdaad8fe",
+      "src/assets/bonlife/photography/couple-sofa.jpg.asset.json": "d6d3ff29df5a4d5cd167bf2dfb2cc211",
+      "src/assets/bonlife/photography/family-full-length.jpg.asset.json": "c17f5c8348db2fc4014a0be1692aff01",
+      "src/assets/bonlife/photography/family-studio.jpg.asset.json": "eabbb7193ecef3f525188485319d3a8d",
+      "src/assets/bonlife/photography/father-daughter-laughing.jpg.asset.json": "4b909191b0723ac5fa7333e633e8053d",
+      "src/assets/bonlife/photography/father-daughter.jpg.asset.json": "9df354c72802beef351e1532a0054fdc",
+      "src/assets/bonlife/photography/mother-child.jpg.asset.json": "e0e50266fbf971c35ff4a5d20075b99c",
+      "src/assets/bonlife/photography/senior-couple-beach.jpg.asset.json": "9499ea02d4fbe62520202662485d71eb",
+      "src/assets/bonlife/photography/senior-couple-selfie.jpg.asset.json": "273d254cbd378ce1a0740b463ba27709",
+      "src/assets/bonlife/photography/senior-woman-portrait.jpg.asset.json": "f4868587940b3d13bf80eebefee4173b",
+      "src/components/bonlife/Accordion.tsx": "14613ddd4166bffc40b94965c234acea",
+      "src/components/bonlife/Badge.tsx": "b84cd658e38bad97b4c61ab320932720",
+      "src/components/bonlife/Button.tsx": "94041acaa1d66f719f6858f50de0968a",
+      "src/components/bonlife/Card.tsx": "84033ea476dd46252e772068602a4ba2",
+      "src/components/bonlife/Checkbox.tsx": "732d21e024091555b574d1a6fa6a96f3",
+      "src/components/bonlife/Dialog.tsx": "aaf148aa17e979700263d07048b4ab90",
+      "src/components/bonlife/DownloadCard.tsx": "c6617895b55a84ce78d6f492bc6730f8",
+      "src/components/bonlife/IconButton.tsx": "0a3417fe96c29bcff802a231c2aeaac7",
+      "src/components/bonlife/IconTile.tsx": "70749361c1e301e21703159a63566c52",
+      "src/components/bonlife/Input.tsx": "106697daabeb4b67f4be0946f20ee919",
+      "src/components/bonlife/KbSection.tsx": "12a3f4bf0333b59b20f5aa8fe089b2da",
+      "src/components/bonlife/KbUploadPanel.tsx": "1b49fe8a958e237d4c8249e3169f0421",
+      "src/components/bonlife/NavDrawer.tsx": "972e93c26c9bcd39242a9817596862ae",
+      "src/components/bonlife/PageSection.tsx": "22d616f89a3d8e4ec0ffa68491e5d094",
+      "src/components/bonlife/PageSidebar.tsx": "2a7bcdb0a502373dbe9190fa14c677a4",
+      "src/components/bonlife/PlanCard.tsx": "05deff98e83d4753ca998acf5c8ab4b4",
+      "src/components/bonlife/PlanRow.tsx": "f0a9770ec0df89100287c09981bdd2ed",
+      "src/components/bonlife/Radio.tsx": "c50719ec60f0a124f93f1c5d2de14800",
+      "src/components/bonlife/Select.tsx": "0cadde1f1ec54c67a2a966f70d4bfccc",
+      "src/components/bonlife/SiteChrome.tsx": "ebdccf63ccc229d84c0b1ec560466aa1",
+      "src/components/bonlife/SocialFrame.tsx": "1f1f5329fbf6132a58c9424496eded11",
+      "src/components/bonlife/SocialTemplates.tsx": "ccbabf5d49fb753a5893b7173284469f",
+      "src/components/bonlife/Switch.tsx": "5ed3f0a147a8d532d8eb8e2581f8483c",
+      "src/components/bonlife/Tabs.tsx": "8ca32cb6dde4d4709fdc651af136f90b",
+      "src/components/bonlife/Toast.tsx": "517b921152015e01b4ae864f58bb6f46",
+      "src/components/bonlife/Tooltip.tsx": "b2ea8551764a99d21979660e3c4c51e9",
+      "src/components/ui/accordion.tsx": "55f9dda62b4e3913c9b23e5015a86aef",
+      "src/components/ui/alert-dialog.tsx": "96350e949e9b7b674545430a410ab89c",
+      "src/components/ui/alert.tsx": "f993d7e96b1e25ce50e68ed97e11d2a8",
+      "src/components/ui/aspect-ratio.tsx": "c5c364545e1b25a94e9e752cd67ad048",
+      "src/components/ui/avatar.tsx": "72989cd32f72c4122802540ef32525a5",
+      "src/components/ui/badge.tsx": "81cade001fc4260f9943e18dcd79449b",
+      "src/components/ui/breadcrumb.tsx": "bb9ac254f12662b20d5d50b84308bf3a",
+      "src/components/ui/button.tsx": "7d07d520f486b12bd47373d694ecd2ee",
+      "src/components/ui/calendar.tsx": "415d91d7006d4cc654e27620fca340f6",
+      "src/components/ui/card.tsx": "d6c48ea36221b9cdc3576d305d12d5d5",
+      "src/components/ui/carousel.tsx": "e324c68ae00cd5aed49317638abd429a",
+      "src/components/ui/chart.tsx": "6a3baf94f2e89f1f97d4d7a28f3622d2",
+      "src/components/ui/checkbox.tsx": "f78aac270ca482c8c2cb907ef6260462",
+      "src/components/ui/collapsible.tsx": "767631bbc344945c236f185f4078d71d",
+      "src/components/ui/command.tsx": "014782599cc838b021ec68b07ad4ea02",
+      "src/components/ui/context-menu.tsx": "e9d689beb53d9adb63165bfe64838bf6",
+      "src/components/ui/dialog.tsx": "ef4fe8e7de8675730afe3d633b260e09",
+      "src/components/ui/drawer.tsx": "8be333e8fd8e42576b1b5f72f07f4337",
+      "src/components/ui/dropdown-menu.tsx": "32156e221f3473280114c80fdb818829",
+      "src/components/ui/form.tsx": "1b0aa6302b9017ea2a1307c22a1d2983",
+      "src/components/ui/hover-card.tsx": "1442794c5ca2a78d69e4e613b315ed3d",
+      "src/components/ui/input-otp.tsx": "58cff10c8942cac8483c0bcd65d39d3c",
+      "src/components/ui/input.tsx": "1d4cc52a4cd8afb3e18e45bda942bb8a",
+      "src/components/ui/label.tsx": "7e35df4ca8edd0835efd97ca7937ef92",
+      "src/components/ui/menubar.tsx": "5870465653e12c3d0e35a2fad6f9faa9",
+      "src/components/ui/navigation-menu.tsx": "e85351147a02b29577ff83d188b63c24",
+      "src/components/ui/pagination.tsx": "fac6cdbb4bbf78b273d85cd36d6cbb49",
+      "src/components/ui/popover.tsx": "f18aa1da2144f25ee60795c539c51bcd",
+      "src/components/ui/progress.tsx": "55c462e5c9dd678dcf2c0c510b014ac4",
+      "src/components/ui/radio-group.tsx": "0e1ace237a5da3197e3eb1e6683faba9",
+      "src/components/ui/resizable.tsx": "d9fcb9203c749fcab4e125a99bb12a86",
+      "src/components/ui/scroll-area.tsx": "87b65d3eb26f2b02ff35a7acea585ba5",
+      "src/components/ui/select.tsx": "31ea1bbd6671833b010b2e852c8a55d0",
+      "src/components/ui/separator.tsx": "433d163c4ffa00b59398a0c293198b5e",
+      "src/components/ui/sheet.tsx": "0221fbf97b69611b47fcbc10bb27669a",
+      "src/components/ui/sidebar.tsx": "83c1623eb50ebc370d7b1b84a542e369",
+      "src/components/ui/skeleton.tsx": "41b182e6e2fc3805960d41e767d4a972",
+      "src/components/ui/slider.tsx": "4752f1bfa26426988d325599e01c335b",
+      "src/components/ui/sonner.tsx": "97f59f60be3413196d095fcbf7383216",
+      "src/components/ui/switch.tsx": "82f5d8b0c59bb7ff305caa9f502e79ff",
+      "src/components/ui/table.tsx": "7cc889989d53894b659903c73aded96e",
+      "src/components/ui/tabs.tsx": "56e725558c2ce72c18243bf51717f385",
+      "src/components/ui/textarea.tsx": "c7aad96fb9545210d53135a96c76ed6b",
+      "src/components/ui/toggle-group.tsx": "ac26383acf721d116ca8e3ab5c5355d5",
+      "src/components/ui/toggle.tsx": "ee8c5adac74e7242b85b544db1a8fbad",
+      "src/components/ui/tooltip.tsx": "67d71db5a1ab935695d1def497f5b8a6",
+      "src/content/bonlife-knowledge-base.md": "2362a6fac346bd9f2233a99495fbc1ba",
+      "src/hooks/use-auth.tsx": "b612bbbdf17fb5547fb310570d88023f",
+      "src/hooks/use-hydrated.ts": "bfa7bb947ad572ba3e37573b03260df8",
+      "src/hooks/use-mobile.tsx": "c0a0bdd4638c391a1dd06ac82074e60b",
+      "src/integrations/supabase/admin-middleware.ts": "6f0dd6468ed190f2fc1762cf1ac66fdf",
+      "src/integrations/supabase/auth-attacher.ts": "dad043cda134d909e52de0346c16625e",
+      "src/integrations/supabase/auth-middleware.ts": "cd3d931e149752681dfbf58f6046488c",
+      "src/integrations/supabase/client.server.ts": "291dd248c905ba0f0eefbcb5db2d6fc2",
+      "src/integrations/supabase/client.ts": "fd589a47997c6b1f046e53c2441d9ce9",
+      "src/integrations/supabase/types.ts": "42f37a3f62c35488da23047667d6f907",
+      "src/lib/admin.functions.ts": "728e8f67737bddd3b7e6a693b968d767",
+      "src/lib/ai-gateway.server.ts": "cd2fdce994fb61f08f2d3f13e10dca49",
+      "src/lib/bonlife-icons.ts": "305c46f8bd9e232e61025bb9405e4daa",
+      "src/lib/error-capture.ts": "00e77bfacfb2d79c0816361e678f1b65",
+      "src/lib/error-page.ts": "8da0ddd7569bac2676b9a5c8edff8a36",
+      "src/lib/kb.functions.ts": "97b2c50f4eb3af2a3519ef0e6f51da9d",
+      "src/lib/lovable-error-reporting.ts": "0e6014b8724d59792cd855f3d014c2fe",
+      "src/lib/utils.ts": "d9837f38cc05303254571985e3164050",
+      "src/routeTree.gen.ts": "3ea09ad1467aca5da8df78135e5c31b6",
+      "src/router.tsx": "8f905e713b0eba7fa8148b7995a708c9",
+      "src/routes/README.md": "0a0bcd90472fd3905861f9fb22011355",
+      "src/routes/__root.tsx": "0e4f5530c51588a81dffa0ce6566d783",
+      "src/routes/_authenticated/admin.knowledge-base.tsx": "7b4ca7b83c4d0aaf7945954c5890a63a",
+      "src/routes/_authenticated/route.tsx": "670071a1e34fbe8fdf5c6008a314e530",
+      "src/routes/auth.tsx": "108dea9dcdf42d252787456f7de99aad",
+      "src/routes/components.tsx": "df913b8f5c49bff74f42bd130f14d240",
+      "src/routes/contact.tsx": "388db844357a18867a94e89b772a47ab",
+      "src/routes/downloads.tsx": "e4d181362ed230a9e095c5c2f8412301",
+      "src/routes/foundations.tsx": "21466c55db26a07249a574f64e3fc0c3",
+      "src/routes/iconography.tsx": "bacea4d3c4b2bc46c0dc18b9f386caf1",
+      "src/routes/index.tsx": "5cc9b50539f4430ea14ad335d2e28ed4",
+      "src/routes/knowledge-base.tsx": "fff5f9eb2153a2fb311cf289fafbad8d",
+      "src/routes/marketing.tsx": "ac1f439cbd3cd12cccb065857aa4ce01",
+      "src/routes/social.tsx": "f6b191c8d0539e4bed6735c171784b1a",
+      "src/server.ts": "845ac9d42fb73521a10734384e86c119",
+      "src/start.ts": "5f68ed421b064a9844dbb117e08f614b",
+      "src/styles.css": "7de63069cd576dc85936fae0d03826c1",
+      "supabase/config.toml": "d45869911616b199e845cc3d28936071",
+      "supabase/migrations/20260712194154_54f3e311-8d49-474d-8e55-d18dc95802c1.sql": "0bd18d7ef8de997f31a0a068f946dcb6",
+      "supabase/migrations/20260712195952_9bc9c492-9f93-4305-86f2-1eafba717fdf.sql": "08447b5f5bfc71a0927cb9ff227327a0",
+      "supabase/migrations/20260712200008_947e12fd-3120-4fa9-8abf-cc3b892841a3.sql": "0fbe270f8b6813c9b2584a3402685bf7",
+      "supabase/migrations/20260713102429_bcfd290d-543c-4fcd-bfd7-dfeea18b8ce5.sql": "3807a05a2a8138c3c101aa6fd1f7d0be",
+      "tsconfig.json": "994abf64c2b9f78b568879f80ed0170e",
+      "vite.config.ts": "d67e8217e5f31b87c276b6357c9aedcf"
+    },
+    "pipeline_version": 8
+  },
+  "tokens": {
+    "color": [
+      {
+        "name": "--navy-900",
+        "raw": "#0C1C3E",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--coral-500",
+        "raw": "#FF876A",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--coral-600",
+        "raw": "oklch(from #FF876A calc(l - 0.08) c h)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--coral-100",
+        "raw": "oklch(from #FF876A calc(l + 0.28) calc(c * 0.5) h)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--mint-400",
+        "raw": "#01FBC0",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--category-funeral",
+        "raw": "#04413F",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--category-life",
+        "raw": "#541467",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--category-savings",
+        "raw": "#0D2B90",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--category-accident",
+        "raw": "#A80A4D",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--state-error",
+        "raw": "#FF5F5F",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--state-success",
+        "raw": "#41FFB6",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--surface-white",
+        "raw": "#FFFFFF",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--surface-tint",
+        "raw": "#F7F8FB",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--surface-muted",
+        "raw": "#EAEDF4",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--gray-600",
+        "raw": "#5B6472",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--border-hairline",
+        "raw": "#E1E4E9",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--navy-700",
+        "raw": "oklch(from #0C1C3E calc(l + 0.18) c h)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--navy-500",
+        "raw": "oklch(from #0C1C3E calc(l + 0.32) c h)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--navy-300",
+        "raw": "oklch(from #0C1C3E calc(l + 0.48) c h)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--navy-100",
+        "raw": "oklch(from #0C1C3E calc(l + 0.60) c h)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--primary-foreground",
+        "raw": "#FFFFFF",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--destructive-foreground",
+        "raw": "#FFFFFF",
+        "source": "src/styles.css"
+      }
+    ],
+    "spacing": [
+      {
+        "name": "--space-1",
+        "raw": "4px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--space-2",
+        "raw": "8px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--space-3",
+        "raw": "12px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--space-4",
+        "raw": "16px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--space-5",
+        "raw": "20px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--space-6",
+        "raw": "24px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--space-8",
+        "raw": "32px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--space-10",
+        "raw": "40px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--space-12",
+        "raw": "48px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--space-16",
+        "raw": "64px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--space-20",
+        "raw": "80px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--space-24",
+        "raw": "96px",
+        "source": "src/styles.css"
+      }
+    ],
+    "typography": [
+      {
+        "name": "--font-display",
+        "raw": "'Onest', 'Segoe UI', system-ui, sans-serif",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--font-body",
+        "raw": "'Inter', 'Segoe UI', system-ui, sans-serif",
+        "source": "src/styles.css"
+      }
+    ],
+    "radius": [
+      {
+        "name": "--radius-sm",
+        "raw": "8px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius-md",
+        "raw": "12px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius-lg",
+        "raw": "20px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius-xl",
+        "raw": "28px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius-pill",
+        "raw": "999px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--radius",
+        "raw": "12px",
+        "source": "src/styles.css"
+      }
+    ],
+    "shadow": [
+      {
+        "name": "--shadow-sm",
+        "raw": "0 1px 2px rgba(12, 28, 62, 0.06)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--shadow-md",
+        "raw": "0 4px 16px rgba(12, 28, 62, 0.08)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--shadow-lg",
+        "raw": "0 12px 32px rgba(12, 28, 62, 0.12)",
+        "source": "src/styles.css"
+      }
+    ],
+    "other": [
+      {
+        "name": "--motion-duration-instant",
+        "raw": "100ms",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--motion-duration-fast",
+        "raw": "160ms",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--motion-duration-base",
+        "raw": "240ms",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--motion-duration-slow",
+        "raw": "400ms",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--motion-ease-out",
+        "raw": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--motion-ease-in",
+        "raw": "cubic-bezier(0.7, 0, 0.84, 0)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--motion-ease-in-out",
+        "raw": "cubic-bezier(0.65, 0, 0.35, 1)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--motion-ease-spring",
+        "raw": "cubic-bezier(0.34, 1.56, 0.64, 1)",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--motion-rise",
+        "raw": "8px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--motion-rise-lg",
+        "raw": "16px",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--motion-scale-in",
+        "raw": "0.96",
+        "source": "src/styles.css"
+      },
+      {
+        "name": "--motion-press-scale",
+        "raw": "0.97",
+        "source": "src/styles.css"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Accordion",
+      "file": "src/components/bonlife/Accordion",
+      "import_path": ""
+    },
+    {
+      "name": "Badge",
+      "file": "src/components/bonlife/Badge",
+      "import_path": "",
+      "props": [
+        {
+          "name": "tone",
+          "type": "enum",
+          "values": [
+            "neutral",
+            "navy",
+            "coral",
+            "success",
+            "error",
+            "funeral",
+            "life",
+            "savings",
+            "accident"
+          ],
+          "default": "neutral"
+        }
+      ]
+    },
+    {
+      "name": "Button",
+      "file": "src/components/bonlife/Button",
+      "import_path": "",
+      "props": [
+        {
+          "name": "variant",
+          "type": "enum",
+          "values": [
+            "primary",
+            "secondary",
+            "ghost",
+            "outline"
+          ],
+          "default": "primary"
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "default": "md"
+        },
+        {
+          "name": "asChild",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Card",
+      "file": "src/components/bonlife/Card",
+      "import_path": "",
+      "props": [
+        {
+          "name": "variant",
+          "type": "enum",
+          "values": [
+            "shadow",
+            "outline",
+            "flat"
+          ],
+          "default": "shadow"
+        },
+        {
+          "name": "hoverable",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Checkbox",
+      "file": "src/components/bonlife/Checkbox",
+      "import_path": "",
+      "props": [
+        {
+          "name": "label",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Dialog",
+      "file": "src/components/bonlife/Dialog",
+      "import_path": ""
+    },
+    {
+      "name": "DownloadCard",
+      "file": "src/components/bonlife/DownloadCard",
+      "import_path": "",
+      "props": [
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "any"
+        },
+        {
+          "name": "meta",
+          "type": "string"
+        },
+        {
+          "name": "preview",
+          "type": "any"
+        },
+        {
+          "name": "actions",
+          "type": "any"
+        },
+        {
+          "name": "children",
+          "type": "any"
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "flex flex-col"
+        },
+        {
+          "name": "bodyClassName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "IconButton",
+      "file": "src/components/bonlife/IconButton",
+      "import_path": "",
+      "props": [
+        {
+          "name": "variant",
+          "type": "enum",
+          "values": [
+            "primary",
+            "secondary",
+            "ghost"
+          ],
+          "default": "ghost"
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ],
+          "default": "md"
+        }
+      ]
+    },
+    {
+      "name": "IconTile",
+      "file": "src/components/bonlife/IconTile",
+      "import_path": ""
+    },
+    {
+      "name": "Input",
+      "file": "src/components/bonlife/Input",
+      "import_path": "",
+      "props": [
+        {
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "name": "hint",
+          "type": "string"
+        },
+        {
+          "name": "error",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "KbMarkdown",
+      "file": "src/components/bonlife/KbSection",
+      "import_path": ""
+    },
+    {
+      "name": "KbSection",
+      "file": "src/components/bonlife/KbSection",
+      "import_path": ""
+    },
+    {
+      "name": "KbUploadPanel",
+      "file": "src/components/bonlife/KbUploadPanel",
+      "import_path": ""
+    },
+    {
+      "name": "NavDrawer",
+      "file": "src/components/bonlife/NavDrawer",
+      "import_path": ""
+    },
+    {
+      "name": "PageSection",
+      "file": "src/components/bonlife/PageSection",
+      "import_path": "",
+      "props": [
+        {
+          "name": "id",
+          "type": "string"
+        },
+        {
+          "name": "eyebrow",
+          "type": "string"
+        },
+        {
+          "name": "title",
+          "type": "string"
+        },
+        {
+          "name": "lead",
+          "type": "any"
+        },
+        {
+          "name": "headerAction",
+          "type": "any"
+        },
+        {
+          "name": "children",
+          "type": "any",
+          "required": true
+        },
+        {
+          "name": "className",
+          "type": "string",
+          "default": "max-w-3xl"
+        },
+        {
+          "name": "bodyClassName",
+          "type": "string"
+        },
+        {
+          "name": "surface",
+          "type": "boolean"
+        },
+        {
+          "name": "surfaceClassName",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "PageSidebar",
+      "file": "src/components/bonlife/PageSidebar",
+      "import_path": "",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "default": "Sections"
+        },
+        {
+          "name": "items",
+          "type": "any"
+        },
+        {
+          "name": "groups",
+          "type": "any"
+        }
+      ]
+    },
+    {
+      "name": "PageWithSidebar",
+      "file": "src/components/bonlife/PageSidebar",
+      "import_path": ""
+    },
+    {
+      "name": "PlanCard",
+      "file": "src/components/bonlife/PlanCard",
+      "import_path": "",
+      "props": [
+        {
+          "name": "category",
+          "type": "enum",
+          "values": [
+            "funeral",
+            "life",
+            "savings",
+            "accident"
+          ],
+          "required": true
+        },
+        {
+          "name": "eyebrow",
+          "type": "string"
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "cta",
+          "type": "string"
+        },
+        {
+          "name": "href",
+          "type": "string"
+        },
+        {
+          "name": "active",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "PlanRow",
+      "file": "src/components/bonlife/PlanRow",
+      "import_path": "",
+      "props": [
+        {
+          "name": "category",
+          "type": "any",
+          "required": true
+        },
+        {
+          "name": "name",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "tagline",
+          "type": "string"
+        },
+        {
+          "name": "price",
+          "type": "string"
+        },
+        {
+          "name": "href",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Radio",
+      "file": "src/components/bonlife/Radio",
+      "import_path": "",
+      "props": [
+        {
+          "name": "label",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Select",
+      "file": "src/components/bonlife/Select",
+      "import_path": "",
+      "props": [
+        {
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "name": "options",
+          "type": "object",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "SiteHeader",
+      "file": "src/components/bonlife/SiteChrome",
+      "import_path": ""
+    },
+    {
+      "name": "SiteFooter",
+      "file": "src/components/bonlife/SiteChrome",
+      "import_path": ""
+    },
+    {
+      "name": "PageHeader",
+      "file": "src/components/bonlife/SiteChrome",
+      "import_path": ""
+    },
+    {
+      "name": "SocialFrame",
+      "file": "src/components/bonlife/SocialFrame",
+      "import_path": ""
+    },
+    {
+      "name": "SocialLockup",
+      "file": "src/components/bonlife/SocialFrame",
+      "import_path": ""
+    },
+    {
+      "name": "SocialPageIndicator",
+      "file": "src/components/bonlife/SocialFrame",
+      "import_path": ""
+    },
+    {
+      "name": "SocialCarousel",
+      "file": "src/components/bonlife/SocialFrame",
+      "import_path": ""
+    },
+    {
+      "name": "SocialMark",
+      "file": "src/components/bonlife/SocialFrame",
+      "import_path": ""
+    },
+    {
+      "name": "TemplateInstantCash",
+      "file": "src/components/bonlife/SocialTemplates",
+      "import_path": ""
+    },
+    {
+      "name": "TemplateLifeCover",
+      "file": "src/components/bonlife/SocialTemplates",
+      "import_path": ""
+    },
+    {
+      "name": "TemplateFuneralCover",
+      "file": "src/components/bonlife/SocialTemplates",
+      "import_path": ""
+    },
+    {
+      "name": "TemplateTestimonial",
+      "file": "src/components/bonlife/SocialTemplates",
+      "import_path": ""
+    },
+    {
+      "name": "TemplateStatStory",
+      "file": "src/components/bonlife/SocialTemplates",
+      "import_path": ""
+    },
+    {
+      "name": "TemplateOneLifeStory",
+      "file": "src/components/bonlife/SocialTemplates",
+      "import_path": ""
+    },
+    {
+      "name": "TemplateSmsCallback",
+      "file": "src/components/bonlife/SocialTemplates",
+      "import_path": ""
+    },
+    {
+      "name": "TemplateBranchEvent",
+      "file": "src/components/bonlife/SocialTemplates",
+      "import_path": ""
+    },
+    {
+      "name": "TemplatePaydayReminder",
+      "file": "src/components/bonlife/SocialTemplates",
+      "import_path": ""
+    },
+    {
+      "name": "TemplateHowItWorksCarousel",
+      "file": "src/components/bonlife/SocialTemplates",
+      "import_path": ""
+    },
+    {
+      "name": "Switch",
+      "file": "src/components/bonlife/Switch",
+      "import_path": "",
+      "props": [
+        {
+          "name": "label",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Tabs",
+      "file": "src/components/bonlife/Tabs",
+      "import_path": ""
+    },
+    {
+      "name": "TabsList",
+      "file": "src/components/bonlife/Tabs",
+      "import_path": ""
+    },
+    {
+      "name": "TabsTrigger",
+      "file": "src/components/bonlife/Tabs",
+      "import_path": ""
+    },
+    {
+      "name": "TabsContent",
+      "file": "src/components/bonlife/Tabs",
+      "import_path": ""
+    },
+    {
+      "name": "BonlifeToaster",
+      "file": "src/components/bonlife/Toast",
+      "import_path": ""
+    },
+    {
+      "name": "Tooltip",
+      "file": "src/components/bonlife/Tooltip",
+      "import_path": ""
+    },
+    {
+      "name": "Sheet",
+      "file": "src/components/ui/sheet",
+      "import_path": "",
+      "props": [
+        {
+          "name": "side",
+          "type": "enum",
+          "values": [
+            "top",
+            "bottom",
+            "left",
+            "right"
+          ],
+          "default": "right"
+        }
+      ]
+    },
+    {
+      "name": "SheetPortal",
+      "file": "src/components/ui/sheet",
+      "import_path": ""
+    },
+    {
+      "name": "SheetOverlay",
+      "file": "src/components/ui/sheet",
+      "import_path": ""
+    },
+    {
+      "name": "SheetTrigger",
+      "file": "src/components/ui/sheet",
+      "import_path": ""
+    },
+    {
+      "name": "SheetClose",
+      "file": "src/components/ui/sheet",
+      "import_path": ""
+    },
+    {
+      "name": "SheetContent",
+      "file": "src/components/ui/sheet",
+      "import_path": ""
+    },
+    {
+      "name": "SheetHeader",
+      "file": "src/components/ui/sheet",
+      "import_path": ""
+    },
+    {
+      "name": "SheetFooter",
+      "file": "src/components/ui/sheet",
+      "import_path": ""
+    },
+    {
+      "name": "SheetTitle",
+      "file": "src/components/ui/sheet",
+      "import_path": ""
+    },
+    {
+      "name": "SheetDescription",
+      "file": "src/components/ui/sheet",
+      "import_path": ""
+    },
+    {
+      "name": "Constants",
+      "file": "src/integrations/supabase/types",
+      "import_path": ""
+    }
+  ],
+  "assets": [
+    {
+      "file": "src/assets/bonlife/gradients/gradient-01.jpg.asset.json",
+      "kind": "image",
+      "format": "jpg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/gradients/gradient-02.jpg.asset.json",
+      "kind": "image",
+      "format": "jpg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/gradients/gradient-03.jpg.asset.json",
+      "kind": "image",
+      "format": "jpg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/gradients/gradient-04.png.asset.json",
+      "kind": "image",
+      "format": "png",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/logos/bonlife-mark-coral.svg.asset.json",
+      "kind": "image",
+      "format": "svg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/logos/bonlife-mark-mint.svg.asset.json",
+      "kind": "image",
+      "format": "svg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/logos/bonlife-mark-navy.svg.asset.json",
+      "kind": "image",
+      "format": "svg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/logos/bonlife-mark-white.svg.asset.json",
+      "kind": "image",
+      "format": "svg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/logos/bonlife-wordmark-dark.svg",
+      "kind": "image",
+      "format": "svg"
+    },
+    {
+      "file": "src/assets/bonlife/logos/bonlife-wordmark-light.svg",
+      "kind": "image",
+      "format": "svg"
+    },
+    {
+      "file": "src/assets/bonlife/photography/celebration-fistpump.jpg.asset.json",
+      "kind": "image",
+      "format": "jpg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/photography/couple-sofa.jpg.asset.json",
+      "kind": "image",
+      "format": "jpg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/photography/family-full-length.jpg.asset.json",
+      "kind": "image",
+      "format": "jpg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/photography/family-studio.jpg.asset.json",
+      "kind": "image",
+      "format": "jpg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/photography/father-daughter-laughing.jpg.asset.json",
+      "kind": "image",
+      "format": "jpg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/photography/father-daughter.jpg.asset.json",
+      "kind": "image",
+      "format": "jpg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/photography/mother-child.jpg.asset.json",
+      "kind": "image",
+      "format": "jpg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/photography/senior-couple-beach.jpg.asset.json",
+      "kind": "image",
+      "format": "jpg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/photography/senior-couple-selfie.jpg.asset.json",
+      "kind": "image",
+      "format": "jpg",
+      "pointer": true
+    },
+    {
+      "file": "src/assets/bonlife/photography/senior-woman-portrait.jpg.asset.json",
+      "kind": "image",
+      "format": "jpg",
+      "pointer": true
+    }
+  ]
+}
