@@ -78,7 +78,7 @@ export const createKbSection = createServerFn({ method: "POST" })
       if (!parent || parent.parent_id) throw new Error("Invalid parent section");
     }
     const siblings = list.filter((row) => row.parent_id === parentId);
-    let nextOrder = (list[list.length - 1]?.order_index ?? -1) + 1;
+    let nextOrder = list.reduce((max, row) => Math.max(max, row.order_index), -1) + 1;
     const after = data.insert_after_id
       ? siblings.find((r) => r.id === data.insert_after_id)
       : undefined;
