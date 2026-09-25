@@ -4,7 +4,7 @@ import wordmarkLight from "@/assets/bonlife/logos/bonlife-wordmark-light.svg";
 import wordmarkDark from "@/assets/bonlife/logos/bonlife-wordmark-dark.svg";
 import { NavDrawer } from "@/components/bonlife/NavDrawer";
 
-export const SYSTEM_VERSION = "v2.4";
+export const SYSTEM_VERSION = "v2.5";
 
 export function SiteHeader() {
   return (

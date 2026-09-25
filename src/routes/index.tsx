@@ -58,7 +58,7 @@ function HomePage() {
       <section>
         <div className="mx-auto max-w-[1200px] px-6 pb-16 pt-20 sm:px-8 md:pb-20 md:pt-28">
           <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-coral">
-            Bonlife Design System · v2.4
+            Bonlife Design System · v2.5
           </div>
           <h1 className="mt-5 max-w-[900px] !text-[44px] !leading-[1.05] tracking-[-0.025em] text-navy sm:!text-[56px]">
             The design system for everyone building Bonlife.
