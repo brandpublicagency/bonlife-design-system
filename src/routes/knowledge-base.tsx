@@ -36,6 +36,8 @@ export const Route = createFileRoute("/knowledge-base")({
         content:
           "The single source of truth about Bonlife: mission, products, voice, branch network.",
       },
+       { property: "og:type", content: "website" },
+       { name: "twitter:card", content: "summary" },
       { property: "og:url", content: "/knowledge-base" },
     ],
     links: [{ rel: "canonical", href: "/knowledge-base" }],
