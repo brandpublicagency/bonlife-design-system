@@ -45,7 +45,7 @@ function SocialPage() {
     <div className="min-h-screen bg-background">
       <SiteHeader />
       <PageHeader
-        eyebrow="Templates · v2.4"
+        eyebrow="Templates · v2.5"
         title="Social post templates"
         lead="Nine on-brand layouts built from Bonlife tokens. Drop copy in, export at native resolution, ship. Every template honours the Instant Cash promise, the 74448 SMS line, and the four category colours."
       />
