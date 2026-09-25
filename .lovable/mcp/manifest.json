@@ -12,7 +12,7 @@
   "mcp": {
     "server": {
       "name": "bonlife-design-system",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "title": "Bonlife Design System"
     },
     "tools": [
@@ -34,9 +34,26 @@
         "outputSchema": null
       },
       {
+        "name": "get_full_kb",
+        "title": "Read the whole Knowledge Base",
+        "description": "Return every Knowledge Base section, in order, with its number, id, slug and full Markdown text.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
         "name": "get_kb_section",
         "title": "Read a Knowledge Base section",
-        "description": "Read the full Markdown content of one Knowledge Base section by its slug.",
+        "description": "Read the full Markdown content of one Knowledge Base section by id or slug.",
         "annotations": {
           "readOnlyHint": true,
           "idempotentHint": true,
@@ -46,14 +63,104 @@
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
-            "slug": {
+            "id": {
+              "description": "Section id.",
               "type": "string",
-              "minLength": 1,
-              "description": "Section slug, e.g. 3-products-and-services."
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "slug": {
+              "description": "Section slug, e.g. 3-products-and-services.",
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "search_kb",
+        "title": "Search the Knowledge Base",
+        "description": "Find sections whose title or text contains a word or phrase (case-insensitive), with a short snippet.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "query": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 200,
+              "description": "Word or phrase to find."
             }
           },
           "required": [
-            "slug"
+            "query"
+          ],
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "create_kb_section",
+        "title": "Add a Knowledge Base section",
+        "description": "Add a new section. Optionally nest it under a top-level parent (e.g. the Plans section) and place it after a sibling. Numbers update automatically. Admins only.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200,
+              "description": "Title, without a number."
+            },
+            "body_markdown": {
+              "default": "",
+              "description": "Full Markdown body.",
+              "type": "string",
+              "maxLength": 200000
+            },
+            "parent_id": {
+              "description": "Top-level parent id, or null for top level.",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "insert_after_id": {
+              "description": "Sibling to place it after; omit to add at the end.",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "required": [
+            "title"
           ],
           "additionalProperties": false
         },
@@ -61,8 +168,8 @@
       },
       {
         "name": "update_kb_section",
-        "title": "Update a Knowledge Base section",
-        "description": "Replace the title and/or Markdown body of a Knowledge Base section. Admins only; changes are published immediately.",
+        "title": "Edit a Knowledge Base section",
+        "description": "Replace the title and/or full Markdown body of a section (by id or slug). Admins only; published immediately.",
         "annotations": {
           "readOnlyHint": false,
           "destructiveHint": true,
@@ -73,13 +180,19 @@
           "$schema": "https://json-schema.org/draft/2020-12/schema",
           "type": "object",
           "properties": {
-            "slug": {
+            "id": {
+              "description": "Section id.",
               "type": "string",
-              "minLength": 1,
-              "description": "Slug of the section to update."
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "slug": {
+              "description": "Section slug.",
+              "type": "string",
+              "minLength": 1
             },
             "title": {
-              "description": "New title (without a number).",
+              "description": "New title, without a number.",
               "type": "string",
               "minLength": 1,
               "maxLength": 200
@@ -90,9 +203,105 @@
               "maxLength": 200000
             }
           },
-          "required": [
-            "slug"
-          ],
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "move_kb_section",
+        "title": "Move a Knowledge Base section",
+        "description": "Reorder a section up/down, or move it under a different top-level parent (or to the top level) after a chosen sibling. Admins only.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": false,
+          "idempotentHint": false,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "id": {
+              "description": "Section id.",
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "slug": {
+              "description": "Section slug.",
+              "type": "string",
+              "minLength": 1
+            },
+            "direction": {
+              "description": "Move one step among its current siblings.",
+              "type": "string",
+              "enum": [
+                "up",
+                "down"
+              ]
+            },
+            "new_parent_id": {
+              "description": "Move under this top-level parent; null moves it to the top level.",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "insert_after_id": {
+              "description": "Place after this sibling in the destination; null puts it first.",
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "uuid",
+                  "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "delete_kb_section",
+        "title": "Delete a Knowledge Base section",
+        "description": "Permanently delete a section. Sections with child sections need include_children: true, which deletes them too. Admins only; cannot be undone.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "id": {
+              "description": "Section id.",
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$"
+            },
+            "slug": {
+              "description": "Section slug.",
+              "type": "string",
+              "minLength": 1
+            },
+            "include_children": {
+              "default": false,
+              "description": "Also delete its child sections.",
+              "type": "boolean"
+            }
+          },
           "additionalProperties": false
         },
         "outputSchema": null
