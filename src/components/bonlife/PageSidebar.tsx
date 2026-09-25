@@ -6,6 +6,7 @@ export type SidebarItem = {
   id: string;
   label: string;
   icon?: LucideIcon;
+  depth?: 0 | 1;
 };
 
 export type SidebarGroup = {
@@ -17,6 +18,7 @@ type Props = {
   label?: string;
   items?: SidebarItem[];
   groups?: SidebarGroup[];
+  numbered?: boolean;
 };
 
 function flatten(items?: SidebarItem[], groups?: SidebarGroup[]): SidebarItem[] {
@@ -25,7 +27,7 @@ function flatten(items?: SidebarItem[], groups?: SidebarGroup[]): SidebarItem[] 
   return [];
 }
 
-export function PageSidebar({ label = "Sections", items, groups }: Props) {
+export function PageSidebar({ label = "Sections", items, groups, numbered = true }: Props) {
   const all = flatten(items, groups);
   const [activeId, setActiveId] = useState<string>(all[0]?.id ?? "");
 
@@ -92,7 +94,7 @@ export function PageSidebar({ label = "Sections", items, groups }: Props) {
               <div className="mb-4 px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
                 {label}
               </div>
-              <ItemList items={items ?? []} activeId={activeId} numbered />
+              <ItemList items={items ?? []} activeId={activeId} numbered={numbered} />
             </>
           )}
         </div>
@@ -121,6 +123,7 @@ function ItemList({
               href={`#${it.id}`}
               className={cn(
                 "group flex items-center gap-3 rounded-xl border border-transparent px-3 py-2 font-display text-[13px] font-medium transition-colors",
+                it.depth === 1 && "ml-4 text-[12.5px]",
                 active
                   ? "border-hairline bg-surface-tint text-navy"
                   : "text-navy/60 hover:bg-surface-tint hover:text-navy",

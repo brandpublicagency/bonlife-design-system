@@ -10,7 +10,7 @@ import { listKbSections } from "@/lib/kb.functions";
 import { getMyAdminStatus } from "@/lib/admin.functions";
 import { useSession } from "@/hooks/use-auth";
 import { useHydrated } from "@/hooks/use-hydrated";
-import { numberedTitle, sectionNumbers } from "@/lib/kb-numbering";
+import { displayTitle, orderKbSections, sectionDisplayNumbers } from "@/lib/kb-hierarchy";
 import { buildFullKbMarkdown, downloadBlob, kbExportFilename } from "@/lib/kb-export";
 
 const kbSectionsQuery = queryOptions({
@@ -36,6 +36,8 @@ export const Route = createFileRoute("/knowledge-base")({
         content:
           "The single source of truth about Bonlife: mission, products, voice, branch network.",
       },
+       { property: "og:type", content: "website" },
+       { name: "twitter:card", content: "summary" },
       { property: "og:url", content: "/knowledge-base" },
     ],
     links: [{ rel: "canonical", href: "/knowledge-base" }],
@@ -87,7 +89,8 @@ function KnowledgeBasePage() {
     enabled: !!session,
   });
   const isAdmin = !!adminData?.isAdmin;
-  const nums = sectionNumbers(sections);
+  const orderedSections = orderKbSections(sections);
+  const nums = sectionDisplayNumbers(orderedSections);
 
   const latest = sections.reduce(
     (max, s) => (s.updated_at > max ? s.updated_at : max),
@@ -126,13 +129,18 @@ function KnowledgeBasePage() {
         sidebar={
           <PageSidebar
             label="Contents"
-            items={sections.map((s, i) => ({ id: s.slug, label: numberedTitle(s.title, nums[i]) }))}
+            numbered={false}
+             items={orderedSections.map((section) => ({
+               id: section.slug,
+               label: displayTitle(section.title, nums.get(section.id)),
+               depth: section.parent_id ? 1 : 0,
+             }))}
           />
         }
       >
-        <FullDownloadBar sections={sections} />
-        {sections.map((s, i) => (
-          <KbSectionCard key={s.id} section={s} number={nums[i]} />
+         <FullDownloadBar sections={orderedSections} />
+         {orderedSections.map((section) => (
+           <KbSectionCard key={section.id} section={section} number={nums.get(section.id)} />
         ))}
       </PageWithSidebar>
       <SiteFooter />
@@ -140,7 +148,7 @@ function KnowledgeBasePage() {
   );
 }
 
-function KbSectionCard({ section, number }: { section: KbSectionRow; number: number | null }) {
+function KbSectionCard({ section, number }: { section: KbSectionRow; number: string | null | undefined }) {
   const [copied, setCopied] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
 
@@ -167,7 +175,7 @@ function KbSectionCard({ section, number }: { section: KbSectionRow; number: num
   };
 
   const handleDownload = () => {
-    const blob = new Blob([`# ${numberedTitle(section.title, number)}\n\n${section.body_markdown}`], {
+    const blob = new Blob([`# ${displayTitle(section.title, number)}\n\n${section.body_markdown}`], {
       type: "text/markdown;charset=utf-8",
     });
     const url = URL.createObjectURL(blob);
@@ -181,7 +189,7 @@ function KbSectionCard({ section, number }: { section: KbSectionRow; number: num
   };
 
   return (
-    <section id={section.slug} className="scroll-mt-24 pb-12 sm:pb-16">
+    <section id={section.slug} className={`scroll-mt-24 pb-12 sm:pb-16 ${section.parent_id ? "ml-4 sm:ml-10" : ""}`}>
       <div className="rounded-2xl border border-hairline bg-surface p-6 sm:p-10">
         <div className="min-w-0">
           <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">

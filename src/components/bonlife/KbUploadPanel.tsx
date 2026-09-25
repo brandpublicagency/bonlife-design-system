@@ -12,13 +12,14 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/bonlife/Button";
 import { KbMarkdown } from "@/components/bonlife/KbSection";
-import { numberedTitle, sectionNumbers } from "@/lib/kb-numbering";
+import { displayTitle, orderKbSections, sectionDisplayNumbers } from "@/lib/kb-hierarchy";
 
 export type KbProposal = {
   action: "update_existing" | "create_new";
   section_id: string | null;
   slug: string | null;
   insert_after_section_id: string | null;
+  parent_section_id: string | null;
   title: string;
   summary_of_changes: string;
   proposed_body_markdown: string;
@@ -76,7 +77,7 @@ export function KbUploadPanel({
   onCreate,
   sections = [],
 }: {
-  sections?: { id: string; slug: string; title: string }[];
+  sections?: { id: string; slug: string; title: string; parent_id: string | null; sibling_order: number; order_index: number }[];
   onExtract: (
     input:
       | { source: "file"; filename: string; mimeType: string; base64: string }
@@ -91,6 +92,7 @@ export function KbUploadPanel({
     title: string;
     body_markdown: string;
     insert_after_id?: string | null;
+    parent_id?: string | null;
   }) => Promise<void>;
 }) {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -183,6 +185,7 @@ export function KbUploadPanel({
           title: p.title,
           body_markdown: p.proposed_body_markdown,
           insert_after_id: p.insert_after_section_id,
+          parent_id: p.parent_section_id,
         });
       }
       setProposals((prev) => prev.filter((x) => x !== p));
@@ -206,6 +209,7 @@ export function KbUploadPanel({
           title: p.title,
           body_markdown: p.proposed_body_markdown,
           insert_after_id: p.insert_after_section_id,
+          parent_id: p.parent_section_id,
         });
         }
         setProposals((prev) => prev.filter((x) => x !== p));
@@ -215,7 +219,8 @@ export function KbUploadPanel({
     }
   }
 
-  const nums = sectionNumbers(sections);
+  const orderedSections = orderKbSections(sections);
+  const nums = sectionDisplayNumbers(orderedSections);
   const anyBusy = applyingKey !== null || applyingAll;
 
   return (
@@ -472,7 +477,32 @@ export function KbUploadPanel({
                           </button>
                         </div>
                       </header>
-                      <label className="mt-3 flex flex-wrap items-center gap-2 text-[12px] font-semibold text-navy/70">
+                      <div className="mt-3 flex flex-wrap items-center gap-4">
+                      <label className="flex flex-wrap items-center gap-2 text-[12px] font-semibold text-navy/70">
+                        Parent
+                        <select
+                          value={p.parent_section_id ?? ""}
+                          onChange={(event) => {
+                            const parentId = event.target.value || null;
+                            setProposals((prev) =>
+                              prev.map((item) => item === p ? {
+                                ...item,
+                                parent_section_id: parentId,
+                                insert_after_section_id: null,
+                              } : item),
+                            );
+                          }}
+                          className="rounded-md border border-hairline bg-surface-tint px-2 py-1 text-[12.5px] font-normal text-navy"
+                        >
+                          <option value="">Top level</option>
+                          {orderedSections.filter((section) => section.slug === "plans").map((section) => (
+                            <option key={section.id} value={section.id}>
+                              {displayTitle(section.title, nums.get(section.id))}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                      <label className="flex flex-wrap items-center gap-2 text-[12px] font-semibold text-navy/70">
                         Position
                         <select
                           value={p.insert_after_section_id ?? ""}
@@ -485,13 +515,14 @@ export function KbUploadPanel({
                           className="rounded-md border border-hairline bg-surface-tint px-2 py-1 text-[12.5px] font-normal text-navy"
                         >
                           <option value="">At the end</option>
-                          {sections.map((s, si) => (
-                            <option key={s.id} value={s.id}>
-                              After {numberedTitle(s.title, nums[si])}
+                          {orderedSections.filter((section) => section.parent_id === (p.parent_section_id ?? null)).map((section) => (
+                            <option key={section.id} value={section.id}>
+                              After {displayTitle(section.title, nums.get(section.id))}
                             </option>
                           ))}
                         </select>
                       </label>
+                      </div>
                       <div className="mt-3 max-h-[280px] overflow-y-auto pr-1">
                         <KbMarkdown>{p.proposed_body_markdown}</KbMarkdown>
                       </div>

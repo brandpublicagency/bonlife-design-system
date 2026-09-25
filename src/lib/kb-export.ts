@@ -1,6 +1,14 @@
-import { numberedTitle, sectionNumbers } from "@/lib/kb-numbering";
+import { displayTitle, orderKbSections, sectionDisplayNumbers } from "@/lib/kb-hierarchy";
 
-export type KbExportSection = { slug: string; title: string; body_markdown: string };
+export type KbExportSection = {
+  id: string;
+  slug: string;
+  title: string;
+  body_markdown: string;
+  parent_id: string | null;
+  sibling_order: number;
+  order_index: number;
+};
 
 export function kbExportFilename(ext: "pdf" | "md"): string {
   const d = new Date().toISOString().slice(0, 10);
@@ -8,12 +16,19 @@ export function kbExportFilename(ext: "pdf" | "md"): string {
 }
 
 export function buildFullKbMarkdown(sections: KbExportSection[]): string {
-  const nums = sectionNumbers(sections);
+  const ordered = orderKbSections(sections);
+  const nums = sectionDisplayNumbers(ordered);
   const date = new Date().toISOString().slice(0, 10);
-  const titles = sections.map((s, i) => numberedTitle(s.title, nums[i]));
-  const toc = titles.map((t) => `- ${t}`).join("\n");
-  const body = sections
-    .map((s, i) => `## ${titles[i]}\n\n${s.body_markdown.trim()}`)
+  const titles = ordered.map((section) => displayTitle(section.title, nums.get(section.id)));
+  const toc = ordered
+    .map((section, index) => `${section.parent_id ? "  " : ""}- ${titles[index]}`)
+    .join("\n");
+  const body = ordered
+    .map((section, index) => {
+      const heading = section.parent_id ? "###" : "##";
+      const content = section.body_markdown.trim() || "_Details to be added._";
+      return `${heading} ${titles[index]}\n\n${content}`;
+    })
     .join("\n\n---\n\n");
   return `# Bonlife Knowledge Base\n\nUpdated ${date}\n\n## Contents\n\n${toc}\n\n---\n\n${body}\n`;
 }
