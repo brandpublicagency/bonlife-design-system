@@ -7,6 +7,7 @@ import {
   PenLine,
   Plus,
   Sparkles,
+  TextCursorInput,
   X,
 } from "lucide-react";
 import { Button } from "@/components/bonlife/Button";
@@ -27,6 +28,7 @@ export type KbProposal = {
 
 const ACCEPT = ".pdf,.md,.markdown,.txt,application/pdf,text/plain,text/markdown";
 const MAX_BYTES = 20 * 1024 * 1024;
+const MAX_TEXT_CHARS = 120_000;
 
 async function fileToBase64(file: File): Promise<string> {
   const buf = await file.arrayBuffer();
@@ -75,11 +77,11 @@ export function KbUploadPanel({
   sections = [],
 }: {
   sections?: { id: string; slug: string; title: string }[];
-  onExtract: (input: {
-    filename: string;
-    mimeType: string;
-    base64: string;
-  }) => Promise<KbProposal[]>;
+  onExtract: (
+    input:
+      | { source: "file"; filename: string; mimeType: string; base64: string }
+      | { source: "pasted_text"; text: string },
+  ) => Promise<KbProposal[]>;
   onApplyUpdate: (input: {
     id: string;
     title: string;
@@ -95,6 +97,8 @@ export function KbUploadPanel({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [filename, setFilename] = useState<string | null>(null);
+  const [importMode, setImportMode] = useState<"file" | "pasted_text">("file");
+  const [pastedText, setPastedText] = useState("");
   const [proposals, setProposals] = useState<KbProposal[]>([]);
   const [applyingKey, setApplyingKey] = useState<string | null>(null);
   const [applyingAll, setApplyingAll] = useState(false);
@@ -111,6 +115,7 @@ export function KbUploadPanel({
     try {
       const base64 = await fileToBase64(file);
       const list = await onExtract({
+        source: "file",
         filename: file.name,
         mimeType: file.type || "application/octet-stream",
         base64,
@@ -119,6 +124,39 @@ export function KbUploadPanel({
       setProposals(list);
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Extraction failed.";
+      if (/402/.test(msg))
+        setError("AI credits exhausted. Add credits in workspace settings and try again.");
+      else if (/429/.test(msg)) setError("Rate limited. Wait a moment and try again.");
+      else setError(msg);
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handlePastedText() {
+    const text = pastedText.trim();
+    setError(null);
+    setProposals([]);
+    setFilename(null);
+    if (!text) {
+      setError("Paste some text for Opus to analyse.");
+      return;
+    }
+    if (text.length > MAX_TEXT_CHARS) {
+      setError(`Pasted text is over ${MAX_TEXT_CHARS.toLocaleString()} characters. Please shorten it.`);
+      return;
+    }
+    setBusy(true);
+    try {
+      const list = await onExtract({ source: "pasted_text", text });
+      if (!list.length) {
+        setError("No changes or new sections could be proposed from the pasted text.");
+      } else {
+        setProposals(list);
+        setPastedText("");
+      }
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : "Analysis failed.";
       if (/402/.test(msg))
         setError("AI credits exhausted. Add credits in workspace settings and try again.");
       else if (/429/.test(msg)) setError("Rate limited. Wait a moment and try again.");
@@ -191,32 +229,105 @@ export function KbUploadPanel({
             Import
           </div>
           <h2 className="mt-1 font-display text-[22px] font-semibold text-navy">
-            Add sections from a file
+            Add information to the Knowledge Base
           </h2>
           <p className="mt-2 max-w-xl text-[13.5px] leading-[1.6] text-navy/70">
-            Drop a PDF, Markdown, or text file (up to 20 MB). Lovable AI reads the
-            whole knowledge base alongside your file, then proposes updates to
+            Upload a file or paste text. Lovable AI reads the whole knowledge base
+            alongside your source, then proposes updates to
             existing sections or brand-new sections - you review each one before
             anything is published.
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <input
-            ref={inputRef}
-            type="file"
-            accept={ACCEPT}
-            className="hidden"
-            onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) void handleFile(f);
-              e.target.value = "";
-            }}
-          />
-          <Button variant="outline" disabled={busy} onClick={() => inputRef.current?.click()}>
-            {busy ? <Loader2 size={14} className="animate-spin" /> : <FileUp size={14} />}
-            {busy ? "Reading…" : "Choose file"}
-          </Button>
-        </div>
+      </div>
+
+      <div className="mt-6 flex flex-wrap gap-2" role="tablist" aria-label="Import source">
+        <Button
+          size="sm"
+          variant={importMode === "file" ? "primary" : "outline"}
+          role="tab"
+          aria-selected={importMode === "file"}
+          onClick={() => setImportMode("file")}
+        >
+          <FileUp size={14} /> Upload file
+        </Button>
+        <Button
+          size="sm"
+          variant={importMode === "pasted_text" ? "primary" : "outline"}
+          role="tab"
+          aria-selected={importMode === "pasted_text"}
+          onClick={() => setImportMode("pasted_text")}
+        >
+          <TextCursorInput size={14} /> Paste text
+        </Button>
+      </div>
+
+      <div className="mt-4 rounded-xl border border-hairline bg-surface p-4 sm:p-5">
+        {importMode === "file" ? (
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <div className="font-display text-[15px] font-semibold text-navy">Upload a source file</div>
+              <p className="mt-1 text-[12.5px] leading-[1.5] text-navy/60">
+                PDF, Markdown, or text, up to 20 MB.
+              </p>
+            </div>
+            <div>
+              <input
+                ref={inputRef}
+                type="file"
+                accept={ACCEPT}
+                className="hidden"
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) void handleFile(f);
+                  e.target.value = "";
+                }}
+              />
+              <Button variant="outline" disabled={busy} onClick={() => inputRef.current?.click()}>
+                {busy ? <Loader2 size={14} className="animate-spin" /> : <FileUp size={14} />}
+                {busy ? "Reading…" : "Choose file"}
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <label htmlFor="kb-pasted-text" className="font-display text-[15px] font-semibold text-navy">
+              Paste source text
+            </label>
+            <p className="mt-1 text-[12.5px] leading-[1.5] text-navy/60">
+              Add notes, emails, product updates, policy wording, or other source material.
+            </p>
+            <textarea
+              id="kb-pasted-text"
+              value={pastedText}
+              onChange={(event) => setPastedText(event.target.value)}
+              rows={10}
+              maxLength={MAX_TEXT_CHARS}
+              placeholder="Paste the information Opus should analyse here…"
+              className="mt-4 w-full resize-y rounded-md border border-hairline bg-surface-tint p-3 text-[13.5px] leading-[1.6] text-navy placeholder:text-navy/40 focus:border-navy focus:outline-none"
+            />
+            <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+              <span className="text-[11.5px] text-navy/50">
+                {pastedText.length.toLocaleString()} / {MAX_TEXT_CHARS.toLocaleString()} characters
+              </span>
+              <div className="flex items-center gap-2">
+                {pastedText ? (
+                  <Button variant="ghost" size="sm" disabled={busy} onClick={() => setPastedText("")}>
+                    Clear
+                  </Button>
+                ) : null}
+                <Button
+                  variant="primary"
+                  size="sm"
+                  disabled={busy || !pastedText.trim()}
+                  onClick={() => void handlePastedText()}
+                >
+                  {busy ? <Loader2 size={14} className="animate-spin" /> : <Sparkles size={14} />}
+                  {busy ? "Analysing…" : "Analyse pasted text"}
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {filename ? (

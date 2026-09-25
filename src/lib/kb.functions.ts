@@ -224,11 +224,18 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAdmin])
   .inputValidator((input: unknown) =>
     z
-      .object({
-        filename: z.string().min(1).max(300),
-        mimeType: z.string().min(1).max(200),
-        base64: z.string().min(1),
-      })
+      .discriminatedUnion("source", [
+        z.object({
+          source: z.literal("file"),
+          filename: z.string().min(1).max(300),
+          mimeType: z.string().min(1).max(200),
+          base64: z.string().min(1),
+        }),
+        z.object({
+          source: z.literal("pasted_text"),
+          text: z.string().trim().min(1).max(120_000),
+        }),
+      ])
       .parse(input),
   )
   .handler(async ({ data, context }) => {
@@ -257,13 +264,8 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
     // the runtime is compatible, so cast across the type mismatch.
     const model = anthropic("anthropic/claude-opus-5-5") as unknown as LanguageModel;
 
-    const isPdf =
-      data.mimeType === "application/pdf" || data.filename.toLowerCase().endsWith(".pdf");
-    const isText =
-      data.mimeType.startsWith("text/") ||
-      /\.(md|markdown|txt)$/i.test(data.filename);
-
-    const instruction = `Integrate this document ("${data.filename}") into the knowledge base. Return { proposals: [...] } per the system instructions. Max 12 proposals.`;
+    const sourceLabel = data.source === "file" ? data.filename : "Pasted text";
+    const instruction = `Integrate this source ("${sourceLabel}") into the knowledge base. Return { proposals: [...] } per the system instructions. Max 12 proposals.`;
 
     let userContent:
       | string
@@ -272,7 +274,12 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
           | { type: "file"; data: string; mediaType: string; filename?: string }
         >;
 
-    if (isPdf) {
+    if (data.source === "pasted_text") {
+      userContent = `Source: Pasted text\n\n---\n${data.text}\n---\n\n${instruction}`;
+    } else if (
+      data.mimeType === "application/pdf" ||
+      data.filename.toLowerCase().endsWith(".pdf")
+    ) {
       userContent = [
         { type: "text", text: instruction },
         {
@@ -282,7 +289,10 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
           filename: data.filename,
         },
       ];
-    } else if (isText) {
+    } else if (
+      data.mimeType.startsWith("text/") ||
+      /\.(md|markdown|txt)$/i.test(data.filename)
+    ) {
       let decoded = "";
       try {
         decoded = Buffer.from(data.base64, "base64").toString("utf-8");
@@ -345,7 +355,7 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
               section_id: null,
               slug: null,
               insert_after_section_id: null,
-              title: `Import: ${data.filename}`.slice(0, 200),
+               title: `Import: ${sourceLabel}`.slice(0, 200),
               summary_of_changes:
                 "The AI could not structure this document, so it is proposed as one new section.",
               proposed_body_markdown: stripEmDashes(text).slice(0, 40_000),

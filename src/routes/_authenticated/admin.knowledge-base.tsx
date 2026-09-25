@@ -136,8 +136,8 @@ function AdminEditor({ qc }: { qc: ReturnType<typeof useQueryClient> }) {
             Knowledge Base editor
           </h1>
           <p className="mt-4 max-w-2xl text-[15px] leading-[1.6] text-navy/70">
-            Add, edit, reorder, and delete sections. Import content from PDF,
-            Markdown, or text files. Everything you publish here appears on the
+            Add, edit, reorder, and delete sections. Import content from files or
+            pasted text. Everything you publish here appears on the
             public <Link to="/knowledge-base" className="text-coral underline underline-offset-2">Knowledge Base</Link> page.
           </p>
           <div className="mt-6 flex flex-wrap gap-2">
