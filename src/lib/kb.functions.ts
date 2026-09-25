@@ -59,24 +59,36 @@ export const createKbSection = createServerFn({ method: "POST" })
       .object({
         title: z.string().min(1).max(200),
         body_markdown: z.string().max(200_000).default(""),
+        insert_after_id: z.string().uuid().nullable().optional(),
       })
       .parse(input),
   )
   .handler(async ({ data, context }) => {
     const sb = context.supabase as unknown as SupabaseClient<Database>;
-    const { data: maxRow } = await sb
+    const { data: rows, error: listErr } = await sb
       .from("kb_sections")
-      .select("order_index")
-      .order("order_index", { ascending: false })
-      .limit(1)
-      .maybeSingle();
-    const nextOrder = (maxRow?.order_index ?? -1) + 1;
-    const slug = await ensureUniqueSlug(sb, slugify(data.title));
+      .select("id, order_index")
+      .order("order_index", { ascending: true });
+    if (listErr) throw new Error(listErr.message);
+    const list = rows ?? [];
+    let nextOrder = (list[list.length - 1]?.order_index ?? -1) + 1;
+    const after = data.insert_after_id
+      ? list.find((r) => r.id === data.insert_after_id)
+      : undefined;
+    if (after) {
+      nextOrder = after.order_index + 1;
+      const following = list.filter((r) => r.order_index >= nextOrder).reverse();
+      for (const r of following) {
+        await sb.from("kb_sections").update({ order_index: r.order_index + 1 }).eq("id", r.id);
+      }
+    }
+    const title = data.title.replace(/^\d+\.\s*/, "");
+    const slug = await ensureUniqueSlug(sb, slugify(title));
     const { data: row, error } = await sb
       .from("kb_sections")
       .insert({
         slug,
-        title: data.title,
+        title,
         body_markdown: data.body_markdown ?? "",
         order_index: nextOrder,
       })
