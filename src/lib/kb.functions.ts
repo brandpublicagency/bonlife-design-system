@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { generateText, NoObjectGeneratedError, Output } from "ai";
+import { streamText, NoObjectGeneratedError, Output } from "ai";
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
 import { requireSupabaseAdmin } from "@/integrations/supabase/admin-middleware";
