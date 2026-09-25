@@ -31,4 +31,3 @@ export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/bonlife/T
 export { BonlifeToaster, toast } from "./components/bonlife/Toast"
 export { Tooltip } from "./components/bonlife/Tooltip"
 export { Sheet, SheetPortal, SheetOverlay, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription } from "./components/ui/sheet"
-export { Constants } from "./integrations/supabase/types"
