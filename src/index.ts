@@ -22,7 +22,7 @@ export { SocialFrame, SocialLockup, SocialPageIndicator, SocialCarousel, SocialM
 export { TemplateInstantCash, TemplateLifeCover, TemplateFuneralCover, TemplateTestimonial, TemplateStatStory, TemplateOneLifeStory, TemplateSmsCallback, TemplateBranchEvent, TemplatePaydayReminder, TemplateHowItWorksCarousel } from "./components/bonlife/SocialTemplates"
 export { Switch } from "./components/bonlife/Switch"
 export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/bonlife/Tabs"
-export { BonlifeToaster } from "./components/bonlife/Toast"
+export { BonlifeToaster, toast } from "./components/bonlife/Toast"
 export { Tooltip } from "./components/bonlife/Tooltip"
 export { Sheet, SheetPortal, SheetOverlay, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription } from "./components/ui/sheet"
 export { Constants } from "./integrations/supabase/types"
