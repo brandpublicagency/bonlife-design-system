@@ -1,0 +1,102 @@
+{
+  "version": 1,
+  "sdk_version": "3.0.2",
+  "path": "/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://fqseiacmqfqexvlyxsur.supabase.co/auth/v1",
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "bonlife-design-system",
+      "version": "0.1.0",
+      "title": "Bonlife Design System"
+    },
+    "tools": [
+      {
+        "name": "list_kb_sections",
+        "title": "List Knowledge Base sections",
+        "description": "List every Bonlife Knowledge Base section with its number, slug, title and parent.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_kb_section",
+        "title": "Read a Knowledge Base section",
+        "description": "Read the full Markdown content of one Knowledge Base section by its slug.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Section slug, e.g. 3-products-and-services."
+            }
+          },
+          "required": [
+            "slug"
+          ],
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "update_kb_section",
+        "title": "Update a Knowledge Base section",
+        "description": "Replace the title and/or Markdown body of a Knowledge Base section. Admins only; changes are published immediately.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Slug of the section to update."
+            },
+            "title": {
+              "description": "New title (without a number).",
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "body_markdown": {
+              "description": "New full Markdown body.",
+              "type": "string",
+              "maxLength": 200000
+            }
+          },
+          "required": [
+            "slug"
+          ],
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
