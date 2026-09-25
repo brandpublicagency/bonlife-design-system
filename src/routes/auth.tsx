@@ -24,6 +24,18 @@ export const Route = createFileRoute("/auth")({
   component: AuthPage,
 });
 
+function goAfterSignIn(
+  navigate: ReturnType<typeof useNavigate>,
+  redirect: string | undefined,
+) {
+  // Only same-origin relative paths are allowed.
+  if (redirect && redirect.startsWith("/") && !redirect.startsWith("//")) {
+    window.location.assign(redirect);
+    return;
+  }
+  navigate({ to: "/admin/knowledge-base" });
+}
+
 function AuthPage() {
   const navigate = useNavigate();
   const { redirect } = Route.useSearch();
@@ -36,7 +48,7 @@ function AuthPage() {
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => {
       if (data.session) {
-        navigate({ to: (redirect as "/admin/knowledge-base") ?? "/admin/knowledge-base" });
+        goAfterSignIn(navigate, redirect);
       }
     });
   }, [navigate, redirect]);
@@ -48,7 +60,7 @@ function AuthPage() {
     try {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      navigate({ to: (redirect as "/admin/knowledge-base") ?? "/admin/knowledge-base" });
+      goAfterSignIn(navigate, redirect);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong");
     } finally {
