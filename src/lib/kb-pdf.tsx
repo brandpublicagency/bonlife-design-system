@@ -7,7 +7,7 @@ import type { KbExportSection } from "@/lib/kb-export";
 
 const s = StyleSheet.create({
   page: { padding: 56, paddingBottom: 64, fontFamily: "Helvetica", fontSize: 10.5, lineHeight: 1.5, color: "#000" },
-  docTitle: { fontFamily: "Helvetica-Bold", fontSize: 20, marginBottom: 4 },
+  docTitle: { fontFamily: "Helvetica-Bold", fontSize: 20, lineHeight: 1.3, marginBottom: 6 },
   meta: { fontSize: 10, marginBottom: 20 },
   h1: { fontFamily: "Helvetica-Bold", fontSize: 18, marginBottom: 12 },
   h2: { fontFamily: "Helvetica-Bold", fontSize: 14, marginTop: 14, marginBottom: 6 },
@@ -43,6 +43,8 @@ function inline(tokens: Token[] | undefined, keyBase = "i"): React.ReactNode[] {
         const l = t as Tokens.Link;
         return <Text key={key}>{inline(l.tokens, key)} ({l.href})</Text>;
       }
+      case "escape":
+        return (t as Tokens.Escape).text;
       case "br":
         return "\n";
       case "text": {
@@ -56,7 +58,7 @@ function inline(tokens: Token[] | undefined, keyBase = "i"): React.ReactNode[] {
 }
 
 function decode(str: string) {
-  return str.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+  return str.replace(/\\([\\`*_{}\[\]()#+\-.!|>~])/g, "$1").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
 }
 
 function blocks(tokens: Token[], keyBase = "b"): React.ReactNode[] {
