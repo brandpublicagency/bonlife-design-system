@@ -5,6 +5,7 @@ import { ArrowLeft, Loader2, Plus, ShieldOff, Trash2, UserPlus, X } from "lucide
 import { SiteFooter, SiteHeader } from "@/components/bonlife/SiteChrome";
 import { Button } from "@/components/bonlife/Button";
 import { KbSection, type KbSectionRow } from "@/components/bonlife/KbSection";
+import { sectionNumbers } from "@/lib/kb-numbering";
 import { KbUploadPanel } from "@/components/bonlife/KbUploadPanel";
 import {
   createKbSection,
@@ -92,11 +93,12 @@ function AdminKbPage() {
 function AdminEditor({ qc }: { qc: ReturnType<typeof useQueryClient> }) {
   const { data: sections } = useSuspenseQuery(kbSectionsQuery);
   const [adding, setAdding] = useState(false);
+  const nums = sectionNumbers(sections);
 
   const invalidate = () => qc.invalidateQueries({ queryKey: ["kb", "sections"] });
 
   const createMut = useMutation({
-    mutationFn: (input: { title: string; body_markdown: string }) =>
+    mutationFn: (input: { title: string; body_markdown: string; insert_after_id?: string | null }) =>
       createKbSection({ data: input }),
     onSuccess: invalidate,
   });
@@ -155,6 +157,7 @@ function AdminEditor({ qc }: { qc: ReturnType<typeof useQueryClient> }) {
       <main className="mx-auto max-w-[1200px] px-6 py-12 sm:px-8">
         <div className="grid gap-6">
           <KbUploadPanel
+            sections={sections}
             onExtract={async (input) => {
               const { proposals } = await extractKbDraftsFromUpload({ data: input });
               return proposals;
@@ -182,6 +185,7 @@ function AdminEditor({ qc }: { qc: ReturnType<typeof useQueryClient> }) {
             <KbSection
               key={s.id}
               section={s}
+              number={nums[i]}
               isFirst={i === 0}
               isLast={i === sections.length - 1}
               busy={busy}

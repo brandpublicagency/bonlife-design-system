@@ -2,7 +2,7 @@ import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { useQuery } from "@tanstack/react-query";
-import { Check, Copy, Download, Link as LinkIcon, ShieldCheck } from "lucide-react";
+import { Check, Copy, Download, FileText, Link as LinkIcon, Loader2, ShieldCheck } from "lucide-react";
 import { PageHeader, SiteFooter, SiteHeader } from "@/components/bonlife/SiteChrome";
 import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
 import { KbMarkdown, type KbSectionRow } from "@/components/bonlife/KbSection";
@@ -10,6 +10,8 @@ import { listKbSections } from "@/lib/kb.functions";
 import { getMyAdminStatus } from "@/lib/admin.functions";
 import { useSession } from "@/hooks/use-auth";
 import { useHydrated } from "@/hooks/use-hydrated";
+import { numberedTitle, sectionNumbers } from "@/lib/kb-numbering";
+import { buildFullKbMarkdown, downloadBlob, kbExportFilename } from "@/lib/kb-export";
 
 const kbSectionsQuery = queryOptions({
   queryKey: ["kb", "sections"],
@@ -85,6 +87,7 @@ function KnowledgeBasePage() {
     enabled: !!session,
   });
   const isAdmin = !!adminData?.isAdmin;
+  const nums = sectionNumbers(sections);
 
   const latest = sections.reduce(
     (max, s) => (s.updated_at > max ? s.updated_at : max),
@@ -123,12 +126,13 @@ function KnowledgeBasePage() {
         sidebar={
           <PageSidebar
             label="Contents"
-            items={sections.map((s) => ({ id: s.slug, label: s.title }))}
+            items={sections.map((s, i) => ({ id: s.slug, label: numberedTitle(s.title, nums[i]) }))}
           />
         }
       >
+        <FullDownloadBar sections={sections} />
         {sections.map((s, i) => (
-          <KbSectionCard key={s.id} section={s} index={i} />
+          <KbSectionCard key={s.id} section={s} number={nums[i]} />
         ))}
       </PageWithSidebar>
       <SiteFooter />
@@ -136,7 +140,7 @@ function KnowledgeBasePage() {
   );
 }
 
-function KbSectionCard({ section, index }: { section: KbSectionRow; index: number }) {
+function KbSectionCard({ section, number }: { section: KbSectionRow; number: number | null }) {
   const [copied, setCopied] = useState(false);
   const [linkCopied, setLinkCopied] = useState(false);
 
@@ -163,7 +167,7 @@ function KbSectionCard({ section, index }: { section: KbSectionRow; index: numbe
   };
 
   const handleDownload = () => {
-    const blob = new Blob([`# ${section.title}\n\n${section.body_markdown}`], {
+    const blob = new Blob([`# ${numberedTitle(section.title, number)}\n\n${section.body_markdown}`], {
       type: "text/markdown;charset=utf-8",
     });
     const url = URL.createObjectURL(blob);
@@ -181,7 +185,7 @@ function KbSectionCard({ section, index }: { section: KbSectionRow; index: numbe
       <div className="rounded-2xl border border-hairline bg-surface p-6 sm:p-10">
         <div className="min-w-0">
           <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
-            Section {index + 1}
+            {number != null ? `Section ${number}` : "Introduction"}
           </div>
           <h2 className="mt-3 font-display !text-[32px] !leading-[1.1] font-semibold text-navy sm:!text-[36px]">
             {section.title}
@@ -219,5 +223,40 @@ function KbSectionCard({ section, index }: { section: KbSectionRow; index: numbe
         </div>
       </div>
     </section>
+  );
+}
+
+function FullDownloadBar({ sections }: { sections: KbSectionRow[] }) {
+  const [busy, setBusy] = useState(false);
+  const btn =
+    "inline-flex h-9 items-center gap-1.5 rounded-full border border-hairline px-3.5 text-[12.5px] font-semibold text-navy transition hover:bg-surface-tint disabled:opacity-50";
+  const downloadPdf = async () => {
+    setBusy(true);
+    try {
+      const { renderKbPdf } = await import("@/lib/kb-pdf");
+      downloadBlob(await renderKbPdf(sections), kbExportFilename("pdf"));
+    } finally {
+      setBusy(false);
+    }
+  };
+  const downloadMd = () =>
+    downloadBlob(
+      new Blob([buildFullKbMarkdown(sections)], { type: "text/markdown;charset=utf-8" }),
+      kbExportFilename("md"),
+    );
+  return (
+    <div className="mb-8 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-hairline bg-surface p-5">
+      <div className="text-[13.5px] text-navy/75">
+        <span className="font-semibold text-navy">Full Knowledge Base</span> - every section in one file.
+      </div>
+      <div className="flex flex-wrap gap-2">
+        <button type="button" onClick={downloadPdf} disabled={busy} className={btn}>
+          {busy ? <Loader2 size={13} className="animate-spin" /> : <FileText size={13} />} Download PDF
+        </button>
+        <button type="button" onClick={downloadMd} className={btn}>
+          <Download size={13} /> Download .md
+        </button>
+      </div>
+    </div>
   );
 }

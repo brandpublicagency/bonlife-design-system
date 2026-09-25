@@ -70,6 +70,7 @@ export function KbMarkdown({ children }: { children: string }) {
 
 export function KbSection({
   section,
+  number = null,
   isFirst,
   isLast,
   busy,
@@ -78,6 +79,7 @@ export function KbSection({
   onMove,
 }: {
   section: KbSectionRow;
+  number?: number | null;
   isFirst: boolean;
   isLast: boolean;
   busy: boolean;
@@ -98,7 +100,7 @@ export function KbSection({
       <header className="mb-4 flex flex-wrap items-start justify-between gap-3 border-b border-hairline pb-4">
         <div className="min-w-0">
           <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
-            #{section.slug}
+            {number != null ? `Section ${number}` : "Introduction"}
           </div>
           {editing ? (
             <input
