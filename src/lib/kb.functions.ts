@@ -157,6 +157,7 @@ const ProposalSchema = z.object({
       action: z.enum(["update_existing", "create_new"]),
       section_id: z.string().nullable(),
       slug: z.string().nullable(),
+      insert_after_section_id: z.string().nullable(),
       title: z.string(),
       summary_of_changes: z.string(),
       proposed_body_markdown: z.string(),
@@ -192,6 +193,8 @@ Rules:
 - Read the uploaded document carefully and compare it against the current sections above.
 - Prefer "update_existing": when the document contains facts that belong to a topic already covered by a section, merge them into that section. Set section_id to that section's exact id and slug, keep the section's existing title, and return the COMPLETE proposed body (existing validated content preserved, new facts woven in).
 - Use "create_new" only for a genuinely distinct topic that no existing section covers. Set section_id and slug to null.
+- For "create_new", set insert_after_section_id to the exact id of the existing section the new one should logically follow, so related topics sit together (e.g. a new product topic goes right after the products section). Use null only if it belongs at the very end. For updates, set insert_after_section_id to null.
+- Sections are numbered automatically from their position. NEVER put numbers ("1.", "Section 3") in titles.
 - Never delete or contradict existing validated content unless the uploaded document explicitly supersedes it.
 - summary_of_changes: one or two sentences stating what changed and why (for updates), or why this topic is new (for new sections).
 - Titles must be short, human, and specific (max 80 chars).
@@ -290,11 +293,16 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
             ? byId.get(p.section_id)
             : undefined;
         const action = target ? "update_existing" : "create_new";
+        const after =
+          !target && p.insert_after_section_id && byId.has(p.insert_after_section_id)
+            ? p.insert_after_section_id
+            : null;
         return {
           action: action as "update_existing" | "create_new",
           section_id: target ? target.id : null,
           slug: target ? target.slug : null,
-          title: (target ? target.title : p.title).slice(0, 200),
+          insert_after_section_id: after,
+          title: (target ? target.title : p.title.replace(/^\d+\.\s*/, "")).slice(0, 200),
           summary_of_changes: stripEmDashes(p.summary_of_changes).slice(0, 500),
           proposed_body_markdown: stripEmDashes(p.proposed_body_markdown).slice(0, 40_000),
           current_body_markdown: target ? target.body_markdown : null,
@@ -324,6 +332,7 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
               action: "create_new" as const,
               section_id: null,
               slug: null,
+              insert_after_section_id: null,
               title: `Import: ${data.filename}`.slice(0, 200),
               summary_of_changes:
                 "The AI could not structure this document, so it is proposed as one new section.",
