@@ -201,7 +201,7 @@ function KbSectionCard({ section, number }: { section: KbSectionRow; number: str
         </div>
         <hr className="my-6 border-hairline" />
         <KbMarkdown>{section.body_markdown || "_This section is empty._"}</KbMarkdown>
-        <div className="mt-8 flex flex-wrap items-center gap-2">
+        <div className="mt-6 flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={handleCopy}
