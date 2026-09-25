@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { streamText, NoObjectGeneratedError, Output } from "ai";
+import { streamText, NoObjectGeneratedError, Output, type LanguageModel } from "ai";
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
 import { requireSupabaseAdmin } from "@/integrations/supabase/admin-middleware";
@@ -238,7 +238,9 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
       headers: { "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
       fetch: runIdFetch.fetch,
     });
-    const model = anthropic("anthropic/claude-opus-5-5");
+    // @ai-sdk/anthropic ships a newer provider spec than ai@7's nested copy;
+    // the runtime is compatible, so cast across the type mismatch.
+    const model = anthropic("anthropic/claude-opus-5-5") as unknown as LanguageModel;
 
     const isPdf =
       data.mimeType === "application/pdf" || data.filename.toLowerCase().endsWith(".pdf");
