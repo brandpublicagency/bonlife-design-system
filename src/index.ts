@@ -1,3 +1,9 @@
+/**
+ * Bonlife Design System requires the 'Onest' and 'Inter' fonts.
+ * Include this link in your document head:
+ * <link href="https://fonts.googleapis.com/css2?family=Onest:wght@500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+ */
+export { cn } from "./lib/utils"
 export { Accordion } from "./components/bonlife/Accordion"
 export { Badge } from "./components/bonlife/Badge"
 export { Button } from "./components/bonlife/Button"
@@ -25,4 +31,3 @@ export { Tabs, TabsList, TabsTrigger, TabsContent } from "./components/bonlife/T
 export { BonlifeToaster, toast } from "./components/bonlife/Toast"
 export { Tooltip } from "./components/bonlife/Tooltip"
 export { Sheet, SheetPortal, SheetOverlay, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription } from "./components/ui/sheet"
-export { Constants } from "./integrations/supabase/types"

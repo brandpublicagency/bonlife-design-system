@@ -190,18 +190,18 @@ function KbSectionCard({ section, number }: { section: KbSectionRow; number: str
 
   return (
     <section id={section.slug} className={`scroll-mt-24 pb-12 sm:pb-16 ${section.parent_id ? "ml-4 sm:ml-10" : ""}`}>
-      <div className="rounded-2xl border border-hairline bg-surface p-6 sm:p-10">
+      <div className="min-w-0 rounded-2xl border border-hairline bg-surface p-6 sm:p-8">
         <div className="min-w-0">
           <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
             {number != null ? `Section ${number}` : "Introduction"}
           </div>
-          <h2 className="mt-3 font-display !text-[32px] !leading-[1.1] font-semibold text-navy sm:!text-[36px]">
+          <h2 className="mt-2 font-display !text-[26px] !leading-[1.15] font-semibold text-navy sm:!text-[30px]">
             {section.title}
           </h2>
         </div>
-        <hr className="my-8 border-hairline" />
+        <hr className="my-6 border-hairline" />
         <KbMarkdown>{section.body_markdown || "_This section is empty._"}</KbMarkdown>
-        <div className="mt-8 flex flex-wrap items-center gap-2">
+        <div className="mt-6 flex flex-wrap items-center gap-2">
           <button
             type="button"
             onClick={handleCopy}
