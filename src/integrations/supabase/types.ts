@@ -20,6 +20,8 @@ export type Database = {
           created_at: string
           id: string
           order_index: number
+          parent_id: string | null
+          sibling_order: number
           slug: string
           title: string
           updated_at: string
@@ -29,6 +31,8 @@ export type Database = {
           created_at?: string
           id?: string
           order_index?: number
+          parent_id?: string | null
+          sibling_order?: number
           slug: string
           title: string
           updated_at?: string
@@ -38,11 +42,21 @@ export type Database = {
           created_at?: string
           id?: string
           order_index?: number
+          parent_id?: string | null
+          sibling_order?: number
           slug?: string
           title?: string
           updated_at?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "kb_sections_parent_id_fkey"
+            columns: ["parent_id"]
+            isOneToOne: false
+            referencedRelation: "kb_sections"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
