@@ -6,26 +6,31 @@ import { numberedTitle, sectionNumbers } from "@/lib/kb-numbering";
 import type { KbExportSection } from "@/lib/kb-export";
 
 const s = StyleSheet.create({
-  page: { padding: 56, paddingBottom: 64, fontFamily: "Helvetica", fontSize: 10.5, lineHeight: 1.5, color: "#000" },
-  docTitle: { fontFamily: "Helvetica-Bold", fontSize: 20, lineHeight: 1.3, marginBottom: 6 },
-  meta: { fontSize: 10, marginBottom: 20 },
-  h1: { fontFamily: "Helvetica-Bold", fontSize: 18, marginBottom: 12 },
-  h2: { fontFamily: "Helvetica-Bold", fontSize: 14, marginTop: 14, marginBottom: 6 },
-  h3: { fontFamily: "Helvetica-Bold", fontSize: 12, marginTop: 10, marginBottom: 4 },
-  p: { marginBottom: 8 },
-  li: { flexDirection: "row", marginBottom: 3 },
-  bullet: { width: 16 },
-  liText: { flex: 1 },
-  quote: { borderLeftWidth: 2, borderLeftColor: "#000", paddingLeft: 8, marginBottom: 8 },
-  code: { fontFamily: "Courier", fontSize: 9.5, marginBottom: 8 },
-  hr: { borderBottomWidth: 0.5, borderBottomColor: "#000", marginVertical: 10 },
-  table: { borderWidth: 0.5, borderColor: "#000", marginBottom: 10 },
+  page: { paddingTop: 44, paddingHorizontal: 46, paddingBottom: 52, fontFamily: "Helvetica", fontSize: 9, lineHeight: 1.42, color: "#000" },
+  docTitle: { fontFamily: "Helvetica-Bold", fontSize: 17, lineHeight: 1.25, marginBottom: 4 },
+  meta: { fontSize: 8, marginBottom: 17 },
+  contentsHeading: { fontFamily: "Helvetica-Bold", fontSize: 11, marginBottom: 7 },
+  contentsItem: { fontSize: 8.5, lineHeight: 1.35, marginBottom: 2.5 },
+  h1: { fontFamily: "Helvetica-Bold", fontSize: 15, lineHeight: 1.25, marginBottom: 13 },
+  h2: { fontFamily: "Helvetica-Bold", fontSize: 11.5, lineHeight: 1.3, marginTop: 10, marginBottom: 4.5 },
+  h3: { fontFamily: "Helvetica-Bold", fontSize: 10, lineHeight: 1.35, marginTop: 8, marginBottom: 3.5 },
+  h4: { fontFamily: "Helvetica-Bold", fontSize: 9, lineHeight: 1.4, marginTop: 6, marginBottom: 3 },
+  p: { marginBottom: 6 },
+  list: { marginBottom: 6, paddingLeft: 2 },
+  li: { flexDirection: "row", marginBottom: 2.5 },
+  bullet: { width: 15, paddingRight: 4, textAlign: "right" },
+  liText: { flex: 1, paddingLeft: 2 },
+  nestedList: { marginTop: 3, marginBottom: 1, paddingLeft: 10 },
+  quote: { borderLeftWidth: 1.5, borderLeftColor: "#000", paddingLeft: 8, marginBottom: 6 },
+  code: { fontFamily: "Courier", fontSize: 8, lineHeight: 1.35, marginBottom: 6 },
+  hr: { borderBottomWidth: 0.5, borderBottomColor: "#000", marginVertical: 8 },
+  table: { borderWidth: 0.5, borderColor: "#000", marginBottom: 8 },
   row: { flexDirection: "row", borderBottomWidth: 0.5, borderBottomColor: "#000" },
-  cell: { flex: 1, padding: 4, fontSize: 9.5 },
-  th: { flex: 1, padding: 4, fontSize: 9.5, fontFamily: "Helvetica-Bold" },
+  cell: { flex: 1, padding: 3.5, fontSize: 8 },
+  th: { flex: 1, padding: 3.5, fontSize: 8, fontFamily: "Helvetica-Bold" },
   bold: { fontFamily: "Helvetica-Bold" },
   italic: { fontFamily: "Helvetica-Oblique" },
-  pageNum: { position: "absolute", bottom: 28, left: 0, right: 0, textAlign: "center", fontSize: 9 },
+  pageNum: { position: "absolute", bottom: 22, left: 0, right: 0, textAlign: "center", fontSize: 7.5 },
 });
 
 function inline(tokens: Token[] | undefined, keyBase = "i"): React.ReactNode[] {
@@ -61,36 +66,51 @@ function decode(str: string) {
   return str.replace(/\\([\\`*_{}\[\]()#+\-.!|>~])/g, "$1").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
 }
 
+function listItemBlocks(tokens: Token[], keyBase: string): React.ReactNode[] {
+  return tokens.map((token, index) => {
+    const key = `${keyBase}-${index}`;
+    if (token.type === "text") {
+      const text = token as Tokens.Text;
+      return <Text key={key}>{inline(text.tokens ?? [text], key)}</Text>;
+    }
+    if (token.type === "paragraph") {
+      return <Text key={key}>{inline((token as Tokens.Paragraph).tokens, key)}</Text>;
+    }
+    if (token.type === "list") {
+      return <View key={key} style={s.nestedList}>{renderList(token as Tokens.List, key)}</View>;
+    }
+    return blocks([token], key);
+  });
+}
+
+function renderList(list: Tokens.List, keyBase: string) {
+  const start = Number(list.start) || 1;
+  return (
+    <View style={s.list}>
+      {list.items.map((item, index) => (
+        <View key={`${keyBase}-${index}`} style={s.li} wrap={false}>
+          <Text style={s.bullet}>{list.ordered ? `${start + index}.` : "•"}</Text>
+          <View style={s.liText}>{listItemBlocks(item.tokens, `${keyBase}-${index}`)}</View>
+        </View>
+      ))}
+    </View>
+  );
+}
+
 function blocks(tokens: Token[], keyBase = "b"): React.ReactNode[] {
   return tokens.map((t, i) => {
     const key = `${keyBase}-${i}`;
     switch (t.type) {
       case "heading": {
         const h = t as Tokens.Heading;
-        return <Text key={key} style={h.depth <= 2 ? s.h2 : s.h3}>{inline(h.tokens, key)}</Text>;
+        const style = h.depth <= 2 ? s.h2 : h.depth === 3 ? s.h3 : s.h4;
+        return <Text key={key} style={style} minPresenceAhead={24}>{inline(h.tokens, key)}</Text>;
       }
       case "paragraph":
-        return <Text key={key} style={s.p}>{inline((t as Tokens.Paragraph).tokens, key)}</Text>;
+        return <Text key={key} style={s.p} orphans={2} widows={2}>{inline((t as Tokens.Paragraph).tokens, key)}</Text>;
       case "list": {
         const l = t as Tokens.List;
-        return (
-          <View key={key} style={{ marginBottom: 8 }}>
-            {l.items.map((it, j) => (
-              <View key={j} style={s.li} wrap={false}>
-                <Text style={s.bullet}>{l.ordered ? `${(Number(l.start) || 1) + j}.` : "-"}</Text>
-                <View style={s.liText}>
-                  {it.tokens.map((c, k) =>
-                    c.type === "text" ? (
-                      <Text key={k}>{inline((c as Tokens.Text).tokens ?? [c], `${key}-${j}-${k}`)}</Text>
-                    ) : (
-                      blocks([c], `${key}-${j}-${k}`)
-                    ),
-                  )}
-                </View>
-              </View>
-            ))}
-          </View>
-        );
+        return <View key={key}>{renderList(l, key)}</View>;
       }
       case "table": {
         const tb = t as Tokens.Table;
@@ -108,7 +128,7 @@ function blocks(tokens: Token[], keyBase = "b"): React.ReactNode[] {
         );
       }
       case "blockquote":
-        return <View key={key} style={s.quote}>{blocks((t as Tokens.Blockquote).tokens, key)}</View>;
+        return <View key={key} style={s.quote} wrap={false}>{blocks((t as Tokens.Blockquote).tokens, key)}</View>;
       case "code":
         return <Text key={key} style={s.code}>{(t as Tokens.Code).text}</Text>;
       case "hr":
@@ -133,13 +153,13 @@ function KbPdf({ sections }: { sections: KbExportSection[] }) {
       <Page size="A4" style={s.page}>
         <Text style={s.docTitle}>Bonlife Knowledge Base</Text>
         <Text style={s.meta}>Updated {date}</Text>
-        <Text style={s.h2}>Contents</Text>
-        {titles.map((t, i) => <Text key={i} style={{ marginBottom: 2 }}>{t}</Text>)}
+        <Text style={s.contentsHeading}>Contents</Text>
+        {titles.map((t, i) => <Text key={i} style={s.contentsItem}>{t}</Text>)}
         {pageNum}
       </Page>
       {sections.map((sec, i) => (
         <Page key={sec.slug} size="A4" style={s.page}>
-          <Text style={s.h1}>{titles[i]}</Text>
+          <Text style={s.h1} minPresenceAhead={36}>{titles[i]}</Text>
           {blocks(marked.lexer(sec.body_markdown || ""), `s${i}`)}
           {pageNum}
         </Page>
