@@ -12,6 +12,8 @@ export type KbSectionRow = {
   body_markdown: string;
   order_index: number;
   updated_at: string;
+  parent_id: string | null;
+  sibling_order: number;
 };
 
 const markdownComponents = {
@@ -79,7 +81,8 @@ export function KbSection({
   onMove,
 }: {
   section: KbSectionRow;
-  number?: number | null;
+  number?: string | null;
+  depth?: 0 | 1;
   isFirst: boolean;
   isLast: boolean;
   busy: boolean;
@@ -95,7 +98,10 @@ export function KbSection({
   return (
     <section
       id={section.slug}
-      className="scroll-mt-24 rounded-2xl border border-hairline bg-surface p-6 sm:p-8"
+      className={cn(
+        "scroll-mt-24 rounded-2xl border border-hairline bg-surface p-6 sm:p-8",
+        depth === 1 && "ml-4 border-l-coral/50 sm:ml-10",
+      )}
     >
       <header className="mb-4 flex flex-wrap items-start justify-between gap-3 border-b border-hairline pb-4">
         <div className="min-w-0">

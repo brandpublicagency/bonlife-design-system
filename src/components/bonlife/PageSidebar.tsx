@@ -6,6 +6,7 @@ export type SidebarItem = {
   id: string;
   label: string;
   icon?: LucideIcon;
+  depth?: 0 | 1;
 };
 
 export type SidebarGroup = {
@@ -121,6 +122,7 @@ function ItemList({
               href={`#${it.id}`}
               className={cn(
                 "group flex items-center gap-3 rounded-xl border border-transparent px-3 py-2 font-display text-[13px] font-medium transition-colors",
+                it.depth === 1 && "ml-4 text-[12.5px]",
                 active
                   ? "border-hairline bg-surface-tint text-navy"
                   : "text-navy/60 hover:bg-surface-tint hover:text-navy",

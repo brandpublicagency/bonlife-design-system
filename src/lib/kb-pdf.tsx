@@ -2,7 +2,7 @@
 // Plain, unbranded layout designed for chatbot knowledge bases.
 import { Document, Page, StyleSheet, Text, View, pdf } from "@react-pdf/renderer";
 import { marked, type Token, type Tokens } from "marked";
-import { numberedTitle, sectionNumbers } from "@/lib/kb-numbering";
+import { displayTitle, orderKbSections, sectionDisplayNumbers } from "@/lib/kb-hierarchy";
 import type { KbExportSection } from "@/lib/kb-export";
 
 const s = StyleSheet.create({
@@ -142,8 +142,9 @@ function blocks(tokens: Token[], keyBase = "b"): React.ReactNode[] {
 }
 
 function KbPdf({ sections }: { sections: KbExportSection[] }) {
-  const nums = sectionNumbers(sections);
-  const titles = sections.map((x, i) => numberedTitle(x.title, nums[i]));
+  const ordered = orderKbSections(sections);
+  const nums = sectionDisplayNumbers(ordered);
+  const titles = ordered.map((section) => displayTitle(section.title, nums.get(section.id)));
   const date = new Date().toISOString().slice(0, 10);
   const pageNum = (
     <Text style={s.pageNum} fixed render={({ pageNumber, totalPages }) => `Page ${pageNumber} of ${totalPages}`} />
@@ -154,10 +155,14 @@ function KbPdf({ sections }: { sections: KbExportSection[] }) {
         <Text style={s.docTitle}>Bonlife Knowledge Base</Text>
         <Text style={s.meta}>Updated {date}</Text>
         <Text style={s.contentsHeading}>Contents</Text>
-        {titles.map((t, i) => <Text key={i} style={s.contentsItem}>{t}</Text>)}
+        {ordered.map((section, i) => (
+          <Text key={section.id} style={[s.contentsItem, section.parent_id ? { paddingLeft: 12 } : {}]}>
+            {titles[i]}
+          </Text>
+        ))}
         {pageNum}
       </Page>
-      {sections.map((sec, i) => (
+      {ordered.map((sec, i) => (
         <Page key={sec.slug} size="A4" style={s.page}>
           <Text style={s.h1} minPresenceAhead={36}>{titles[i]}</Text>
           {blocks(marked.lexer(sec.body_markdown || ""), `s${i}`)}
