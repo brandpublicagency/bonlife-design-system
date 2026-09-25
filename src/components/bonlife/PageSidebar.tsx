@@ -18,6 +18,7 @@ type Props = {
   label?: string;
   items?: SidebarItem[];
   groups?: SidebarGroup[];
+  numbered?: boolean;
 };
 
 function flatten(items?: SidebarItem[], groups?: SidebarGroup[]): SidebarItem[] {
@@ -26,7 +27,7 @@ function flatten(items?: SidebarItem[], groups?: SidebarGroup[]): SidebarItem[] 
   return [];
 }
 
-export function PageSidebar({ label = "Sections", items, groups }: Props) {
+export function PageSidebar({ label = "Sections", items, groups, numbered = true }: Props) {
   const all = flatten(items, groups);
   const [activeId, setActiveId] = useState<string>(all[0]?.id ?? "");
 
@@ -93,7 +94,7 @@ export function PageSidebar({ label = "Sections", items, groups }: Props) {
               <div className="mb-4 px-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
                 {label}
               </div>
-              <ItemList items={items ?? []} activeId={activeId} numbered />
+              <ItemList items={items ?? []} activeId={activeId} numbered={numbered} />
             </>
           )}
         </div>

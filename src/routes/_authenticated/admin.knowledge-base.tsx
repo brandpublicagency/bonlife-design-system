@@ -265,7 +265,7 @@ function NewSectionForm({
         className="mt-2 w-full rounded-md border border-hairline bg-surface-tint px-3 py-2 text-[14px] text-navy focus:border-navy focus:outline-none"
       >
         <option value="">Top level</option>
-        {sections.filter((section) => !section.parent_id).map((section) => (
+        {sections.filter((section) => section.slug === "plans").map((section) => (
           <option key={section.id} value={section.id}>{section.title}</option>
         ))}
       </select>

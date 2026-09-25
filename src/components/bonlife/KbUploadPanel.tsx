@@ -495,7 +495,7 @@ export function KbUploadPanel({
                           className="rounded-md border border-hairline bg-surface-tint px-2 py-1 text-[12.5px] font-normal text-navy"
                         >
                           <option value="">Top level</option>
-                          {orderedSections.filter((section) => !section.parent_id).map((section) => (
+                          {orderedSections.filter((section) => section.slug === "plans").map((section) => (
                             <option key={section.id} value={section.id}>
                               {displayTitle(section.title, nums.get(section.id))}
                             </option>

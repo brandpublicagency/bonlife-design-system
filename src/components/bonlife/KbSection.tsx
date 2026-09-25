@@ -74,7 +74,6 @@ export function KbSection({
   section,
   number = null,
   depth = 0,
-  depth = 0,
   isFirst,
   isLast,
   busy,

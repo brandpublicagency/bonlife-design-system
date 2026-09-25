@@ -129,6 +129,7 @@ function KnowledgeBasePage() {
         sidebar={
           <PageSidebar
             label="Contents"
+            numbered={false}
              items={orderedSections.map((section) => ({
                id: section.slug,
                label: displayTitle(section.title, nums.get(section.id)),

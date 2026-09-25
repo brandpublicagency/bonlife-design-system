@@ -165,7 +165,7 @@ function KbPdf({ sections }: { sections: KbExportSection[] }) {
       {ordered.map((sec, i) => (
         <Page key={sec.slug} size="A4" style={s.page}>
           <Text style={s.h1} minPresenceAhead={36}>{titles[i]}</Text>
-          {blocks(marked.lexer(sec.body_markdown || ""), `s${i}`)}
+          {blocks(marked.lexer(sec.body_markdown || "_Details to be added._"), `s${i}`)}
           {pageNum}
         </Page>
       ))}

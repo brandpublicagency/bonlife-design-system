@@ -333,20 +333,23 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
             ? byId.get(p.section_id)
             : undefined;
         const action = target ? "update_existing" : "create_new";
-        const after =
-          !target && p.insert_after_section_id && byId.has(p.insert_after_section_id)
-            ? p.insert_after_section_id
-            : null;
         const parent =
           !target && p.parent_section_id && byId.has(p.parent_section_id)
             ? byId.get(p.parent_section_id)
             : undefined;
+        const afterCandidate =
+          !target && p.insert_after_section_id ? byId.get(p.insert_after_section_id) : undefined;
+        const normalizedParent = parent && !parent.parent_id ? parent : undefined;
+        const after =
+          afterCandidate && afterCandidate.parent_id === (normalizedParent?.id ?? null)
+            ? afterCandidate.id
+            : null;
         return {
           action: action as "update_existing" | "create_new",
           section_id: target ? target.id : null,
           slug: target ? target.slug : null,
           insert_after_section_id: after,
-          parent_section_id: parent && !parent.parent_id ? parent.id : null,
+          parent_section_id: normalizedParent?.id ?? null,
           title: (target ? target.title : p.title.replace(/^\d+\.\s*/, "")).slice(0, 200),
           summary_of_changes: stripEmDashes(p.summary_of_changes).slice(0, 500),
           proposed_body_markdown: stripEmDashes(p.proposed_body_markdown).slice(0, 40_000),
