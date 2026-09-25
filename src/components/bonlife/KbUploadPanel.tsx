@@ -237,7 +237,7 @@ export function KbUploadPanel({
             Add information to the Knowledge Base
           </h2>
           <p className="mt-2 max-w-xl text-[13.5px] leading-[1.6] text-navy/70">
-            Upload a file or paste text. Lovable AI reads the whole knowledge base
+            Upload a file or paste text. Bonlife AI reads the whole knowledge base
             alongside your source, then proposes updates to
             existing sections or brand-new sections - you review each one before
             anything is published.
