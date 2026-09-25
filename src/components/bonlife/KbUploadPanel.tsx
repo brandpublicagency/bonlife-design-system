@@ -11,11 +11,13 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/bonlife/Button";
 import { KbMarkdown } from "@/components/bonlife/KbSection";
+import { numberedTitle, sectionNumbers } from "@/lib/kb-numbering";
 
 export type KbProposal = {
   action: "update_existing" | "create_new";
   section_id: string | null;
   slug: string | null;
+  insert_after_section_id: string | null;
   title: string;
   summary_of_changes: string;
   proposed_body_markdown: string;
@@ -70,7 +72,9 @@ export function KbUploadPanel({
   onExtract,
   onApplyUpdate,
   onCreate,
+  sections = [],
 }: {
+  sections?: { id: string; slug: string; title: string }[];
   onExtract: (input: {
     filename: string;
     mimeType: string;
@@ -81,7 +85,11 @@ export function KbUploadPanel({
     title: string;
     body_markdown: string;
   }) => Promise<void>;
-  onCreate: (input: { title: string; body_markdown: string }) => Promise<void>;
+  onCreate: (input: {
+    title: string;
+    body_markdown: string;
+    insert_after_id?: string | null;
+  }) => Promise<void>;
 }) {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [busy, setBusy] = useState(false);
@@ -133,7 +141,11 @@ export function KbUploadPanel({
           body_markdown: p.proposed_body_markdown,
         });
       } else {
-        await onCreate({ title: p.title, body_markdown: p.proposed_body_markdown });
+        await onCreate({
+          title: p.title,
+          body_markdown: p.proposed_body_markdown,
+          insert_after_id: p.insert_after_section_id,
+        });
       }
       setProposals((prev) => prev.filter((x) => x !== p));
     } finally {
@@ -152,7 +164,11 @@ export function KbUploadPanel({
             body_markdown: p.proposed_body_markdown,
           });
         } else {
-          await onCreate({ title: p.title, body_markdown: p.proposed_body_markdown });
+          await onCreate({
+          title: p.title,
+          body_markdown: p.proposed_body_markdown,
+          insert_after_id: p.insert_after_section_id,
+        });
         }
         setProposals((prev) => prev.filter((x) => x !== p));
       }
@@ -161,6 +177,7 @@ export function KbUploadPanel({
     }
   }
 
+  const nums = sectionNumbers(sections);
   const anyBusy = applyingKey !== null || applyingAll;
 
   return (
@@ -344,6 +361,26 @@ export function KbUploadPanel({
                           </button>
                         </div>
                       </header>
+                      <label className="mt-3 flex flex-wrap items-center gap-2 text-[12px] font-semibold text-navy/70">
+                        Position
+                        <select
+                          value={p.insert_after_section_id ?? ""}
+                          onChange={(e) => {
+                            const v = e.target.value || null;
+                            setProposals((prev) =>
+                              prev.map((x) => (x === p ? { ...x, insert_after_section_id: v } : x)),
+                            );
+                          }}
+                          className="rounded-md border border-hairline bg-surface-tint px-2 py-1 text-[12.5px] font-normal text-navy"
+                        >
+                          <option value="">At the end</option>
+                          {sections.map((s, si) => (
+                            <option key={s.id} value={s.id}>
+                              After {numberedTitle(s.title, nums[si])}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
                       <div className="mt-3 max-h-[280px] overflow-y-auto pr-1">
                         <KbMarkdown>{p.proposed_body_markdown}</KbMarkdown>
                       </div>
