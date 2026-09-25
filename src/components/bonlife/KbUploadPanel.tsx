@@ -19,6 +19,7 @@ export type KbProposal = {
   section_id: string | null;
   slug: string | null;
   insert_after_section_id: string | null;
+  parent_section_id: string | null;
   title: string;
   summary_of_changes: string;
   proposed_body_markdown: string;
@@ -76,7 +77,7 @@ export function KbUploadPanel({
   onCreate,
   sections = [],
 }: {
-  sections?: { id: string; slug: string; title: string }[];
+  sections?: { id: string; slug: string; title: string; parent_id: string | null; sibling_order: number; order_index: number }[];
   onExtract: (
     input:
       | { source: "file"; filename: string; mimeType: string; base64: string }
@@ -91,6 +92,7 @@ export function KbUploadPanel({
     title: string;
     body_markdown: string;
     insert_after_id?: string | null;
+    parent_id?: string | null;
   }) => Promise<void>;
 }) {
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -183,6 +185,7 @@ export function KbUploadPanel({
           title: p.title,
           body_markdown: p.proposed_body_markdown,
           insert_after_id: p.insert_after_section_id,
+          parent_id: p.parent_section_id,
         });
       }
       setProposals((prev) => prev.filter((x) => x !== p));
@@ -206,6 +209,7 @@ export function KbUploadPanel({
           title: p.title,
           body_markdown: p.proposed_body_markdown,
           insert_after_id: p.insert_after_section_id,
+          parent_id: p.parent_section_id,
         });
         }
         setProposals((prev) => prev.filter((x) => x !== p));

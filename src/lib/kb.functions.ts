@@ -46,7 +46,7 @@ export const listKbSections = createServerFn({ method: "GET" }).handler(async ()
   const sb = getPublicSupabase();
   const { data, error } = await sb
     .from("kb_sections")
-    .select("id, slug, title, body_markdown, order_index, updated_at")
+    .select("id, slug, title, body_markdown, order_index, updated_at, parent_id, sibling_order")
     .order("order_index", { ascending: true });
   if (error) throw new Error(error.message);
   return { sections: data ?? [] };
@@ -60,6 +60,7 @@ export const createKbSection = createServerFn({ method: "POST" })
         title: z.string().min(1).max(200),
         body_markdown: z.string().max(200_000).default(""),
         insert_after_id: z.string().uuid().nullable().optional(),
+        parent_id: z.string().uuid().nullable().optional(),
       })
       .parse(input),
   )
@@ -67,19 +68,26 @@ export const createKbSection = createServerFn({ method: "POST" })
     const sb = context.supabase as unknown as SupabaseClient<Database>;
     const { data: rows, error: listErr } = await sb
       .from("kb_sections")
-      .select("id, order_index")
-      .order("order_index", { ascending: true });
+      .select("id, order_index, parent_id, sibling_order")
+      .order("sibling_order", { ascending: true });
     if (listErr) throw new Error(listErr.message);
     const list = rows ?? [];
+    const parentId = data.parent_id ?? null;
+    if (parentId) {
+      const parent = list.find((row) => row.id === parentId);
+      if (!parent || parent.parent_id) throw new Error("Invalid parent section");
+    }
+    const siblings = list.filter((row) => row.parent_id === parentId);
     let nextOrder = (list[list.length - 1]?.order_index ?? -1) + 1;
     const after = data.insert_after_id
-      ? list.find((r) => r.id === data.insert_after_id)
+      ? siblings.find((r) => r.id === data.insert_after_id)
       : undefined;
+    let siblingOrder = (siblings[siblings.length - 1]?.sibling_order ?? -1) + 1;
     if (after) {
-      nextOrder = after.order_index + 1;
-      const following = list.filter((r) => r.order_index >= nextOrder).reverse();
+      siblingOrder = after.sibling_order + 1;
+      const following = siblings.filter((r) => r.sibling_order >= siblingOrder).reverse();
       for (const r of following) {
-        await sb.from("kb_sections").update({ order_index: r.order_index + 1 }).eq("id", r.id);
+        await sb.from("kb_sections").update({ sibling_order: r.sibling_order + 1 }).eq("id", r.id);
       }
     }
     const title = data.title.replace(/^\d+\.\s*/, "");
@@ -91,8 +99,10 @@ export const createKbSection = createServerFn({ method: "POST" })
         title,
         body_markdown: data.body_markdown ?? "",
         order_index: nextOrder,
+        sibling_order: siblingOrder,
+        parent_id: parentId,
       })
-      .select("id, slug, title, body_markdown, order_index, updated_at")
+      .select("id, slug, title, body_markdown, order_index, updated_at, parent_id, sibling_order")
       .single();
     if (error) throw new Error(error.message);
     return row;
@@ -118,7 +128,7 @@ export const updateKbSection = createServerFn({ method: "POST" })
       .from("kb_sections")
       .update(patch)
       .eq("id", data.id)
-      .select("id, slug, title, body_markdown, order_index, updated_at")
+      .select("id, slug, title, body_markdown, order_index, updated_at, parent_id, sibling_order")
       .single();
     if (error) throw new Error(error.message);
     return row;
@@ -148,18 +158,21 @@ export const reorderKbSection = createServerFn({ method: "POST" })
     const sb = context.supabase as unknown as SupabaseClient<Database>;
     const { data: rows, error } = await sb
       .from("kb_sections")
-      .select("id, order_index")
-      .order("order_index", { ascending: true });
+      .select("id, order_index, parent_id, sibling_order")
+      .order("sibling_order", { ascending: true });
     if (error) throw new Error(error.message);
-    const list = rows ?? [];
+    const all = rows ?? [];
+    const current = all.find((row) => row.id === data.id);
+    if (!current) throw new Error("Section not found");
+    const list = all.filter((row) => row.parent_id === current.parent_id);
     const idx = list.findIndex((r) => r.id === data.id);
     if (idx < 0) throw new Error("Section not found");
     const swapIdx = data.direction === "up" ? idx - 1 : idx + 1;
     if (swapIdx < 0 || swapIdx >= list.length) return { ok: true };
     const a = list[idx];
     const b = list[swapIdx];
-    await sb.from("kb_sections").update({ order_index: b.order_index }).eq("id", a.id);
-    await sb.from("kb_sections").update({ order_index: a.order_index }).eq("id", b.id);
+    await sb.from("kb_sections").update({ sibling_order: b.sibling_order }).eq("id", a.id);
+    await sb.from("kb_sections").update({ sibling_order: a.sibling_order }).eq("id", b.id);
     return { ok: true };
   });
 
@@ -170,6 +183,7 @@ const ProposalSchema = z.object({
       section_id: z.string().nullable(),
       slug: z.string().nullable(),
       insert_after_section_id: z.string().nullable(),
+      parent_section_id: z.string().nullable(),
       title: z.string(),
       summary_of_changes: z.string(),
       proposed_body_markdown: z.string(),
@@ -183,13 +197,15 @@ type KbSectionSnapshot = {
   title: string;
   body_markdown: string;
   updated_at: string;
+  parent_id: string | null;
+  sibling_order: number;
 };
 
 function buildExtractSystem(sections: KbSectionSnapshot[]): string {
   const listing = sections
     .map(
       (s) =>
-        `### Section id: ${s.id}\nslug: ${s.slug}\ntitle: ${s.title}\n\n${s.body_markdown}`,
+        `### Section id: ${s.id}\nslug: ${s.slug}\ntitle: ${s.title}\nparent_section_id: ${s.parent_id ?? "null"}\nsibling_order: ${s.sibling_order}\n\n${s.body_markdown}`,
     )
     .join("\n\n---\n\n");
 
@@ -205,6 +221,8 @@ Rules:
 - Read the uploaded document carefully and compare it against the current sections above.
 - Prefer "update_existing": when the document contains facts that belong to a topic already covered by a section, merge them into that section. Set section_id to that section's exact id and slug, keep the section's existing title, and return the COMPLETE proposed body (existing validated content preserved, new facts woven in).
 - Use "create_new" only for a genuinely distinct topic that no existing section covers. Set section_id and slug to null.
+- The section named "Plans" is a parent. Family Plan, Prime Plan, Senior Plan, Legacy Plan, OneLife Plan, Cash Plan, Savings Plan, Study Plan, and LifeGuard Plan are its existing children. Product details for one of these plans MUST update that matching child instead of creating a duplicate.
+- For a new plan only, set parent_section_id to the exact id of the Plans section. For other new top-level topics, set parent_section_id to null. Updates always use the target's existing parent and set parent_section_id to null.
 - For "create_new", set insert_after_section_id to the exact id of the existing section the new one should logically follow, so related topics sit together (e.g. a new product topic goes right after the products section). Use null only if it belongs at the very end. For updates, set insert_after_section_id to null.
 - Sections are numbered automatically from their position. NEVER put numbers ("1.", "Section 3") in titles.
 - Never delete or contradict existing validated content unless the uploaded document explicitly supersedes it.
@@ -246,7 +264,7 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
     const sb = context.supabase as unknown as SupabaseClient<Database>;
     const { data: sectionRows, error: sectionError } = await sb
       .from("kb_sections")
-      .select("id, slug, title, body_markdown, updated_at")
+      .select("id, slug, title, body_markdown, updated_at, parent_id, sibling_order")
       .order("order_index", { ascending: true });
     if (sectionError) throw new Error(sectionError.message);
     const sections = (sectionRows ?? []) as KbSectionSnapshot[];
@@ -319,11 +337,16 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
           !target && p.insert_after_section_id && byId.has(p.insert_after_section_id)
             ? p.insert_after_section_id
             : null;
+        const parent =
+          !target && p.parent_section_id && byId.has(p.parent_section_id)
+            ? byId.get(p.parent_section_id)
+            : undefined;
         return {
           action: action as "update_existing" | "create_new",
           section_id: target ? target.id : null,
           slug: target ? target.slug : null,
           insert_after_section_id: after,
+          parent_section_id: parent && !parent.parent_id ? parent.id : null,
           title: (target ? target.title : p.title.replace(/^\d+\.\s*/, "")).slice(0, 200),
           summary_of_changes: stripEmDashes(p.summary_of_changes).slice(0, 500),
           proposed_body_markdown: stripEmDashes(p.proposed_body_markdown).slice(0, 40_000),
@@ -355,6 +378,7 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
               section_id: null,
               slug: null,
               insert_after_section_id: null,
+              parent_section_id: null,
                title: `Import: ${sourceLabel}`.slice(0, 200),
               summary_of_changes:
                 "The AI could not structure this document, so it is proposed as one new section.",

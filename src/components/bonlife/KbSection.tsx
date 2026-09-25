@@ -73,6 +73,7 @@ export function KbMarkdown({ children }: { children: string }) {
 export function KbSection({
   section,
   number = null,
+  depth = 0,
   isFirst,
   isLast,
   busy,

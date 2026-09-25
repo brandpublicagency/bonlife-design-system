@@ -5,7 +5,7 @@ import { ArrowLeft, Loader2, Plus, ShieldOff, Trash2, UserPlus, X } from "lucide
 import { SiteFooter, SiteHeader } from "@/components/bonlife/SiteChrome";
 import { Button } from "@/components/bonlife/Button";
 import { KbSection, type KbSectionRow } from "@/components/bonlife/KbSection";
-import { sectionNumbers } from "@/lib/kb-numbering";
+import { orderKbSections, sectionDisplayNumbers } from "@/lib/kb-hierarchy";
 import { KbUploadPanel } from "@/components/bonlife/KbUploadPanel";
 import {
   createKbSection,
@@ -93,12 +93,13 @@ function AdminKbPage() {
 function AdminEditor({ qc }: { qc: ReturnType<typeof useQueryClient> }) {
   const { data: sections } = useSuspenseQuery(kbSectionsQuery);
   const [adding, setAdding] = useState(false);
-  const nums = sectionNumbers(sections);
+  const orderedSections = orderKbSections(sections);
+  const nums = sectionDisplayNumbers(orderedSections);
 
   const invalidate = () => qc.invalidateQueries({ queryKey: ["kb", "sections"] });
 
   const createMut = useMutation({
-    mutationFn: (input: { title: string; body_markdown: string; insert_after_id?: string | null }) =>
+    mutationFn: (input: { title: string; body_markdown: string; insert_after_id?: string | null; parent_id?: string | null }) =>
       createKbSection({ data: input }),
     onSuccess: invalidate,
   });
@@ -181,13 +182,17 @@ function AdminEditor({ qc }: { qc: ReturnType<typeof useQueryClient> }) {
             />
           )}
 
-          {sections.map((s, i) => (
+          {orderedSections.map((s, i) => {
+            const siblings = orderedSections.filter((item) => item.parent_id === s.parent_id);
+            const siblingIndex = siblings.findIndex((item) => item.id === s.id);
+            return (
             <KbSection
               key={s.id}
               section={s}
-              number={nums[i]}
-              isFirst={i === 0}
-              isLast={i === sections.length - 1}
+              number={nums.get(s.id)}
+              depth={s.parent_id ? 1 : 0}
+              isFirst={siblingIndex === 0}
+              isLast={siblingIndex === siblings.length - 1}
               busy={busy}
               onSave={async (patch) => {
                 await updateMut.mutateAsync({ id: s.id, ...patch });
@@ -199,7 +204,7 @@ function AdminEditor({ qc }: { qc: ReturnType<typeof useQueryClient> }) {
                 await reorderMut.mutateAsync({ id: s.id, direction });
               }}
             />
-          ))}
+          );})}
 
           <AdminsPanel />
         </div>
