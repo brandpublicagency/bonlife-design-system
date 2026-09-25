@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SocialRouteImport } from './routes/social'
+import { Route as McpRouteImport } from './routes/mcp'
 import { Route as MarketingRouteImport } from './routes/marketing'
 import { Route as KnowledgeBaseRouteImport } from './routes/knowledge-base'
 import { Route as IconographyRouteImport } from './routes/iconography'
@@ -20,11 +21,18 @@ import { Route as ComponentsRouteImport } from './routes/components'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as AuthenticatedAdminKnowledgeBaseRouteImport } from './routes/_authenticated/admin.knowledge-base'
+import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
 
 const SocialRoute = SocialRouteImport.update({
   id: '/social',
   path: '/social',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const McpRoute = McpRouteImport.update({
+  id: '/mcp',
+  path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MarketingRoute = MarketingRouteImport.update({
@@ -76,12 +84,23 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Char91DotwellKnownChar93OauthProtectedResourceRoute =
+  Char91DotwellKnownChar93OauthProtectedResourceRouteImport.update({
+    id: '/.well-known/oauth-protected-resource',
+    path: '/.well-known/oauth-protected-resource',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedAdminKnowledgeBaseRoute =
   AuthenticatedAdminKnowledgeBaseRouteImport.update({
     id: '/admin/knowledge-base',
     path: '/admin/knowledge-base',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const DotlovableOauthConsentRoute = DotlovableOauthConsentRouteImport.update({
+  id: '/.lovable/oauth/consent',
+  path: '/.lovable/oauth/consent',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -93,7 +112,10 @@ export interface FileRoutesByFullPath {
   '/iconography': typeof IconographyRoute
   '/knowledge-base': typeof KnowledgeBaseRoute
   '/marketing': typeof MarketingRoute
+  '/mcp': typeof McpRoute
   '/social': typeof SocialRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/admin/knowledge-base': typeof AuthenticatedAdminKnowledgeBaseRoute
 }
 export interface FileRoutesByTo {
@@ -106,7 +128,10 @@ export interface FileRoutesByTo {
   '/iconography': typeof IconographyRoute
   '/knowledge-base': typeof KnowledgeBaseRoute
   '/marketing': typeof MarketingRoute
+  '/mcp': typeof McpRoute
   '/social': typeof SocialRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/admin/knowledge-base': typeof AuthenticatedAdminKnowledgeBaseRoute
 }
 export interface FileRoutesById {
@@ -121,7 +146,10 @@ export interface FileRoutesById {
   '/iconography': typeof IconographyRoute
   '/knowledge-base': typeof KnowledgeBaseRoute
   '/marketing': typeof MarketingRoute
+  '/mcp': typeof McpRoute
   '/social': typeof SocialRoute
+  '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
   '/_authenticated/admin/knowledge-base': typeof AuthenticatedAdminKnowledgeBaseRoute
 }
 export interface FileRouteTypes {
@@ -136,7 +164,10 @@ export interface FileRouteTypes {
     | '/iconography'
     | '/knowledge-base'
     | '/marketing'
+    | '/mcp'
     | '/social'
+    | '/.well-known/oauth-protected-resource'
+    | '/.lovable/oauth/consent'
     | '/admin/knowledge-base'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -149,7 +180,10 @@ export interface FileRouteTypes {
     | '/iconography'
     | '/knowledge-base'
     | '/marketing'
+    | '/mcp'
     | '/social'
+    | '/.well-known/oauth-protected-resource'
+    | '/.lovable/oauth/consent'
     | '/admin/knowledge-base'
   id:
     | '__root__'
@@ -163,7 +197,10 @@ export interface FileRouteTypes {
     | '/iconography'
     | '/knowledge-base'
     | '/marketing'
+    | '/mcp'
     | '/social'
+    | '/.well-known/oauth-protected-resource'
+    | '/.lovable/oauth/consent'
     | '/_authenticated/admin/knowledge-base'
   fileRoutesById: FileRoutesById
 }
@@ -178,7 +215,10 @@ export interface RootRouteChildren {
   IconographyRoute: typeof IconographyRoute
   KnowledgeBaseRoute: typeof KnowledgeBaseRoute
   MarketingRoute: typeof MarketingRoute
+  McpRoute: typeof McpRoute
   SocialRoute: typeof SocialRoute
+  Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
+  DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -188,6 +228,13 @@ declare module '@tanstack/react-router' {
       path: '/social'
       fullPath: '/social'
       preLoaderRoute: typeof SocialRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mcp': {
+      id: '/mcp'
+      path: '/mcp'
+      fullPath: '/mcp'
+      preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/marketing': {
@@ -260,12 +307,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/.well-known/oauth-protected-resource': {
+      id: '/.well-known/oauth-protected-resource'
+      path: '/.well-known/oauth-protected-resource'
+      fullPath: '/.well-known/oauth-protected-resource'
+      preLoaderRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/admin/knowledge-base': {
       id: '/_authenticated/admin/knowledge-base'
       path: '/admin/knowledge-base'
       fullPath: '/admin/knowledge-base'
       preLoaderRoute: typeof AuthenticatedAdminKnowledgeBaseRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/.lovable/oauth/consent': {
+      id: '/.lovable/oauth/consent'
+      path: '/.lovable/oauth/consent'
+      fullPath: '/.lovable/oauth/consent'
+      preLoaderRoute: typeof DotlovableOauthConsentRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -292,7 +353,11 @@ const rootRouteChildren: RootRouteChildren = {
   IconographyRoute: IconographyRoute,
   KnowledgeBaseRoute: KnowledgeBaseRoute,
   MarketingRoute: MarketingRoute,
+  McpRoute: McpRoute,
   SocialRoute: SocialRoute,
+  Char91DotwellKnownChar93OauthProtectedResourceRoute:
+    Char91DotwellKnownChar93OauthProtectedResourceRoute,
+  DotlovableOauthConsentRoute: DotlovableOauthConsentRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
