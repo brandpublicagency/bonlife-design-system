@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { generateText, NoObjectGeneratedError, Output } from "ai";
+import { streamText, NoObjectGeneratedError, Output, type LanguageModel } from "ai";
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
 import { requireSupabaseAdmin } from "@/integrations/supabase/admin-middleware";
@@ -151,26 +151,59 @@ export const reorderKbSection = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
-const DraftSchema = z.object({
-  drafts: z.array(
+const ProposalSchema = z.object({
+  proposals: z.array(
     z.object({
+      action: z.enum(["update_existing", "create_new"]),
+      section_id: z.string().nullable(),
+      slug: z.string().nullable(),
       title: z.string(),
-      body_markdown: z.string(),
+      summary_of_changes: z.string(),
+      proposed_body_markdown: z.string(),
     }),
   ),
 });
 
-const EXTRACT_SYSTEM = `You extract Bonlife knowledge-base sections from an uploaded document.
+type KbSectionSnapshot = {
+  id: string;
+  slug: string;
+  title: string;
+  body_markdown: string;
+  updated_at: string;
+};
+
+function buildExtractSystem(sections: KbSectionSnapshot[]): string {
+  const listing = sections
+    .map(
+      (s) =>
+        `### Section id: ${s.id}\nslug: ${s.slug}\ntitle: ${s.title}\n\n${s.body_markdown}`,
+    )
+    .join("\n\n---\n\n");
+
+  return `You maintain the Bonlife Knowledge Base - the single source of truth for the Bonlife brand, products, and communication. An admin has uploaded a document. Your job is to decide how its information should be integrated into the knowledge base.
+
+The CURRENT knowledge base sections are listed below, each with its id, slug, title, and full Markdown body:
+
+=== CURRENT KNOWLEDGE BASE ===
+${listing || "(the knowledge base is currently empty)"}
+=== END CURRENT KNOWLEDGE BASE ===
 
 Rules:
-- Return an array of proposed sections. Each is { title, body_markdown }.
+- Read the uploaded document carefully and compare it against the current sections above.
+- Prefer "update_existing": when the document contains facts that belong to a topic already covered by a section, merge them into that section. Set section_id to that section's exact id and slug, keep the section's existing title, and return the COMPLETE proposed body (existing validated content preserved, new facts woven in).
+- Use "create_new" only for a genuinely distinct topic that no existing section covers. Set section_id and slug to null.
+- Never delete or contradict existing validated content unless the uploaded document explicitly supersedes it.
+- summary_of_changes: one or two sentences stating what changed and why (for updates), or why this topic is new (for new sections).
 - Titles must be short, human, and specific (max 80 chars).
-- body_markdown must be clean Markdown suitable for a design-system reference doc.
-- Preserve headings (H3+), lists, tables, and links from the source where useful.
-- Write in Bonlife voice: warm, plain, benefit-led, no jargon.
-- Group tightly related content under one section rather than fragmenting.
-- Return between 1 and 12 sections. Never return more than 12.
-- If the document is empty or unusable, return { "drafts": [] }.`;
+- proposed_body_markdown must be clean Markdown: headings (H3+), lists, tables, and links where useful.
+- Write in the Bonlife voice: warm, plain, benefit-led, zero jargon. Use N$ for money. Use hyphens, never em dashes. Never use "48-hour" wording.
+- Return between 1 and 12 proposals. Never more than 12.
+- If the document is empty or unusable, return { "proposals": [] }.`;
+}
+
+function stripEmDashes(text: string): string {
+  return text.replace(/[\u2014\u2013]/g, "-");
+}
 
 export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAdmin])
@@ -183,19 +216,39 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
       })
       .parse(input),
   )
-  .handler(async ({ data }) => {
+  .handler(async ({ data, context }) => {
     const key = process.env.LOVABLE_API_KEY;
     if (!key) throw new Error("Missing LOVABLE_API_KEY");
 
-    const { createLovableAiGatewayProvider } = await import("./ai-gateway.server");
-    const gateway = createLovableAiGatewayProvider(key);
-    const model = gateway("google/gemini-2.5-flash");
+    // Load the full current knowledge base so the model can merge into it.
+    const sb = context.supabase as unknown as SupabaseClient<Database>;
+    const { data: sectionRows, error: sectionError } = await sb
+      .from("kb_sections")
+      .select("id, slug, title, body_markdown, updated_at")
+      .order("order_index", { ascending: true });
+    if (sectionError) throw new Error(sectionError.message);
+    const sections = (sectionRows ?? []) as KbSectionSnapshot[];
+
+    const { createAnthropic } = await import("@ai-sdk/anthropic");
+    const { createLovableAiGatewayRunIdFetch } = await import("./ai-gateway.server");
+    const runIdFetch = createLovableAiGatewayRunIdFetch();
+    const anthropic = createAnthropic({
+      baseURL: "https://ai.gateway.lovable.dev/v1",
+      apiKey: key,
+      headers: { "X-Lovable-AIG-SDK": "vercel-ai-sdk" },
+      fetch: runIdFetch.fetch,
+    });
+    // @ai-sdk/anthropic ships a newer provider spec than ai@7's nested copy;
+    // the runtime is compatible, so cast across the type mismatch.
+    const model = anthropic("anthropic/claude-opus-5-5") as unknown as LanguageModel;
 
     const isPdf =
       data.mimeType === "application/pdf" || data.filename.toLowerCase().endsWith(".pdf");
     const isText =
       data.mimeType.startsWith("text/") ||
       /\.(md|markdown|txt)$/i.test(data.filename);
+
+    const instruction = `Integrate this document ("${data.filename}") into the knowledge base. Return { proposals: [...] } per the system instructions. Max 12 proposals.`;
 
     let userContent:
       | string
@@ -206,10 +259,7 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
 
     if (isPdf) {
       userContent = [
-        {
-          type: "text",
-          text: `Extract knowledge-base sections from this document ("${data.filename}"). Return { drafts: [{ title, body_markdown }, ...] }. Max 12 drafts.`,
-        },
+        { type: "text", text: instruction },
         {
           type: "file",
           data: data.base64,
@@ -225,36 +275,61 @@ export const extractKbDraftsFromUpload = createServerFn({ method: "POST" })
         throw new Error("Could not decode uploaded text file.");
       }
       const clamped = decoded.slice(0, 120_000);
-      userContent = `File: ${data.filename}\n\n---\n${clamped}\n---\n\nReturn { drafts: [{ title, body_markdown }, ...] }. Max 12 drafts.`;
+      userContent = `File: ${data.filename}\n\n---\n${clamped}\n---\n\n${instruction}`;
     } else {
       throw new Error(
         `Unsupported file type: ${data.mimeType || "unknown"}. Upload a .pdf, .md, or .txt file.`,
       );
     }
 
-    try {
-      const { output } = await generateText({
-        model,
-        output: Output.object({ schema: DraftSchema }),
-        system: EXTRACT_SYSTEM,
-        messages: [{ role: "user", content: userContent as never }],
+    const normalize = (raw: z.infer<typeof ProposalSchema>["proposals"]) => {
+      const byId = new Map(sections.map((s) => [s.id, s]));
+      return raw.slice(0, 12).map((p) => {
+        const target =
+          p.action === "update_existing" && p.section_id
+            ? byId.get(p.section_id)
+            : undefined;
+        const action = target ? "update_existing" : "create_new";
+        return {
+          action: action as "update_existing" | "create_new",
+          section_id: target ? target.id : null,
+          slug: target ? target.slug : null,
+          title: (target ? target.title : p.title).slice(0, 200),
+          summary_of_changes: stripEmDashes(p.summary_of_changes).slice(0, 500),
+          proposed_body_markdown: stripEmDashes(p.proposed_body_markdown).slice(0, 40_000),
+          current_body_markdown: target ? target.body_markdown : null,
+          current_updated_at: target ? target.updated_at : null,
+        };
       });
-      const drafts = (output?.drafts ?? [])
-        .slice(0, 12)
-        .map((d) => ({
-          title: d.title.slice(0, 200),
-          body_markdown: d.body_markdown.slice(0, 40_000),
-        }));
-      return { drafts };
+    };
+
+    try {
+      // Long documents can run for minutes - stream and consume server-side.
+      const result = streamText({
+        model,
+        output: Output.object({ schema: ProposalSchema }),
+        system: buildExtractSystem(sections),
+        messages: [{ role: "user", content: userContent as never }],
+        maxOutputTokens: 16000,
+      });
+      const output = await result.output;
+      return { proposals: normalize(output?.proposals ?? []) };
     } catch (error) {
       if (NoObjectGeneratedError.isInstance(error)) {
         const text = (error.text ?? "").trim();
-        if (!text) return { drafts: [] };
+        if (!text) return { proposals: [] };
         return {
-          drafts: [
+          proposals: [
             {
+              action: "create_new" as const,
+              section_id: null,
+              slug: null,
               title: `Import: ${data.filename}`.slice(0, 200),
-              body_markdown: text.slice(0, 40_000),
+              summary_of_changes:
+                "The AI could not structure this document, so it is proposed as one new section.",
+              proposed_body_markdown: stripEmDashes(text).slice(0, 40_000),
+              current_body_markdown: null,
+              current_updated_at: null,
             },
           ],
         };

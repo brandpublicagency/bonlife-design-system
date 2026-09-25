@@ -156,11 +156,14 @@ function AdminEditor({ qc }: { qc: ReturnType<typeof useQueryClient> }) {
         <div className="grid gap-6">
           <KbUploadPanel
             onExtract={async (input) => {
-              const { drafts } = await extractKbDraftsFromUpload({ data: input });
-              return drafts;
+              const { proposals } = await extractKbDraftsFromUpload({ data: input });
+              return proposals;
             }}
-            onAdd={async (draft) => {
-              await createMut.mutateAsync(draft);
+            onApplyUpdate={async (input) => {
+              await updateMut.mutateAsync(input);
+            }}
+            onCreate={async (input) => {
+              await createMut.mutateAsync(input);
             }}
           />
 
