@@ -34,6 +34,11 @@ export const Route = createFileRoute("/_authenticated/admin/knowledge-base")({
   head: () => ({
     meta: [
       { title: "KB Backend - Bonlife" },
+      { name: "description", content: "Admin editor for the Bonlife Knowledge Base." },
+      { property: "og:title", content: "KB Backend - Bonlife" },
+      { property: "og:description", content: "Admin editor for the Bonlife Knowledge Base." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },
     ],
   }),
@@ -173,6 +178,7 @@ function AdminEditor({ qc }: { qc: ReturnType<typeof useQueryClient> }) {
 
           {adding && (
             <NewSectionForm
+              sections={orderedSections}
               busy={createMut.isPending}
               onCancel={() => setAdding(false)}
               onCreate={async (input) => {
@@ -215,16 +221,19 @@ function AdminEditor({ qc }: { qc: ReturnType<typeof useQueryClient> }) {
 }
 
 function NewSectionForm({
+  sections,
   busy,
   onCancel,
   onCreate,
 }: {
+  sections: KbSectionRow[];
   busy: boolean;
   onCancel: () => void;
-  onCreate: (input: { title: string; body_markdown: string }) => Promise<void>;
+  onCreate: (input: { title: string; body_markdown: string; parent_id?: string | null }) => Promise<void>;
 }) {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [parentId, setParentId] = useState<string | null>(null);
   return (
     <section className="rounded-2xl border border-navy/20 bg-surface p-6 sm:p-8">
       <div className="mb-4 flex items-center justify-between border-b border-hairline pb-4">
@@ -248,6 +257,19 @@ function NewSectionForm({
         className="mt-2 w-full rounded-md border border-hairline bg-surface-tint px-3 py-2 font-display text-[18px] font-semibold text-navy focus:border-navy focus:outline-none"
       />
       <label className="mt-4 block text-[11px] font-semibold uppercase tracking-[0.14em] text-navy/60">
+        Parent section
+      </label>
+      <select
+        value={parentId ?? ""}
+        onChange={(event) => setParentId(event.target.value || null)}
+        className="mt-2 w-full rounded-md border border-hairline bg-surface-tint px-3 py-2 text-[14px] text-navy focus:border-navy focus:outline-none"
+      >
+        <option value="">Top level</option>
+        {sections.filter((section) => !section.parent_id).map((section) => (
+          <option key={section.id} value={section.id}>{section.title}</option>
+        ))}
+      </select>
+      <label className="mt-4 block text-[11px] font-semibold uppercase tracking-[0.14em] text-navy/60">
         Body (Markdown)
       </label>
       <textarea
@@ -261,7 +283,7 @@ function NewSectionForm({
         <Button
           variant="primary"
           disabled={busy || !title.trim()}
-          onClick={() => onCreate({ title: title.trim(), body_markdown: body })}
+          onClick={() => onCreate({ title: title.trim(), body_markdown: body, parent_id: parentId })}
         >
           {busy ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />}
           Create section
