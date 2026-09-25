@@ -27,16 +27,16 @@ const markdownComponents = {
     <h4 {...p} className="mt-6 font-display text-[17px] font-semibold text-navy" />
   ),
   p: (p: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p {...p} className="mt-4 text-[15px] leading-[1.7] text-navy/85" />
+    <p {...p} className="mt-4 break-words text-[15px] leading-[1.7] text-navy/85" />
   ),
   a: (p: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
-    <a {...p} target="_blank" rel="noreferrer" className="text-coral underline underline-offset-2 hover:text-coral-hover" />
+    <a {...p} target="_blank" rel="noreferrer" className="break-words text-coral underline underline-offset-2 [overflow-wrap:anywhere] hover:text-coral-hover" />
   ),
   ul: (p: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul {...p} className="mt-4 list-disc space-y-2 pl-6 text-[15px] leading-[1.7] text-navy/85" />
+    <ul {...p} className="mt-4 list-disc space-y-1.5 pl-6 text-[15px] leading-[1.7] text-navy/85 [&_li]:break-words" />
   ),
   ol: (p: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol {...p} className="mt-4 list-decimal space-y-2 pl-6 text-[15px] leading-[1.7] text-navy/85" />
+    <ol {...p} className="mt-4 list-decimal space-y-1.5 pl-6 text-[15px] leading-[1.7] text-navy/85 [&_li]:break-words" />
   ),
   li: (p: React.LiHTMLAttributes<HTMLLIElement>) => <li {...p} className="pl-1" />,
   strong: (p: React.HTMLAttributes<HTMLElement>) => <strong {...p} className="font-semibold text-navy" />,
@@ -62,7 +62,7 @@ const markdownComponents = {
 
 export function KbMarkdown({ children }: { children: string }) {
   return (
-    <div className="[&>*:first-child]:mt-0">
+    <div className="min-w-0 [&>*:first-child]:mt-0">
       <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
         {children}
       </ReactMarkdown>
