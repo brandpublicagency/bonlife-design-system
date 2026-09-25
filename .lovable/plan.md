@@ -1,42 +1,29 @@
-## What's missing on `/contact`
+# Smarter Knowledge Base import
 
-Current `PARTNERS` list (contact.tsx L75-85) has: Cash at branch, Debit order, EFT, NamPost, Woermann & Brock, "Shoprite / Checkers / USave" (bundled), MobiPay, PayToday, Model.
+Upgrade the "Add sections from a file" tool on the admin Knowledge Base page so the AI reads the whole live Knowledge Base, then proposes edits to existing sections or new sections. You review each one before it goes live.
 
-Missing vs. your list: **Airtime City**, and the retailers should be **split into separate cards** (Checkers, Shoprite, USave). Also missing the note that Bonlife 90 now supports **card payments**.
+## What you will see
+- Upload a PDF, Markdown or text file the same way you do now.
+- The results come back in two groups:
+  - **Updates to existing sections**: the current text and the proposed text shown side by side, with changed lines highlighted, plus a short note explaining what changed and why.
+  - **New proposed sections**: a preview with a note on why the topic is new.
+- Each proposal has its own button ("Apply update" or "Add section") and a "Discard" button. Each group also has an "Apply all" button.
+- A section that was edited after the upload started gets flagged, so newer edits are never overwritten without you knowing.
 
-## Changes
+## AI behaviour
+- Reads every current section (title, slug, order and full text) before it looks at the upload.
+- Adds new facts to the matching existing topic (for example Funeral Cover, Payment Methods or Brand Identity) and keeps all existing checked content.
+- Only suggests a new section when the topic is genuinely not covered yet.
+- Writes in the Bonlife voice: benefit-led, warm, concise, no jargon. Amounts use N$ and dashes are hyphens (no em dashes). "48-hour" wording is never pushed.
+- Uses `google/gemini-2.5-pro` through Lovable AI, as you asked. Its availability is confirmed before the build starts. If it is not available, the build stops and asks you what to do instead.
 
-### 1. `src/routes/contact.tsx` - Payment partners section
-
-- Rewrite `PARTNERS` into two logical groups shown on the page:
-  - **Payment methods**: Debit Order, Cash, EFT, Card (via Bonlife 90 - new).
-  - **Where to pay**: NamPost, MobiPay, PayToday, USave, Checkers, Shoprite, Model, Airtime City, Woermann & Brock.
-- Update section lead to mention "now including card payments on Bonlife 90".
-- Render as two subgroups (small eyebrow "Methods" / "Where to pay") using the same card grid.
-
-### 2. Partner card icon restyle (L346-352)
-
-Replace the current `bg-coral/10` chip with:
-- Default: `border border-coral bg-transparent text-coral`
-- Hover (card-level `group` hover): `bg-coral border-coral text-white`
-- Icon stays `Handshake` at 1.5 stroke.
-
-Add `group` to the card wrapper and `transition-colors` to the icon chip so hover on the whole card triggers the swap.
-
-### 3. Knowledge Base update
-
-The KB lives in the `kb_sections` DB table (public source of truth). I'll update the "Buy / pay" content in the relevant section via a SQL update so the change appears immediately on `/knowledge-base`:
-
-- Find the section that currently contains the "Payment is by debit order or cash..." sentence (currently in the "Customer journey / Buy" area).
-- Replace the payment sentence with:
-  > **Payment methods:** Debit Order, Cash, EFT, and now by card on Bonlife 90.
-  > **Where to pay:** NamPost, MobiPay, PayToday, USave, Checkers, Shoprite, Model, Airtime City, Woermann & Brock.
-- Also update the earlier "Accessibility" bullet (L44 of the seed) equivalent in the DB to include Airtime City and card-on-Bonlife-90.
-
-I will not touch `src/content/bonlife-knowledge-base.md` (historical seed only, per project memory).
-
-## Technical notes
-
-- Icon color swap uses Tailwind `group-hover:` classes only - no JS state.
-- KB update runs as a single `UPDATE kb_sections SET body_markdown = ... WHERE slug = ...` after I read the current row to confirm the exact section and preserve surrounding markdown.
-- No schema changes, no new components.
+## Technical details
+- `src/lib/kb.functions.ts` `extractKbDraftsFromUpload`:
+  - Loads the sections through the admin's own session (`context.supabase`), then sends them in the system prompt as reference text with an id for each section.
+  - New strict output schema: `{ proposals: [{ action: "update_existing" | "create_new", section_id: string | null, slug: string | null, title, summary_of_changes, proposed_body_markdown }] }`. Nullable fields, no length limits in the schema, and caps stated in the prompt (up to 12 proposals).
+  - Switches to `streamText` and reads `await result.output`, so long documents don't time out. Keeps the fallback for failed parsing.
+  - Checks every `update_existing` id against the real sections. A proposal with an unknown id becomes `create_new`. Returns each target's current body and `updated_at` so the review screen can compare.
+  - Replaces any em dashes with hyphens in the text the AI returns.
+- `KbUploadPanel.tsx`: rewritten around proposals, with a grouped layout, a line-by-line diff (using the small `diff` package) and per-item and "Apply all" actions.
+- `admin.knowledge-base.tsx`: passes in `onApplyUpdate` (calls `updateKbSection`) and `onCreate` (calls `createKbSection`), then refreshes the section list after each one.
+- Error messages for 402, 429 and 403 are kept and shown in the panel.
