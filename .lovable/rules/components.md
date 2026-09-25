@@ -193,6 +193,7 @@ import { PageSidebar } from "@ws-pkww2p8xqxnopjvtkdh8/9d449797-2b4f-4c19-83b8-3d
 | `label` | string | `Sections` |
 | `items` | any | `—` |
 | `groups` | any | `—` |
+| `numbered` | boolean | `true` |
 
 ### PageWithSidebar
 
