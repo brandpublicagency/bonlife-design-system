@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils";
 
 type Variant = "primary" | "secondary" | "ghost" | "outline";
@@ -28,12 +29,15 @@ const sizes: Record<Size, string> = {
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ variant = "primary", size = "md", className, ...props }, ref) => (
-    <button
-      ref={ref}
-      className={cn(base, variants[variant], sizes[size], className)}
-      {...props}
-    />
-  ),
+  ({ variant = "primary", size = "md", className, asChild = false, ...props }, ref) => {
+    const Comp = asChild ? Slot : "button";
+    return (
+      <Comp
+        ref={ref}
+        className={cn(base, variants[variant], sizes[size], className)}
+        {...props}
+      />
+    );
+  },
 );
 Button.displayName = "Button";
