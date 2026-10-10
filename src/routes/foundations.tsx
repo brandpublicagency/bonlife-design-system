@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
 import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
 import { PageSection } from "@/components/bonlife/PageSection";
+import { useSiteContent, loadSitePage } from "@/hooks/use-site-content";
 import {
   Palette,
   Type as TypeIcon,
@@ -51,6 +52,7 @@ export const Route = createFileRoute("/foundations")({
     ],
     links: [{ rel: "canonical", href: "/foundations" }],
   }),
+  loader: ({ context }) => loadSitePage(context, "foundations"),
   component: FoundationsPage,
 });
 
@@ -101,14 +103,15 @@ function Swatch({
 }
 
 function FoundationsPage() {
+  const c = useSiteContent("foundations");
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
 
       <PageHeader
-        eyebrow="Foundations"
-        title="The tokens beneath every Bonlife surface."
-        lead="Color, type, spacing, motion, logos and photography - all traced back to the brand book, no invented values."
+        eyebrow={c.header.eyebrow}
+        title={c.header.title}
+        lead={c.header.lead}
       />
 
       <PageWithSidebar sidebar={<PageSidebar label="Foundations" items={TOC} />}>
@@ -117,58 +120,48 @@ function FoundationsPage() {
       <PageSection
         id="color"
         eyebrow="Colour · Primary"
-        title="Navy anchor, warm coral accent."
-        lead="Bonlife is not a pastel-insurance brand - it reads corporate-serious first, friendly second. Navy owns text and chrome; coral owns CTAs and highlights against it."
+        title={c.colourPrimary.title}
+        lead={c.colourPrimary.lead}
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-          <Swatch color="#0C1C3E" name="Navy 900" hex="#0C1C3E" token="--navy-900" />
-          <Swatch color="#FF876A" name="Coral 500" hex="#FF876A" token="--coral-500" fg="navy" />
-          <Swatch color="#01FBC0" name="Mint 400" hex="#01FBC0" token="--mint-400" fg="navy" />
+          {c.colourPrimary.swatches.map((w) => (
+            <Swatch key={w.name} color={w.hex} name={w.name} hex={w.hex} token={w.token} fg={w.textOn === "dark" ? "navy" : "white"} />
+          ))}
         </div>
       </PageSection>
 
       <PageSection
         eyebrow="Colour · Categories"
-        title="Four plans, four colours."
-        lead="Each product category owns a saturated identifier colour. Use it to tint plan cards and badges for its own category - never as a general UI colour."
+        title={c.colourCategories.title}
+        lead={c.colourCategories.lead}
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-          <Swatch color="#04413F" name="Funeral Cover" hex="#04413F" token="--category-funeral" />
-          <Swatch color="#541467" name="Life Insurance" hex="#541467" token="--category-life" />
-          <Swatch color="#0D2B90" name="Saving & Study Plans" hex="#0D2B90" token="--category-savings" />
-          <Swatch color="#A80A4D" name="Accident & Disability Cover" hex="#A80A4D" token="--category-accident" />
+          {c.colourCategories.swatches.map((w) => (
+            <Swatch key={w.name} color={w.hex} name={w.name} hex={w.hex} token={w.token} fg={w.textOn === "dark" ? "navy" : "white"} />
+          ))}
         </div>
       </PageSection>
 
       <PageSection
         eyebrow="Colour · Surfaces & semantic"
-        title="Two near-whites, two states."
-        lead="Surface tint sits under navy text; muted fills cards and inputs. Semantic red and mint cover error and success only - never decorative."
+        title={c.colourSurfaces.title}
+        lead={c.colourSurfaces.lead}
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-          <Swatch color="#FFFFFF" name="Surface" hex="#FFFFFF" token="--surface-white" fg="navy" />
-          <Swatch color="#F7F8FB" name="Tint" hex="#F7F8FB" token="--surface-tint" fg="navy" />
-          <Swatch color="#EAEDF4" name="Muted" hex="#EAEDF4" token="--surface-muted" fg="navy" />
-          <Swatch color="#FF5F5F" name="Error" hex="#FF5F5F" token="--state-error" />
-          <Swatch color="#41FFB6" name="Success" hex="#41FFB6" token="--state-success" fg="navy" />
+          {c.colourSurfaces.swatches.map((w) => (
+            <Swatch key={w.name} color={w.hex} name={w.name} hex={w.hex} token={w.token} fg={w.textOn === "dark" ? "navy" : "white"} />
+          ))}
         </div>
       </PageSection>
 
       <PageSection
         id="type"
         eyebrow="Typography"
-        title="Onest for display, Inter for body."
-        lead="Bold Onest with tight negative tracking on headings loosens to 0 by H5. Inter carries everything long-form. No serif, no script, no display faces."
+        title={c.typography.title}
+        lead={c.typography.lead}
       >
         <div className="overflow-hidden rounded-xl border border-hairline bg-surface">
-          {[
-            { tag: "H1", size: "60 / -0.03em / 700", text: "N$1,000 Instant Cash, same day." },
-            { tag: "H2", size: "48 / -0.02em / 700", text: "Two Pockets. One Plan." },
-            { tag: "H3", size: "32 / -0.02em / 700", text: "Start early. Study further." },
-            { tag: "H4", size: "25 / -0.02em / 600", text: "Speed is respect." },
-            { tag: "H5", size: "18 / 0 / 600", text: "Family Plan" },
-            { tag: "H6", size: "14 / 0 / 600", text: "COVER BENEFIT" },
-          ].map((r) => {
+          {c.typography.headings.map((r) => {
             const Tag = r.tag.toLowerCase() as "h1";
             return (
               <div
@@ -188,21 +181,21 @@ function FoundationsPage() {
           <div className="space-y-3 border-t border-hairline p-6">
             <div className="grid grid-cols-[60px_1fr] items-baseline gap-6">
               <span className="font-mono text-[11px] font-semibold uppercase text-muted-foreground">Body L</span>
-              <p className="!m-0 text-lg leading-[1.65]">A grieving family cannot wait weeks. Every Bonlife funeral plan pays a cover benefit fast.</p>
+              <p className="!m-0 text-lg leading-[1.65]">{c.typography.bodyLarge}</p>
             </div>
             <div className="grid grid-cols-[60px_1fr] items-baseline gap-6">
               <span className="font-mono text-[11px] font-semibold uppercase text-muted-foreground">Body</span>
-              <p className="!m-0 text-base leading-[1.6]">Start early, study further. Give them every chance.</p>
+              <p className="!m-0 text-base leading-[1.6]">{c.typography.body}</p>
             </div>
             <div className="grid grid-cols-[60px_1fr] items-baseline gap-6">
               <span className="font-mono text-[11px] font-semibold uppercase text-muted-foreground">Body S</span>
-              <p className="!m-0 text-sm leading-[1.55] text-muted-foreground">SMS your name to 74448.</p>
+              <p className="!m-0 text-sm leading-[1.55] text-muted-foreground">{c.typography.bodySmall}</p>
             </div>
           </div>
         </div>
         <div className="mt-6 grid gap-4 sm:grid-cols-2">
           <a
-            href="https://fonts.google.com/specimen/Onest"
+            href={c.typography.onestUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="group flex items-center justify-between rounded-xl border border-hairline bg-surface p-5 transition-colors hover:border-coral/40"
@@ -214,7 +207,7 @@ function FoundationsPage() {
             <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-coral text-navy transition-transform group-hover:scale-105" aria-hidden>↗</span>
           </a>
           <a
-            href="https://fonts.google.com/specimen/Inter"
+            href={c.typography.interUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="group flex items-center justify-between rounded-xl border border-hairline bg-surface p-5 transition-colors hover:border-coral/40"
@@ -228,7 +221,7 @@ function FoundationsPage() {
         </div>
       </PageSection>
 
-      <PageSection id="spacing" eyebrow="Spacing" title="4px base, generous rhythm.">
+      <PageSection id="spacing" eyebrow="Spacing" title={c.spacing.title}>
         <div className="rounded-xl border border-hairline bg-surface p-8">
           <div className="flex flex-wrap items-end gap-6">
             {[
@@ -255,7 +248,7 @@ function FoundationsPage() {
         </div>
       </PageSection>
 
-      <PageSection id="radius" eyebrow="Radius & shadow" title="Friendly, trust-first.">
+      <PageSection id="radius" eyebrow="Radius & shadow" title={c.radius.title}>
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
           {[
             { name: "sm", size: "8px", cls: "rounded-sm" },
@@ -281,14 +274,9 @@ function FoundationsPage() {
         </div>
       </PageSection>
 
-      <PageSection id="motion" eyebrow="Motion" title="Calm, never showy.">
+      <PageSection id="motion" eyebrow="Motion" title={c.motion.title}>
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-          {[
-            { name: "instant", ms: "100ms", use: "presses" },
-            { name: "fast", ms: "160ms", use: "hovers" },
-            { name: "base", ms: "240ms", use: "menus, toasts" },
-            { name: "slow", ms: "400ms", use: "modals" },
-          ].map((m) => (
+          {c.motion.durations.map((m) => (
             <div key={m.name} className="rounded-xl border border-hairline bg-surface p-6">
               <div className="font-mono text-[11px] font-semibold uppercase tracking-wider text-coral">
                 {m.name}
@@ -304,7 +292,7 @@ function FoundationsPage() {
         </div>
       </PageSection>
 
-      <PageSection id="logos" eyebrow="Logos" title="Wordmark and mark lockups.">
+      <PageSection id="logos" eyebrow="Logos" title={c.logos.title}>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           <div className="flex h-32 items-center justify-center rounded-xl border border-hairline bg-surface p-6">
             <img src={wordmarkDark} alt="Wordmark dark" className="max-h-8" />
@@ -327,8 +315,8 @@ function FoundationsPage() {
       <PageSection
         id="gradients"
         eyebrow="Gradients"
-        title="Noise gradients for hero moments."
-        lead="Grain-textured blends of brand and category colors. A tool for hero and marketing surfaces, never the default state of a card, and never behind body text without a scrim."
+        title={c.gradients.title}
+        lead={c.gradients.lead}
       >
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {[g1, g2, g3, g4].map((g, i) => (
@@ -342,8 +330,8 @@ function FoundationsPage() {
       <PageSection
         id="photography"
         eyebrow="Photography"
-        title="Warm, candid, Namibian."
-        lead="Real portraiture - multi-generational, hugging, laughing, often looking at camera. Full-bleed or generously cropped. Never behind heavy dark overlays."
+        title={c.photography.title}
+        lead={c.photography.lead}
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
           {[p1, p2, p3, p4, p5, p6].map((p, i) => (

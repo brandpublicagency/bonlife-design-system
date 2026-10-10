@@ -4,6 +4,7 @@ import { Phone, MessageCircle, MapPin } from "lucide-react";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
 import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
 import { PageSection } from "@/components/bonlife/PageSection";
+import { useSiteContent, loadSitePage } from "@/hooks/use-site-content";
 import { Badge } from "@/components/bonlife/Badge";
 import { Card } from "@/components/bonlife/Card";
 import { Button } from "@/components/bonlife/Button";
@@ -40,6 +41,7 @@ export const Route = createFileRoute("/components")({
     ],
     links: [{ rel: "canonical", href: "/components" }],
   }),
+  loader: ({ context }) => loadSitePage(context, "components"),
   component: ComponentsPage,
 });
 
@@ -120,6 +122,7 @@ function Spec({
 }
 
 function ComponentsPage() {
+  const c = useSiteContent("components");
   const [dialogOpen, setDialogOpen] = React.useState(false);
 
   return (
@@ -128,14 +131,14 @@ function ComponentsPage() {
       <BonlifeToaster />
 
       <PageHeader
-        eyebrow="Components"
-        title="Seventeen building blocks."
-        lead="Every component is built from the Bonlife tokens - navy chrome, coral CTAs, Onest headings, Inter body. Nothing hard-coded, nothing decorative."
+        eyebrow={c.header.eyebrow}
+        title={c.header.title}
+        lead={c.header.lead}
       />
 
       <PageWithSidebar className="py-16" sidebar={<PageSidebar groups={GROUPS} />}>
         <div className="min-w-0 space-y-14">
-            <PageSection id="button" title="Button" headerAction={<span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">4 variants · 3 sizes</span>} lead="Primary navy, secondary coral, ghost, outline.">
+            <PageSection id="button" title={c.sections.button.title} headerAction={<span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">4 variants · 3 sizes</span>} lead={c.sections.button.lead}>
               <div className="flex flex-wrap items-center gap-3">
                 <Button>Primary</Button>
                 <Button variant="secondary">Secondary</Button>
@@ -150,7 +153,7 @@ function ComponentsPage() {
               </div>
             </PageSection>
 
-            <PageSection id="iconbutton" title="IconButton" lead="Round, icon-only actions.">
+            <PageSection id="iconbutton" title={c.sections.iconbutton.title} lead={c.sections.iconbutton.lead}>
               <div className="flex items-center gap-3">
                 <IconButton aria-label="Call"><Phone size={18} /></IconButton>
                 <IconButton aria-label="Chat" variant="secondary"><MessageCircle size={18} /></IconButton>
@@ -158,7 +161,7 @@ function ComponentsPage() {
               </div>
             </PageSection>
 
-            <PageSection id="badge" title="Badge" headerAction={<span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">9 tones</span>} lead="Neutral, brand, semantic, and category tones.">
+            <PageSection id="badge" title={c.sections.badge.title} headerAction={<span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">9 tones</span>} lead={c.sections.badge.lead}>
               <div className="flex flex-wrap gap-3">
                 <Badge>Neutral</Badge>
                 <Badge tone="navy">Navy</Badge>
@@ -172,7 +175,7 @@ function ComponentsPage() {
               </div>
             </PageSection>
 
-            <PageSection id="card" title="Card" headerAction={<span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">3 variants</span>} lead="Shadow, outline, flat tint.">
+            <PageSection id="card" title={c.sections.card.title} headerAction={<span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">3 variants</span>} lead={c.sections.card.lead}>
               <div className="grid gap-4 md:grid-cols-3">
                 <Card className="p-6"><h5>Shadow</h5><p className="mt-2 text-sm text-muted-foreground">Default surface.</p></Card>
                 <Card variant="outline" className="p-6"><h5>Outline</h5><p className="mt-2 text-sm text-muted-foreground">Hairline border only.</p></Card>
@@ -180,7 +183,7 @@ function ComponentsPage() {
               </div>
             </PageSection>
 
-            <PageSection id="forms" title="Form controls" lead="Inputs, select, checkbox, radio, switch - navy focus, coral outline ring.">
+            <PageSection id="forms" title={c.sections.forms.title} lead={c.sections.forms.lead}>
               <div className="grid gap-6 md:grid-cols-2">
                 <Input label="Full name" placeholder="Aina Nangolo" />
                 <Input label="ID number" placeholder="00000000" hint="13 digits, no spaces." />
@@ -206,7 +209,7 @@ function ComponentsPage() {
               </div>
             </PageSection>
 
-            <PageSection id="plancard" title="PlanCard" lead="Category marketing card - flat category fill, coral eyebrow and CTA, white Onest title.">
+            <PageSection id="plancard" title={c.sections.plancard.title} lead={c.sections.plancard.lead}>
               <div className="grid gap-5 md:grid-cols-2">
                 <PlanCard category="funeral" title="Protection your family can count on." cta="Compare Funeral Plans" />
                 <PlanCard category="life" title="A lump sum that protects what you've built." cta="Compare Life Insurance" />
@@ -215,7 +218,7 @@ function ComponentsPage() {
               </div>
             </PageSection>
 
-            <PageSection id="planrow" title="PlanRow" lead="Plan list row - plain white, navy Onest, 3px category left tick.">
+            <PageSection id="planrow" title={c.sections.planrow.title} lead={c.sections.planrow.lead}>
               <div className="rounded-lg border border-hairline bg-surface px-6">
                 <PlanRow category="funeral" name="Family Plan" tagline="Ages 18-65 · Main life, spouse, children" price="From N$85/m" />
                 <PlanRow category="funeral" name="Prime Plan" tagline="Ages 18-60 · N$25,000 or N$50,000 cover" price="From N$120/m" />
@@ -224,7 +227,7 @@ function ComponentsPage() {
               </div>
             </PageSection>
 
-            <PageSection id="tabs" title="Tabs" lead="Pill tabs on a muted track.">
+            <PageSection id="tabs" title={c.sections.tabs.title} lead={c.sections.tabs.lead}>
               <Tabs defaultValue="claims">
                 <TabsList>
                   <TabsTrigger value="claims">Claims</TabsTrigger>
@@ -249,7 +252,7 @@ function ComponentsPage() {
               </Tabs>
             </PageSection>
 
-            <PageSection id="accordion" title="Accordion" lead="One item open at a time.">
+            <PageSection id="accordion" title={c.sections.accordion.title} lead={c.sections.accordion.lead}>
               <div className="rounded-lg bg-surface px-6">
                 <Accordion
                   items={[
@@ -261,7 +264,7 @@ function ComponentsPage() {
               </div>
             </PageSection>
 
-            <PageSection id="dialog" title="Dialog" lead="Modal with backdrop, escape-key, and click-outside close.">
+            <PageSection id="dialog" title={c.sections.dialog.title} lead={c.sections.dialog.lead}>
               <Button onClick={() => setDialogOpen(true)}>Open dialog</Button>
               <Dialog
                 open={dialogOpen}
@@ -280,14 +283,14 @@ function ComponentsPage() {
               </Dialog>
             </PageSection>
 
-            <PageSection id="toast" title="Toast" lead="Navy toast, body-text weight. Sonner under the hood.">
+            <PageSection id="toast" title={c.sections.toast.title} lead={c.sections.toast.lead}>
               <div className="flex gap-3">
                 <Button onClick={() => toast("Quote saved.")}>Show toast</Button>
                 <Button variant="secondary" onClick={() => toast.success("Claim approved.")}>Success</Button>
               </div>
             </PageSection>
 
-            <PageSection id="tooltip" title="Tooltip" lead="Hover for detail.">
+            <PageSection id="tooltip" title={c.sections.tooltip.title} lead={c.sections.tooltip.lead}>
               <div className="flex gap-6">
                 <Tooltip content="Sign up without medical exams"><Button variant="outline">No medicals</Button></Tooltip>
                 <Tooltip content="Same-day N$1,000 on funeral claims"><Button variant="outline">Instant Cash</Button></Tooltip>

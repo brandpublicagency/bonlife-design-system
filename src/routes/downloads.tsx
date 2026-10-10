@@ -4,6 +4,7 @@ import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChr
 import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
 import { PageSection } from "@/components/bonlife/PageSection";
 import { DownloadCard } from "@/components/bonlife/DownloadCard";
+import { useSiteContent, loadSitePage } from "@/hooks/use-site-content";
 import {
   LayoutTemplate,
   Star,
@@ -39,14 +40,6 @@ import gradient2 from "@/assets/bonlife/gradients/gradient-02.jpg.asset.json";
 import gradient3 from "@/assets/bonlife/gradients/gradient-03.jpg.asset.json";
 import gradient4 from "@/assets/bonlife/gradients/gradient-04.png.asset.json";
 
-const DRIVE_URL =
-  "https://drive.google.com/drive/folders/1-BYSNul3hlWG1B3lqOxtEZlwSy2L5_nI?usp=sharing";
-const ICON_DRIVE_URL =
-  "https://drive.google.com/drive/folders/1W_OspNdCrFBoq3R7HFNPhk7XqzecMOsU?usp=sharing";
-const XD_URL =
-  "https://xd.adobe.com/view/275ada2c-3189-49e8-9024-75ad70e49fcc-7209/grid";
-const ONEST_URL = "https://fonts.google.com/specimen/Onest";
-const INTER_URL = "https://fonts.google.com/specimen/Inter";
 
 export const Route = createFileRoute("/downloads")({
   head: () => ({
@@ -67,6 +60,7 @@ export const Route = createFileRoute("/downloads")({
     ],
     links: [{ rel: "canonical", href: "/downloads" }],
   }),
+  loader: ({ context }) => loadSitePage(context, "downloads"),
   component: DownloadsPage,
 });
 
@@ -260,6 +254,8 @@ function SwatchTile({
   );
 }
 
+type SwatchT = { name: string; hex: string; token: string; textOn: "light" | "dark" };
+
 function SwatchGroup({
   title,
   swatches,
@@ -282,6 +278,8 @@ function SwatchGroup({
 }
 
 function DownloadsPage() {
+  const c = useSiteContent("downloads");
+  const L = c.logos;
   const wordmarks: {
     src: string;
     filename: string;
@@ -292,15 +290,15 @@ function DownloadsPage() {
     {
       src: wordmarkLight,
       filename: "bonlife-wordmark-light.svg",
-      label: "Wordmark - Light",
-      caption: "Primary wordmark for use on dark backgrounds.",
+      label: L.wordmarkLight.label,
+      caption: L.wordmarkLight.caption,
       bg: "navy",
     },
     {
       src: wordmarkDark,
       filename: "bonlife-wordmark-dark.svg",
-      label: "Wordmark - Dark",
-      caption: "Primary wordmark for use on light backgrounds.",
+      label: L.wordmarkDark.label,
+      caption: L.wordmarkDark.caption,
       bg: "light",
     },
   ];
@@ -315,29 +313,29 @@ function DownloadsPage() {
     {
       src: markCoral,
       filename: "bonlife-mark-coral.svg",
-      label: "Mark - Coral",
-      caption: "Standalone mark in accent coral.",
+      label: L.markCoral.label,
+      caption: L.markCoral.caption,
       bg: "coral",
     },
     {
       src: markNavy,
       filename: "bonlife-mark-navy.svg",
-      label: "Mark - Navy",
-      caption: "Standalone mark in anchor navy.",
+      label: L.markNavy.label,
+      caption: L.markNavy.caption,
       bg: "light",
     },
     {
       src: markMint,
       filename: "bonlife-mark-mint.svg",
-      label: "Mark - Mint",
-      caption: "Mint mark reserved for high-contrast dark surfaces.",
+      label: L.markMint.label,
+      caption: L.markMint.caption,
       bg: "navy",
     },
     {
       src: markWhite,
       filename: "bonlife-mark-white.svg",
-      label: "Mark - White",
-      caption: "Reversed mark for photography and coloured surfaces.",
+      label: L.markWhite.label,
+      caption: L.markWhite.caption,
       bg: "navy",
     },
   ];
@@ -357,20 +355,20 @@ function DownloadsPage() {
     <>
       <SiteHeader />
       <PageHeader
-        eyebrow="Downloads"
-        title="Brand assets, ready to grab."
-        lead="Logos, fonts, and icons download inline or from Google Fonts / Drive. Click a colour to copy its hex. Photography and gradients live in the shared Google Drive."
+        eyebrow={c.header.eyebrow}
+        title={c.header.title}
+        lead={c.header.lead}
       />
       <PageWithSidebar sidebar={<PageSidebar label="Downloads" items={toc} />}>
         <PageSection
           id="design-system"
           eyebrow="Design system"
-          title="Adobe XD source"
-          lead="The full Bonlife Design System lives in Adobe XD. Inspect components, copy assets, and download everything from the developer link."
+          title={c.designSystem.title}
+          lead={c.designSystem.lead}
         >
           <DownloadCard
-            title="Adobe XD developer view"
-            description="Open the XD source to inspect spacing, typography, components, and every asset in the system. Suppliers and designers should use this as the master reference."
+            title={c.designSystem.cardTitle}
+            description={c.designSystem.cardDescription}
             meta="Adobe XD · developer view"
             preview={
               <div className="flex aspect-square items-center justify-center overflow-hidden rounded-2xl border border-hairline bg-navy p-6">
@@ -382,7 +380,7 @@ function DownloadsPage() {
                 type: "link",
                 label: "Open Adobe XD",
                 variant: "secondary",
-                href: XD_URL,
+                href: c.links.adobeXd,
                 icon: <ArrowUpRight size={13} />,
               },
             ]}
@@ -392,8 +390,8 @@ function DownloadsPage() {
         <PageSection
           id="logos"
           eyebrow="01 · Logos"
-          title="Wordmarks and marks"
-          lead="Six SVGs cover every surface. Use the light wordmark on navy and photography; the dark wordmark on white and tint surfaces."
+          title={c.logos.title}
+          lead={c.logos.lead}
         >
           <div className="space-y-5">
             <div className="grid gap-5 md:grid-cols-2">
@@ -412,34 +410,34 @@ function DownloadsPage() {
         <PageSection
           id="fonts"
           eyebrow="02 · Fonts"
-          title="Typefaces"
-          lead="Onest carries display type; Inter carries body copy. Both are free on Google Fonts."
+          title={c.fonts.title}
+          lead={c.fonts.lead}
         >
           <div className="grid gap-5 md:grid-cols-2">
             <DownloadCard
               title="Onest"
-              description="Display headings and bold UI labels. Tight tracking, geometric, confident."
+              description={c.fonts.onestDescription}
               meta="Google Fonts · open source"
               actions={[
                 {
                   type: "link",
                   label: "Open on Google Fonts",
                   variant: "secondary",
-                  href: ONEST_URL,
+                  href: c.links.onest,
                   icon: <ArrowUpRight size={13} />,
                 },
               ]}
             />
             <DownloadCard
               title="Inter"
-              description="Body copy, captions, and interface text. Clean, readable, extensive weights."
+              description={c.fonts.interDescription}
               meta="Google Fonts · open source"
               actions={[
                 {
                   type: "link",
                   label: "Open on Google Fonts",
                   variant: "secondary",
-                  href: INTER_URL,
+                  href: c.links.inter,
                   icon: <ArrowUpRight size={13} />,
                 },
               ]}
@@ -450,48 +448,30 @@ function DownloadsPage() {
         <PageSection
           id="colours"
           eyebrow="03 · Colours"
-          title="Palette"
-          lead="Click any swatch to copy its hex. Token names match the CSS variables in the design system."
+          title={c.colours.title}
+          lead={c.colours.lead}
         >
           <DownloadCard
             title="Colour tokens"
-            description="Brand, category, state, and surface colours. Click a swatch to copy its hex to the clipboard."
+            description={c.colours.cardDescription}
             meta="Click to copy · CSS variables in src/styles.css"
           >
             <div className="space-y-8">
               <SwatchGroup
                 title="Brand"
-                swatches={[
-                  { name: "Navy 900", hex: "#0C1C3E", token: "--navy-900", textOn: "light" },
-                  { name: "Coral 500", hex: "#FF876A", token: "--coral-500", textOn: "dark" },
-                  { name: "Mint 400", hex: "#01FBC0", token: "--mint-400", textOn: "dark" },
-                ]}
+                swatches={c.colours.brand as SwatchT[]}
               />
               <SwatchGroup
                 title="Category"
-                swatches={[
-                  { name: "Funeral Cover", hex: "#04413F", token: "--category-funeral", textOn: "light" },
-                  { name: "Life Insurance", hex: "#541467", token: "--category-life", textOn: "light" },
-                  { name: "Saving & Study Plans", hex: "#0D2B90", token: "--category-savings", textOn: "light" },
-                  { name: "Accident & Disability Cover", hex: "#A80A4D", token: "--category-accident", textOn: "light" },
-                ]}
+                swatches={c.colours.category as SwatchT[]}
               />
               <SwatchGroup
                 title="State"
-                swatches={[
-                  { name: "Error", hex: "#FF5F5F", token: "--state-error", textOn: "light" },
-                  { name: "Success", hex: "#41FFB6", token: "--state-success", textOn: "dark" },
-                ]}
+                swatches={c.colours.state as SwatchT[]}
               />
               <SwatchGroup
                 title="Surface & text"
-                swatches={[
-                  { name: "Surface white", hex: "#FFFFFF", token: "--surface-white", textOn: "dark" },
-                  { name: "Surface tint", hex: "#F7F8FB", token: "--surface-tint", textOn: "dark" },
-                  { name: "Surface muted", hex: "#EAEDF4", token: "--surface-muted", textOn: "dark" },
-                  { name: "Border hairline", hex: "#E1E4E9", token: "--border-hairline", textOn: "dark" },
-                  { name: "Gray 600", hex: "#5B6472", token: "--gray-600", textOn: "light" },
-                ]}
+                swatches={c.colours.surface as SwatchT[]}
               />
             </div>
           </DownloadCard>
@@ -500,12 +480,12 @@ function DownloadsPage() {
         <PageSection
           id="icons"
           eyebrow="04 · Icons"
-          title="Icon library"
-          lead="The full Bonlife icon set lives in the shared Drive folder. Download individual SVGs from the Iconography page, or grab the complete set from Drive."
+          title={c.icons.title}
+          lead={c.icons.lead}
         >
           <DownloadCard
             title="Icon library"
-            description="Curated Lucide glyphs, category icons, and custom SVGs. Use the Iconography page to browse, or download the full set from the Drive folder."
+            description={c.icons.cardDescription}
             meta="Google Drive · shared folder"
             preview={
               <div className="flex aspect-square items-center justify-center overflow-hidden rounded-lg border border-hairline bg-navy">
@@ -517,7 +497,7 @@ function DownloadsPage() {
                 type: "link",
                 label: "Open icon folder",
                 variant: "secondary",
-                href: ICON_DRIVE_URL,
+                href: c.links.iconDrive,
                 icon: <ArrowUpRight size={13} />,
               },
               {
@@ -534,12 +514,12 @@ function DownloadsPage() {
         <PageSection
           id="photography"
           eyebrow="05 · Photography"
-          title="Campaign photography"
-          lead="High-resolution photography lives in the shared Drive because files are licensed per campaign and too large to ship with the design system."
+          title={c.photography.title}
+          lead={c.photography.lead}
         >
           <DownloadCard
             title="Campaign photography"
-            description="Open the folder to browse the full set of licensed campaign photography."
+            description={c.photography.cardDescription}
             meta="Google Drive · shared folder"
             preview={
               <div className="grid grid-cols-2 gap-2">
@@ -563,7 +543,7 @@ function DownloadsPage() {
                 type: "link",
                 label: "Open photography folder",
                 variant: "secondary",
-                href: DRIVE_URL,
+                href: c.links.photographyDrive,
                 icon: <ArrowUpRight size={13} />,
               },
             ]}
@@ -573,12 +553,12 @@ function DownloadsPage() {
         <PageSection
           id="gradients"
           eyebrow="06 · Gradients"
-          title="Gradient backgrounds"
-          lead="Gradients ship as layered PSDs and hi-res JPGs alongside the photography - grab them from the same Drive folder."
+          title={c.gradients.title}
+          lead={c.gradients.lead}
         >
           <DownloadCard
             title="Gradient backgrounds"
-            description="Grab layered PSDs and hi-res JPGs from the same shared Drive folder as the photography."
+            description={c.gradients.cardDescription}
             meta="Google Drive · shared folder"
             preview={
               <div className="grid grid-cols-2 gap-2">
@@ -602,7 +582,7 @@ function DownloadsPage() {
                 type: "link",
                 label: "Open gradients folder",
                 variant: "secondary",
-                href: DRIVE_URL,
+                href: c.links.gradientsDrive,
                 icon: <ArrowUpRight size={13} />,
               },
             ]}

@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
 import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
 import { PageSection } from "@/components/bonlife/PageSection";
+import { useSiteContent, loadSitePage } from "@/hooks/use-site-content";
 import { Square, Layers, Smartphone, Image as ImageIcon, Link as LinkIcon, BookOpen } from "lucide-react";
 import {
   TemplateInstantCash,
@@ -36,18 +37,20 @@ export const Route = createFileRoute("/social")({
     ],
     links: [{ rel: "canonical", href: "/social" }],
   }),
+  loader: ({ context }) => loadSitePage(context, "social"),
   component: SocialPage,
 });
 
 
 function SocialPage() {
+  const c = useSiteContent("social");
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
       <PageHeader
-        eyebrow="Templates · v2.5"
-        title="Social post templates"
-        lead="Nine on-brand layouts built from Bonlife tokens. Drop copy in, export at native resolution, ship. Every template honours the Instant Cash promise, the 74448 SMS line, and the four category colours."
+        eyebrow={c.header.eyebrow}
+        title={c.header.title}
+        lead={c.header.lead}
       />
 
       <PageWithSidebar
@@ -69,8 +72,8 @@ function SocialPage() {
           id="feed"
 
           eyebrow="Feed · 1080 × 1080"
-          title="Square templates for Instagram & Facebook"
-          lead="Everyday feed posts. Lead with a single idea and let type do the work."
+          title={c.feed.title}
+          lead={c.feed.lead}
         >
           <div className="grid gap-8 md:grid-cols-2">
             <TemplateInstantCash />
@@ -84,8 +87,8 @@ function SocialPage() {
         <PageSection
           id="carousel"
           eyebrow="Carousel · multi-slide"
-          title="Instagram & LinkedIn carousels"
-          lead="Story-driven, swipe-through decks built on the same SocialFrame primitives. Each panel exports individually at native ratio."
+          title={c.carousel.title}
+          lead={c.carousel.lead}
         >
           <TemplateHowItWorksCarousel />
         </PageSection>
@@ -94,8 +97,8 @@ function SocialPage() {
         <PageSection
           id="story"
           eyebrow="Story · 1080 × 1920"
-          title="Vertical for stories and reels"
-          lead="Full-bleed photography, oversized numerals, coral accent for emphasis."
+          title={c.story.title}
+          lead={c.story.lead}
         >
           <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
             <TemplateStatStory />
@@ -106,8 +109,8 @@ function SocialPage() {
         <PageSection
           id="portrait"
           eyebrow="Portrait · 1080 × 1350"
-          title="Portrait for premium feed placement"
-          lead="Extra height for headline + supporting tiles. Ideal for recurring campaigns."
+          title={c.portrait.title}
+          lead={c.portrait.lead}
         >
           <div className="grid gap-8 md:grid-cols-2">
             <TemplatePaydayReminder />
@@ -117,8 +120,8 @@ function SocialPage() {
         <PageSection
           id="link"
           eyebrow="Link preview · 1200 × 628"
-          title="Landscape for links & WhatsApp cards"
-          lead="Split photography and message - the format most people see before they click."
+          title={c.link.title}
+          lead={c.link.lead}
         >
           <div className="grid gap-8">
             <TemplateBranchEvent />
@@ -128,27 +131,17 @@ function SocialPage() {
         <PageSection
           id="usage"
           eyebrow="Rules of the road"
-          title="How to use the templates"
+          title={c.usage.title}
         >
           <div className="grid gap-4 md:grid-cols-2">
             {[
               {
                 k: "Always",
-                items: [
-                  'Use "cover benefit" - never "payout" outside OneLife.',
-                  '"Lump sum" is reserved for OneLife only.',
-                  "Currency is N$ with a hard space (N$45).",
-                  "Every post includes the 74448 SMS lockup.",
-                ],
+                items: c.usage.always,
               },
               {
                 k: "Never",
-                items: [
-                  "No em dashes in body copy - use hyphens or full stops.",
-                  "No stock imagery outside the Bonlife photography set.",
-                  "Do not recolour category tags - funeral/life/savings/accident are fixed.",
-                  "Do not stretch or crop the wordmark.",
-                ],
+                items: c.usage.never,
               },
             ].map((col) => (
               <div key={col.k} className="rounded-2xl border border-hairline bg-surface p-6">

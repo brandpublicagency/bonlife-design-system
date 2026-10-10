@@ -8,3 +8,4 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+- Page content lives in `src/content/site/<page>.ts` defaults; `site_pages` stores sparse admin overrides merged via `useSiteContent` - so pages never go blank and assistants can only change content, not layout.

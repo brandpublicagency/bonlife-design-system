@@ -1,6 +1,4 @@
-# Roadmap
-
-- [x] Add the final nested Plans section and nine empty plan entries
-- [x] Support hierarchy in the public page, admin editor, and Opus imports
-- [x] Support nested numbering in Markdown and PDF exports
-- [x] Verify the live page and both full exports
+# Roadmap: editable pages via MCP
+- [x] Storage table + content loader + MCP page tools
+- [x] Contact, Downloads, Foundations, Home, Marketing, Social, Components, Iconography
+- [ ] Optional: text inside the social template artwork (currently built-in)
