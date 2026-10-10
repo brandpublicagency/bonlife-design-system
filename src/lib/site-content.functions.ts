@@ -9,10 +9,10 @@ export const getSitePageOverrides = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const url = process.env.SUPABASE_URL;
     const key = process.env.SUPABASE_PUBLISHABLE_KEY;
-    if (!url || !key) return { content: {} as Record<string, unknown> };
+    if (!url || !key) return { json: "{}" };
     const sb = createClient<Database>(url, key, {
       auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
     });
     const { data: row } = await sb.from("site_pages").select("content").eq("slug", data.slug).maybeSingle();
-    return { content: (row?.content ?? {}) as Record<string, unknown> };
+    return { json: JSON.stringify(row?.content ?? {}) };
   });

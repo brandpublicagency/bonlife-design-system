@@ -8,9 +8,10 @@ export const sitePageQuery = (slug: SitePageSlug) =>
     queryKey: ["site-page", slug],
     queryFn: async () => {
       try {
-        return (await getSitePageOverrides({ data: { slug } })).content;
+        const res = await getSitePageOverrides({ data: { slug } });
+        return JSON.parse(res.json) as Record<string, unknown>;
       } catch {
-        return {};
+        return {} as Record<string, unknown>;
       }
     },
     staleTime: 30_000,
