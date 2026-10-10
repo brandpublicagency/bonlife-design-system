@@ -7,6 +7,7 @@ import { ICON_GROUPS, type IconGroup } from "@/lib/bonlife-icons";
 import { cn } from "@/lib/utils";
 import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
 import { PageSection } from "@/components/bonlife/PageSection";
+import { useSiteContent, loadSitePage } from "@/hooks/use-site-content";
 
 export const Route = createFileRoute("/iconography")({
   head: () => ({
@@ -27,6 +28,7 @@ export const Route = createFileRoute("/iconography")({
     ],
     links: [{ rel: "canonical", href: "/iconography" }],
   }),
+  loader: ({ context }) => loadSitePage(context, "iconography"),
   component: IconographyPage,
 });
 
@@ -55,6 +57,7 @@ function CategoryIcon({ group }: { group: IconGroup }) {
 }
 
 function IconographyPage() {
+  const c = useSiteContent("iconography");
   const [dark, setDark] = useState(false);
 
   const sidebarItems = [
@@ -66,9 +69,9 @@ function IconographyPage() {
     <>
       <SiteHeader />
       <PageHeader
-        eyebrow="Iconography"
-        title="One thin line, eight groups."
-        lead="Bonlife icons are Lucide at 1px stroke - outlined, never filled. Stroke inherits colour from the surface it sits on, so a single set covers light and dark. Hover any tile to download the SVG."
+        eyebrow={c.header.eyebrow}
+        title={c.header.title}
+        lead={c.header.lead}
       />
 
       <PageWithSidebar
@@ -159,8 +162,8 @@ function IconographyPage() {
         <PageSection
           id="usage"
           eyebrow="Usage"
-          title="Always 1px stroke, always currentColor"
-          lead="Set strokeWidth={1} on every Lucide icon in product. Colour the parent - the icon inherits. On dark surfaces the same icons render in white without a second weight."
+          title={c.usage.title}
+          lead={c.usage.lead}
           bodyClassName="pt-4"
         >
           <div className="grid gap-6 rounded-2xl border border-hairline bg-surface p-6 md:grid-cols-[1.4fr_1fr] md:items-center md:p-8">
