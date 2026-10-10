@@ -18,6 +18,7 @@ import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
 import { PageSection } from "@/components/bonlife/PageSection";
 import { Input } from "@/components/bonlife/Input";
 import { Button } from "@/components/bonlife/Button";
+import { useSiteContent, loadSitePage } from "@/hooks/use-site-content";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
@@ -38,6 +39,7 @@ export const Route = createFileRoute("/contact")({
     ],
     links: [{ rel: "canonical", href: "/contact" }],
   }),
+  loader: ({ context }) => loadSitePage(context, "contact"),
   component: ContactPage,
 });
 
@@ -49,51 +51,15 @@ const TOC = [
   { id: "partners", label: "Payment partners", icon: Handshake },
 ];
 
-const BRANCHES: { name: string; phone: string; address: string }[] = [
-  { name: "Windhoek (Head Office)", phone: "+264 61 250 339", address: "73 John Meinert Street, Windhoek" },
-  { name: "Katutura", phone: "+264 61 250 551", address: "6 Kalie Roodt Street, Windhoek" },
-  { name: "Goreangab Mall", phone: "+264 83 337 1730", address: "Dam Beach Street, Katutura, Windhoek" },
-  { name: "Eenhana", phone: "+264 83 337 1737", address: "Erf 258, Unit 6, Eenhana" },
-  { name: "Gobabis", phone: "+264 83 377 7107", address: "Church Street, Shop 6, Gobabis" },
-  { name: "Karibib", phone: "+264 83 377 7128", address: "Erf 345, Unit 3, Main Road, Karibib" },
-  { name: "Keetmanshoop", phone: "+264 83 377 7103", address: "Erf 835, Hampi Plichta Avenue, Keetmanshoop" },
-  { name: "Khorixas", phone: "+264 67 332 244", address: "Erf 4255 Ext.1, Shop 2, Khorixas" },
-  { name: "Lüderitz", phone: "+264 83 377 7101", address: "Erf 280, Bismarck Street, Lüderitz" },
-  { name: "Mariental", phone: "+264 83 377 7105", address: "Erf 1117, Dr. Sam Nujoma Ave, Shop 11, Mariental" },
-  { name: "Omuthiya", phone: "+264 83 377 7100", address: "Erf 450, Shop 3, Omuthiya" },
-  { name: "Ondangwa", phone: "+264 83 377 7113", address: "Main Road, Erf 5780, Shop 7, Ondangwa" },
-  { name: "Oshakati", phone: "+264 83 377 7115", address: "Mandume Ndemufayo Rd, Unit 28, Oshakati" },
-  { name: "Otjiwarongo", phone: "+264 83 377 7109", address: "Hage Geingob Street, Otjiwarongo" },
-  { name: "Outapi", phone: "+264 83 377 7119", address: "Tsandi Road R/B 123, Shop No. 2, Outapi" },
-  { name: "Rehoboth", phone: "+264 83 337 1738/9", address: "Erf 1240, Church Street, Office 1, Rehoboth" },
-  { name: "Rundu", phone: "+264 83 334 1901", address: "Markus Siwarongo Str, Shop 4, Rundu" },
-  { name: "Swakopmund", phone: "+264 83 337 1736", address: "Erf 3289, Grootfontein Street, Swakopmund" },
-  { name: "Tsumeb", phone: "+264 83 377 7124", address: "Erf 1304, Shop 3, Tsumeb" },
-  { name: "Walvis Bay", phone: "+264 83 377 7121", address: "CNR Sam Nujoma Ave and 12th Rd, Walvis Bay" },
-];
-
-const PAYMENT_METHODS: { name: string; note: string }[] = [
-  { name: "Debit order", note: "Set up once, run monthly" },
-  { name: "Cash", note: "At any Bonlife branch" },
-  { name: "EFT", note: "From any Namibian bank" },
-  { name: "Card", note: "New - on Bonlife 90" },
-];
-
-const PAYMENT_LOCATIONS: { name: string; note: string }[] = [
-  { name: "NamPost", note: "Nationwide post-office network" },
-  { name: "MobiPay", note: "Mobile wallet payment" },
-  { name: "PayToday", note: "Mobile payment app" },
-  { name: "USave", note: "In-store payment" },
-  { name: "Checkers", note: "In-store payment" },
-  { name: "Shoprite", note: "In-store payment" },
-  { name: "Model", note: "Retail payment network" },
-  { name: "Airtime City", note: "Retail payment network" },
-  { name: "Woermann & Brock", note: "In-store payment" },
-];
-
-
+function tel(v: string) {
+  return `tel:${v.replace(/[^+\d]/g, "")}`;
+}
+function wa(v: string) {
+  return `https://wa.me/${v.replace(/\D/g, "")}`;
+}
 
 function ContactPage() {
+  const c = useSiteContent("contact");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -102,82 +68,44 @@ function ContactPage() {
     e.preventDefault();
     const subject = encodeURIComponent(`Design system enquiry - ${name || "no name"}`);
     const body = encodeURIComponent(`${message}\n\n-\n${name}\n${email}`);
-    window.location.href = `mailto:info@bonlifenam.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:${c.direct.formEmail}?subject=${subject}&body=${body}`;
   }
 
   return (
     <>
       <SiteHeader />
-      <PageHeader
-        eyebrow="Contact"
-        title="Talk to a real person at Bonlife."
-        lead="Direct details, the head office, every fast contact method, all 20 branches, and where you can pay a policy."
-      />
+      <PageHeader eyebrow={c.header.eyebrow} title={c.header.title} lead={c.header.lead} />
 
       <PageWithSidebar sidebar={<PageSidebar label="Contact" items={TOC} />}>
-        <PageSection
-          id="direct"
-          eyebrow="01 · Direct"
-          title="Get in touch."
-          lead="Send a message and it lands with the design-system owner. For policies or claims, use the contact methods below."
-        >
+        <PageSection id="direct" eyebrow="01 · Direct" title={c.direct.title} lead={c.direct.lead}>
           <div className="grid gap-6 md:grid-cols-[1fr_1.1fr]">
             <div className="rounded-2xl border border-hairline bg-surface p-6">
               <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
-                Owner
+                {c.direct.teamLabel}
               </div>
               <div className="mt-2 font-display text-[20px] font-semibold text-navy">
-                Bonlife Brand team
+                {c.direct.teamName}
               </div>
-              <p className="mt-1 text-[13.5px] text-muted-foreground">
-                Design system enquiries, brand approvals, asset requests.
-              </p>
+              <p className="mt-1 text-[13.5px] text-muted-foreground">{c.direct.teamNote}</p>
               <div className="mt-5 space-y-5">
-                <div>
-                  <div className="font-display text-[15px] font-semibold text-navy">
-                    LeRoux Germishuizen
+                {c.direct.people.map((p) => (
+                  <div key={p.name}>
+                    <div className="font-display text-[15px] font-semibold text-navy">{p.name}</div>
+                    <div className="text-[11px] text-muted-foreground">{p.role}</div>
+                    <ul className="mt-2 space-y-1.5 text-[13.5px]">
+                      <li className="flex items-center gap-2.5 text-navy">
+                        <Mail size={14} strokeWidth={1.5} className="text-coral" />
+                        <a href={`mailto:${p.email}`} className="hover:text-coral">{p.email}</a>
+                      </li>
+                      <li className="flex items-center gap-2.5 text-navy">
+                        <Phone size={14} strokeWidth={1.5} className="text-coral" />
+                        <a href={tel(p.phone)} className="hover:text-coral">{p.phone}</a>
+                      </li>
+                    </ul>
                   </div>
-                  <div className="text-[11px] text-muted-foreground">
-                    Chief Marketing & Advertising Officer
-                  </div>
-                  <ul className="mt-2 space-y-1.5 text-[13.5px]">
-                    <li className="flex items-center gap-2.5 text-navy">
-                      <Mail size={14} strokeWidth={1.5} className="text-coral" />
-                      <a href="mailto:leroux.g@bonlifenam.com" className="hover:text-coral">
-                        leroux.g@bonlifenam.com
-                      </a>
-                    </li>
-                    <li className="flex items-center gap-2.5 text-navy">
-                      <Phone size={14} strokeWidth={1.5} className="text-coral" />
-                      <a href="tel:+264814152857" className="hover:text-coral">
-                        +264 81 415 2857
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <div className="font-display text-[15px] font-semibold text-navy">
-                    Marius Lwaanda
-                  </div>
-                  <div className="text-[11px] text-muted-foreground">Marketing Operations</div>
-                  <ul className="mt-2 space-y-1.5 text-[13.5px]">
-                    <li className="flex items-center gap-2.5 text-navy">
-                      <Mail size={14} strokeWidth={1.5} className="text-coral" />
-                      <a href="mailto:marius.l@bonlifenam.com" className="hover:text-coral">
-                        marius.l@bonlifenam.com
-                      </a>
-                    </li>
-                    <li className="flex items-center gap-2.5 text-navy">
-                      <Phone size={14} strokeWidth={1.5} className="text-coral" />
-                      <a href="tel:+264815953880" className="hover:text-coral">
-                        +264 81 595 3880
-                      </a>
-                    </li>
-                  </ul>
-                </div>
+                ))}
               </div>
             </div>
-
             <form
               onSubmit={handleSubmit}
               className="rounded-2xl border border-hairline bg-surface p-6"
@@ -231,110 +159,54 @@ function ContactPage() {
           </div>
         </PageSection>
 
-        <PageSection
-          id="head-office"
-          eyebrow="02 · Head office"
-          title="Bonlife Assurance Namibia."
-          lead="Head office is in Windhoek. Walk in during business hours or call ahead."
-        >
+        <PageSection id="head-office" eyebrow="02 · Head office" title={c.headOffice.title} lead={c.headOffice.lead}>
           <div className="grid gap-4 md:grid-cols-3">
             <InfoCard icon={MapPin} title="Address">
-              73 John Meinert Street
+              {c.headOffice.addressLine1}
               <br />
-              Windhoek, Namibia
+              {c.headOffice.addressLine2}
             </InfoCard>
             <InfoCard icon={Phone} title="Telephone">
-              <a href="tel:+26461250339" className="hover:text-coral">
-                +264 61 250 339
-              </a>
+              <a href={tel(c.headOffice.phone)} className="hover:text-coral">{c.headOffice.phone}</a>
             </InfoCard>
             <InfoCard icon={Mail} title="Email">
-              <a href="mailto:info@bonlifenam.com" className="hover:text-coral">
-                info@bonlifenam.com
-              </a>
+              <a href={`mailto:${c.headOffice.email}`} className="hover:text-coral">{c.headOffice.email}</a>
             </InfoCard>
           </div>
         </PageSection>
 
-        <PageSection
-          id="channels"
-          eyebrow="03 · Direct methods"
-          title="Fastest ways to reach Bonlife."
-          lead="Customer Support Centre is open six days a week. WhatsApp is the quickest for a call-back."
-        >
+        <PageSection id="channels" eyebrow="03 · Direct methods" title={c.channels.title} lead={c.channels.lead}>
           <div className="grid gap-4 md:grid-cols-3">
-            <ChannelCard
-              icon={MessageCircle}
-              title="WhatsApp"
-              value="+264 83 337 1730"
-              href="https://wa.me/264833371730"
-              cta="Open WhatsApp"
-              accent="mint"
-            />
-            <ChannelCard
-              icon={MessageCircle}
-              title="SMS"
-              value="Text your name to 74448"
-              href="sms:74448"
-              cta="Send SMS"
-              accent="coral"
-            />
-            <ChannelCard
-              icon={Phone}
-              title="Call"
-              value="+264 83 337 1730"
-              href="tel:+264833371730"
-              cta="Call now"
-              accent="navy"
-            />
+            <ChannelCard icon={MessageCircle} title="WhatsApp" value={c.channels.whatsapp} href={wa(c.channels.whatsapp)} cta="Open WhatsApp" accent="mint" />
+            <ChannelCard icon={MessageCircle} title="SMS" value={c.channels.smsText} href={`sms:${c.channels.smsNumber}`} cta="Send SMS" accent="coral" />
+            <ChannelCard icon={Phone} title="Call" value={c.channels.call} href={tel(c.channels.call)} cta="Call now" accent="navy" />
           </div>
 
           <div className="mt-6 grid gap-4 rounded-2xl border border-hairline bg-surface p-6 md:grid-cols-[1fr_auto] md:items-center">
             <div>
-              <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">
-                Also on
-              </div>
-              <div className="mt-1 font-display text-[16px] font-semibold text-navy">
-                Follow Bonlife
-              </div>
-              <p className="mt-1 text-[13px] text-muted-foreground">
-                WhatsApp, social channels and career updates.
-              </p>
+              <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">Also on</div>
+              <div className="mt-1 font-display text-[16px] font-semibold text-navy">{c.channels.followTitle}</div>
+              <p className="mt-1 text-[13px] text-muted-foreground">{c.channels.followNote}</p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <SocialLink href="https://wa.me/264818550027" label="WhatsApp" icon={MessageCircle} />
-              <SocialLink href="https://www.facebook.com/BonlifeNAM/" label="Facebook" icon={Facebook} />
-              <SocialLink href="https://instagram.com/bonlife.namibia" label="Instagram" icon={Instagram} />
-              <SocialLink href="https://www.tiktok.com/@bonlife.namibia" label="TikTok" icon={TikTokIcon} />
-              <SocialLink href="https://x.com/bonlife_namibia" label="X" icon={XIcon} />
-              <SocialLink href="https://www.linkedin.com/company/bonlife-namibia/" label="LinkedIn" icon={Linkedin} />
+              <SocialLink href={c.channels.social.whatsapp} label="WhatsApp" icon={MessageCircle} />
+              <SocialLink href={c.channels.social.facebook} label="Facebook" icon={Facebook} />
+              <SocialLink href={c.channels.social.instagram} label="Instagram" icon={Instagram} />
+              <SocialLink href={c.channels.social.tiktok} label="TikTok" icon={TikTokIcon} />
+              <SocialLink href={c.channels.social.x} label="X" icon={XIcon} />
+              <SocialLink href={c.channels.social.linkedin} label="LinkedIn" icon={Linkedin} />
             </div>
           </div>
         </PageSection>
 
-        <PageSection
-          id="branches"
-          eyebrow="04 · Branches"
-          title="Twenty branches, one Namibia."
-          lead="Every branch takes cash payments and can answer plan questions."
-        >
+        <PageSection id="branches" eyebrow="04 · Branches" title={c.branches.title} lead={c.branches.lead}>
           <div className="overflow-hidden rounded-2xl border border-hairline bg-surface">
             <div className="grid divide-y divide-hairline">
-              {BRANCHES.map((b) => (
-                <div
-                  key={b.name}
-                  className="grid gap-2 px-5 py-4 sm:grid-cols-[minmax(0,1.2fr)_minmax(0,1.8fr)_auto] sm:items-center sm:gap-6"
-                >
-                  <div className="font-display text-[14px] font-semibold text-navy">
-                    {b.name}
-                  </div>
-                  <div className="text-[13px] leading-[1.5] text-muted-foreground">
-                    {b.address}
-                  </div>
-                  <a
-                    href={`tel:${b.phone.replace(/[^+\d]/g, "")}`}
-                    className="justify-self-start font-mono text-[12.5px] font-semibold text-navy hover:text-coral sm:justify-self-end"
-                  >
+              {c.branches.list.map((b) => (
+                <div key={b.name} className="grid gap-2 px-5 py-4 sm:grid-cols-[minmax(0,1.2fr)_minmax(0,1.8fr)_auto] sm:items-center sm:gap-6">
+                  <div className="font-display text-[14px] font-semibold text-navy">{b.name}</div>
+                  <div className="text-[13px] leading-[1.5] text-muted-foreground">{b.address}</div>
+                  <a href={tel(b.phone)} className="justify-self-start font-mono text-[12.5px] font-semibold text-navy hover:text-coral sm:justify-self-end">
                     {b.phone}
                   </a>
                 </div>
@@ -343,36 +215,22 @@ function ContactPage() {
           </div>
         </PageSection>
 
-        <PageSection
-          id="partners"
-          eyebrow="05 · Payment partners"
-          title="Every way to pay a policy."
-          lead="Bonlife premiums can be paid across all major Namibian channels - now including card payments on Bonlife 90."
-        >
+        <PageSection id="partners" eyebrow="05 · Payment partners" title={c.partners.title} lead={c.partners.lead}>
           <div className="space-y-8">
             <div>
-              <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy/60">
-                Payment methods
-              </div>
+              <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy/60">Payment methods</div>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-                {PAYMENT_METHODS.map((p) => (
-                  <PartnerCard key={p.name} name={p.name} note={p.note} />
-                ))}
+                {c.partners.methods.map((p) => <PartnerCard key={p.name} name={p.name} note={p.note} />)}
               </div>
             </div>
             <div>
-              <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy/60">
-                Where to pay
-              </div>
+              <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy/60">Where to pay</div>
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                {PAYMENT_LOCATIONS.map((p) => (
-                  <PartnerCard key={p.name} name={p.name} note={p.note} />
-                ))}
+                {c.partners.locations.map((p) => <PartnerCard key={p.name} name={p.name} note={p.note} />)}
               </div>
             </div>
           </div>
         </PageSection>
-
       </PageWithSidebar>
 
       <SiteFooter />
