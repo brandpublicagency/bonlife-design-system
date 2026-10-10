@@ -20,8 +20,8 @@ export async function loadOverrides(sb: SupabaseClient<Database>, slug: SitePage
   return ((data?.content ?? {}) as Record<string, unknown>) || {};
 }
 
-export async function mergedPage(sb: SupabaseClient<Database>, slug: SitePageSlug) {
-  return deepMerge(SITE_PAGES[slug].defaults, await loadOverrides(sb, slug));
+export async function mergedPage<S extends SitePageSlug>(sb: SupabaseClient<Database>, slug: S) {
+  return deepMerge(SITE_PAGES[slug].defaults, await loadOverrides(sb, slug)) as (typeof SITE_PAGES)[S]["defaults"];
 }
 
 /** Check a path exists in the defaults and the new value has the same shape. */
