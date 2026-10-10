@@ -12,7 +12,7 @@
   "mcp": {
     "server": {
       "name": "bonlife-design-system",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "title": "Bonlife Design System"
     },
     "tools": [
@@ -302,6 +302,152 @@
               "type": "boolean"
             }
           },
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "list_pages",
+        "title": "List editable site pages",
+        "description": "List every page of the Bonlife Design System site whose content can be read and edited, with its editable field paths. Lists (arrays) are edited as one field.",
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_page",
+        "title": "Read a site page",
+        "description": "Read the full current content of one site page (as shown live), plus which fields have been edited away from the original.",
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Page slug from list_pages, e.g. contact."
+            }
+          },
+          "required": [
+            "slug"
+          ],
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_brand_guidelines",
+        "title": "Bonlife brand guidelines summary",
+        "description": "One combined, current summary of the Bonlife brand: colours, typography, motion, voice and usage rules, key benefits, contact details, branches, payment options and asset links.",
+        "annotations": {
+          "readOnlyHint": true,
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {},
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "update_page",
+        "title": "Edit site page content",
+        "description": "Change one or more fields on a site page. Each change is a dotted field path (from list_pages/get_page) and its new value. Lists must be sent whole, with the same item shape. Admins only; changes go live immediately.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "minLength": 1,
+              "description": "Page slug, e.g. contact."
+            },
+            "changes": {
+              "minItems": 1,
+              "maxItems": 50,
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "path": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "value": {}
+                },
+                "required": [
+                  "path",
+                  "value"
+                ]
+              },
+              "description": "Fields to change, e.g. [{path:'headOffice.phone', value:'+264 61 250 339'}]."
+            }
+          },
+          "required": [
+            "slug",
+            "changes"
+          ],
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "revert_page_field",
+        "title": "Restore original page content",
+        "description": "Put fields on a site page back to their original built-in values. Leave paths empty to restore the whole page. Admins only.",
+        "annotations": {
+          "readOnlyHint": false,
+          "destructiveHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "slug": {
+              "type": "string",
+              "minLength": 1
+            },
+            "paths": {
+              "description": "Field paths to restore; omit for the whole page.",
+              "maxItems": 50,
+              "type": "array",
+              "items": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          },
+          "required": [
+            "slug"
+          ],
           "additionalProperties": false
         },
         "outputSchema": null
