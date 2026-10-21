@@ -1,6 +1,25 @@
 import * as React from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { Phone, MessageCircle, MapPin } from "lucide-react";
+import {
+  Phone,
+  MessageCircle,
+  MapPin,
+  ShieldCheck,
+  Calendar,
+  Wallet,
+  Gift,
+  CreditCard,
+  Mail,
+  CircleAlert,
+  CircleCheck,
+  Download,
+  FileText,
+  Pencil,
+  Plus,
+  Receipt,
+  House,
+  Headphones,
+} from "lucide-react";
 import { SiteHeader, SiteFooter, PageHeader } from "@/components/bonlife/SiteChrome";
 import { PageSidebar, PageWithSidebar } from "@/components/bonlife/PageSidebar";
 import { PageSection } from "@/components/bonlife/PageSection";
@@ -21,6 +40,13 @@ import { Accordion } from "@/components/bonlife/Accordion";
 import { Dialog } from "@/components/bonlife/Dialog";
 import { Tooltip } from "@/components/bonlife/Tooltip";
 import { BonlifeToaster, toast } from "@/components/bonlife/Toast";
+import { StatTile } from "@/components/bonlife/StatTile";
+import { PolicyCard } from "@/components/bonlife/PolicyCard";
+import { ActivityTimeline } from "@/components/bonlife/ActivityTimeline";
+import { QuickAction } from "@/components/bonlife/QuickAction";
+import { ProgressBar, StatusRing } from "@/components/bonlife/Progress";
+import { EmptyState } from "@/components/bonlife/EmptyState";
+import { AppNavItem, HelpCard } from "@/components/bonlife/AppNav";
 
 export const Route = createFileRoute("/components")({
   head: () => ({
@@ -82,6 +108,18 @@ const GROUPS = [
       { id: "dialog", label: "Dialog" },
       { id: "toast", label: "Toast" },
       { id: "tooltip", label: "Tooltip" },
+    ],
+  },
+  {
+    label: "Portal",
+    items: [
+      { id: "stattile", label: "StatTile" },
+      { id: "policycard", label: "PolicyCard" },
+      { id: "activitytimeline", label: "ActivityTimeline" },
+      { id: "quickaction", label: "QuickAction" },
+      { id: "progress", label: "Progress" },
+      { id: "emptystate", label: "EmptyState" },
+      { id: "appnav", label: "AppNavItem" },
     ],
   },
 ];
@@ -294,6 +332,113 @@ function ComponentsPage() {
               <div className="flex gap-6">
                 <Tooltip content="Sign up without medical exams"><Button variant="outline">No medicals</Button></Tooltip>
                 <Tooltip content="Same-day N$1,000 on funeral claims"><Button variant="outline">Instant Cash</Button></Tooltip>
+              </div>
+            </PageSection>
+
+            <div id="portal" className="scroll-mt-28 rounded-xl bg-navy p-8 text-white">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.14em] text-coral">My Bonlife</div>
+              <div className="mt-2 font-display text-[32px] font-bold leading-[1.15] tracking-[-0.02em]">{c.sections.portal.title}</div>
+              <p className="mt-3 max-w-2xl text-[15px] leading-[1.65] text-on-inverse-muted">{c.sections.portal.lead}</p>
+            </div>
+
+            <PageSection id="stattile" title={c.sections.stattile.title} headerAction={<span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">2 tones</span>} lead={c.sections.stattile.lead}>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <StatTile label="Cover benefit" value="N$ 5,000" caption="Main Life" icon={<ShieldCheck strokeWidth={1} />} />
+                <StatTile label="Monthly premium" value="N$ 85.95" caption="10% online discount included" icon={<Calendar strokeWidth={1} />} />
+                <StatTile label="Instant Cash" value="N$ 1,000" caption="Same day a claim is approved" icon={<Wallet strokeWidth={1} />} />
+                <StatTile label="Payment due" value="N$ 85.95" tone="attention" iconTone="coral" icon={<CreditCard strokeWidth={1} />} />
+              </div>
+            </PageSection>
+
+            <PageSection id="policycard" title={c.sections.policycard.title} headerAction={<span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">4 categories</span>} lead={c.sections.policycard.lead}>
+              <div className="grid gap-5 md:grid-cols-2">
+                <PolicyCard category="funeral" name="Family Plan" policyNumber="2885277FSPN" href="#policycard" figures={[{ label: "Cover benefit", value: "N$ 5,000" }, { label: "Monthly", value: "N$ 85.95" }]} />
+                <PolicyCard category="life" name="OneLife Plan" policyNumber="4410392OLPN" figures={[{ label: "Lump sum", value: "N$ 250,000" }, { label: "Monthly", value: "N$ 240.00" }]} />
+              </div>
+            </PageSection>
+
+            <PageSection id="activitytimeline" title={c.sections.activitytimeline.title} headerAction={<span className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">5 tones</span>} lead={c.sections.activitytimeline.lead}>
+              <div className="max-w-md rounded-panel border border-hairline bg-surface p-6">
+                <ActivityTimeline
+                  items={[
+                    { id: "msg", icon: <Mail strokeWidth={1} />, title: "Your policy has a payment update", meta: "New message - October 2026", tone: "coral", href: "#activitytimeline" },
+                    { id: "missed", icon: <CircleAlert strokeWidth={1} />, title: "Premium not received", meta: "October 2026 - missed payment", amount: "N$ 85.95", tone: "error" },
+                    { id: "start", icon: <CircleCheck strokeWidth={1} />, title: "Family Plan started", meta: "1 October 2026", tone: "success" },
+                    { id: "next", icon: <Gift strokeWidth={1} />, title: "Up next: Kampala Orange Card", meta: "From your 3rd month of cover", tone: "upcoming" },
+                  ]}
+                />
+              </div>
+            </PageSection>
+
+            <PageSection id="quickaction" title={c.sections.quickaction.title} lead={c.sections.quickaction.lead}>
+              <div className="grid gap-3 [grid-template-columns:repeat(auto-fill,minmax(150px,1fr))]">
+                <QuickAction href="#quickaction" primary icon={<CreditCard strokeWidth={1} />} label="Pay by card" />
+                <QuickAction href="#quickaction" icon={<Download strokeWidth={1} />} label="Get my certificate" />
+                <QuickAction href="#quickaction" icon={<FileText strokeWidth={1} />} label="Start a claim" />
+                <QuickAction href="#quickaction" icon={<Pencil strokeWidth={1} />} label="Update my details" />
+                <QuickAction href="#quickaction" icon={<Plus strokeWidth={1} />} label="Add a policy" />
+                <QuickAction href="#quickaction" icon={<MapPin strokeWidth={1} />} label="Find a branch" />
+              </div>
+            </PageSection>
+
+            <PageSection id="progress" title={c.sections.progress.title} lead={c.sections.progress.lead}>
+              <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-center">
+                <div className="flex flex-col gap-5">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex justify-between text-sm"><span className="font-semibold">Accidental death</span><span className="text-muted-foreground">Covered now</span></div>
+                    <ProgressBar value={100} tone="funeral" label="Accidental death cover: active" />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex justify-between text-sm"><span className="font-semibold">Natural death</span><span className="text-muted-foreground">Month 1 of 6</span></div>
+                    <ProgressBar value={17} tone="coral" label="Natural death waiting period: month 1 of 6" />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="flex justify-between text-sm"><span className="font-semibold">Beneficiary allocation</span><span className="text-muted-foreground">100%</span></div>
+                    <ProgressBar value={100} tone="navy" size="sm" label="Beneficiary allocation: 100%" />
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <StatusRing value={1} max={3} caption="missed" label="1 of 3 missed premiums before the policy lapses" />
+                  <p className="m-0 max-w-[180px] text-sm leading-[1.55]">A policy lapses after <strong>3 unpaid premiums</strong>.</p>
+                </div>
+              </div>
+            </PageSection>
+
+            <PageSection id="emptystate" title={c.sections.emptystate.title} lead={c.sections.emptystate.lead}>
+              <div className="rounded-panel border border-hairline bg-surface p-6">
+                <EmptyState
+                  icon={<Receipt strokeWidth={1} />}
+                  title="No online payments yet"
+                  body="Paylink, branch and debit order payments are matched by Bonlife and are not listed here. Ask us for a statement to see every payment we have received."
+                  actions={
+                    <>
+                      <Button onClick={() => toast("We'll send your statement on WhatsApp.")}><MessageCircle size={18} strokeWidth={1} /> Request a statement</Button>
+                      <Button variant="outline"><Phone size={18} strokeWidth={1} /> Call us</Button>
+                    </>
+                  }
+                />
+              </div>
+            </PageSection>
+
+            <PageSection id="appnav" title={c.sections.appnav.title} lead={c.sections.appnav.lead}>
+              <div className="grid gap-6 md:grid-cols-[280px_1fr]">
+                <nav aria-label="Example portal" className="flex flex-col gap-1 rounded-lg border border-hairline bg-surface p-4">
+                  <AppNavItem href="#appnav" active icon={<House strokeWidth={1} />} label="Home" />
+                  <AppNavItem href="#appnav" icon={<ShieldCheck strokeWidth={1} />} label="My policies" />
+                  <AppNavItem href="#appnav" icon={<CreditCard strokeWidth={1} />} label="Payments" count={1} countTone="attention" countLabel="1 payment due" />
+                  <AppNavItem href="#appnav" icon={<Mail strokeWidth={1} />} label="Message Centre" count={1} countLabel="1 unread" />
+                  <AppNavItem href="#appnav" icon={<Gift strokeWidth={1} />} label="Kampala rewards" />
+                </nav>
+                <div className="self-end md:max-w-[260px]">
+                  <HelpCard
+                    icon={<Headphones strokeWidth={1} />}
+                    action={
+                      <a href="#appnav" className="flex min-h-11 items-center justify-center gap-2 rounded-full bg-white font-display text-sm font-semibold text-navy no-underline">
+                        <MessageCircle size={18} strokeWidth={1} /> WhatsApp Bonlife
+                      </a>
+                    }
+                  />
+                </div>
               </div>
             </PageSection>
           </div>

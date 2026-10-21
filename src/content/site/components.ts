@@ -1,7 +1,7 @@
 export const componentsDefaults = {
   "header": {
     "eyebrow": "Components",
-    "title": "Seventeen building blocks.",
+    "title": "Twenty-seven building blocks.",
     "lead": "Every component is built from the Bonlife tokens - navy chrome, coral CTAs, Onest headings, Inter body. Nothing hard-coded, nothing decorative."
   },
   "sections": {
@@ -52,6 +52,38 @@ export const componentsDefaults = {
     "tooltip": {
       "title": "Tooltip",
       "lead": "Hover for detail."
+    },
+    "portal": {
+      "title": "Portal patterns",
+      "lead": "Built for My Bonlife, the customer policy portal: refined, thin and striking. Hairline borders, 1px icons, generous white space, and one coral action per screen."
+    },
+    "stattile": {
+      "title": "StatTile",
+      "lead": "At-a-glance figure: label, value, one line of context and a navy icon tile with a mint stroke. Attention tone outlines the tile in state-error."
+    },
+    "policycard": {
+      "title": "PolicyCard",
+      "lead": "A customer's own policy drawn like a bank card on its category fill, with the policy number set like a card number."
+    },
+    "activitytimeline": {
+      "title": "ActivityTimeline",
+      "lead": "Newest-first feed of what happened on a policy. Upcoming steps use a dashed dot."
+    },
+    "quickaction": {
+      "title": "QuickAction",
+      "lead": "Tile links for the actions customers need most. Only the most important one gets a coral dot."
+    },
+    "progress": {
+      "title": "ProgressBar and StatusRing",
+      "lead": "Slim bars for waiting periods and allocations; a ring for a count against a limit, like missed premiums before lapse."
+    },
+    "emptystate": {
+      "title": "EmptyState",
+      "lead": "Says plainly what is missing and why, then offers the next step. Never a dead end."
+    },
+    "appnav": {
+      "title": "AppNavItem and HelpCard",
+      "lead": "Portal sidebar: icon-tile nav items with a coral active tile, and a navy help card with mint rings pinned to the bottom."
     }
   }
 };
