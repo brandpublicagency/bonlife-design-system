@@ -18,7 +18,7 @@ export const homeDefaults = {
     title: "Everything inside Bonlife.",
     lead: "Seven sections, each one self-contained. Deep-link any tile - they're all shareable URLs.",
     foundations: { body: "Colour, typography, spacing, radius, motion.", items: ["Onest + Inter", "Navy + coral", "Token reference"] },
-    components: { body: "Buttons, cards, plan rows, forms, dialogs.", items: ["17 components", "Semantic tokens", "Live previews"] },
+    components: { body: "Buttons, cards, plan rows, forms, dialogs and portal patterns.", items: ["27 components", "Semantic tokens", "Live previews"] },
     iconography: { body: "1px Lucide set plus category and benefit glyphs.", items: ["Product categories", "Value-added benefits", "SVG downloads"] },
     social: { body: "Posts, stories and carousels ready for campaigns.", items: ["9 templates", "Multi-slide carousel", "Standard ratios"] },
     marketing: { body: "A plausible bonlifenam.com built from real plans.", items: ["Demo homepage", "Real copy", "Plan composition"] },
