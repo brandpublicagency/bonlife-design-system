@@ -1,4 +1,4 @@
-import { Link, useNavigate, useRouterState } from "@tanstack/react-router";
+import { Clapperboard,  Link, useNavigate, useRouterState } from "@tanstack/react-router";
 import { useState } from "react";
 import {
   BookOpen,
@@ -40,6 +40,7 @@ type NavPath =
   | "/components"
   | "/social"
   | "/marketing"
+  | "/motion"
   | "/downloads"
   | "/knowledge-base"
   | "/contact";
@@ -54,6 +55,7 @@ const GROUPS: { label: string; items: NavItem[] }[] = [
       { to: "/foundations", label: "Foundations", caption: "Colour, type, motion", icon: Palette },
       { to: "/iconography", label: "Iconography", caption: "1px Lucide set", icon: Sparkles },
       { to: "/components", label: "Components", caption: "Buttons, cards, forms", icon: Component },
+      { to: "/motion", label: "Motion", caption: "Benefits in motion", icon: Clapperboard },
     ],
   },
   {
