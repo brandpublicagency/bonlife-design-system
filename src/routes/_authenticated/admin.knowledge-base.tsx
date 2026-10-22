@@ -200,6 +200,7 @@ function AdminEditor({ qc }: { qc: ReturnType<typeof useQueryClient> }) {
               isFirst={siblingIndex === 0}
               isLast={siblingIndex === siblings.length - 1}
               busy={busy}
+              childCount={sections.filter((item) => item.parent_id === s.id).length}
               onSave={async (patch) => {
                 await updateMut.mutateAsync({ id: s.id, ...patch });
               }}

@@ -4,6 +4,7 @@ import { streamText, NoObjectGeneratedError, Output, type LanguageModel } from "
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
 import { requireSupabaseAdmin } from "@/integrations/supabase/admin-middleware";
+import { deleteLeafKbSection } from "./kb-delete";
 
 // Reads (listKbSections) are public via the server publishable client.
 // Writes (create/update/delete/reorder/extract) require an authenticated
@@ -139,9 +140,7 @@ export const deleteKbSection = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
     const sb = context.supabase as unknown as SupabaseClient<Database>;
-    const { error } = await sb.from("kb_sections").delete().eq("id", data.id);
-    if (error) throw new Error(error.message);
-    return { ok: true };
+    return deleteLeafKbSection(sb, data.id);
   });
 
 export const reorderKbSection = createServerFn({ method: "POST" })
