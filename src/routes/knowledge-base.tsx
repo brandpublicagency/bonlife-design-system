@@ -1,3 +1,4 @@
+import type { ErrorComponentProps } from "@tanstack/react-router";
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
@@ -51,7 +52,7 @@ export const Route = createFileRoute("/knowledge-base")({
   ),
 });
 
-function KbErrorPage({ error }: { error: Error }) {
+function KbErrorPage({ error }: ErrorComponentProps) {
   return (
     <>
       <SiteHeader />
@@ -59,7 +60,7 @@ function KbErrorPage({ error }: { error: Error }) {
         <h1 className="font-display text-[24px] font-semibold text-navy">
           The knowledge base could not load
         </h1>
-        <p className="mt-3 text-[14px] text-navy/70">{error.message}</p>
+        <p className="mt-3 text-[14px] text-navy/70">{error instanceof Error ? error.message : String(error)}</p>
       </div>
     </>
   );

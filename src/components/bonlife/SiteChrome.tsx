@@ -22,12 +22,13 @@ export function SiteHeader() {
   );
 }
 
-const FOOTER_SYSTEM: { to: "/foundations" | "/components" | "/iconography" | "/social" | "/marketing"; label: string }[] = [
+const FOOTER_SYSTEM: { to: "/foundations" | "/components" | "/iconography" | "/social" | "/marketing" | "/motion"; label: string }[] = [
   { to: "/foundations", label: "Foundations" },
   { to: "/components", label: "Components" },
   { to: "/iconography", label: "Iconography" },
   { to: "/social", label: "Social templates" },
   { to: "/marketing", label: "Marketing kit" },
+  { to: "/motion", label: "Motion" },
 ];
 
 const FOOTER_RESOURCES: { to: "/downloads" | "/knowledge-base" | "/contact"; label: string }[] = [
