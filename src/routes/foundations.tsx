@@ -10,7 +10,6 @@ import {
   Square,
   Zap,
   Star,
-  Waves,
   ImageIcon,
 } from "lucide-react";
 import markNavyAsset from "@/assets/bonlife/logos/bonlife-mark-navy.svg.asset.json";
@@ -22,10 +21,6 @@ const markCoral = markCoralAsset.url;
 const markMint = markMintAsset.url;
 const markWhite = markWhiteAsset.url;
 import wordmarkDark from "@/assets/bonlife/logos/bonlife-wordmark-dark.svg";
-import g1 from "@/assets/bonlife/gradients/gradient-01.jpg.asset.json";
-import g2 from "@/assets/bonlife/gradients/gradient-02.jpg.asset.json";
-import g3 from "@/assets/bonlife/gradients/gradient-03.jpg.asset.json";
-import g4 from "@/assets/bonlife/gradients/gradient-04.png.asset.json";
 import p1 from "@/assets/bonlife/photography/family-studio.jpg.asset.json";
 import p2 from "@/assets/bonlife/photography/couple-sofa.jpg.asset.json";
 import p3 from "@/assets/bonlife/photography/celebration-fistpump.jpg.asset.json";
@@ -40,13 +35,13 @@ export const Route = createFileRoute("/foundations")({
       {
         name: "description",
         content:
-          "Bonlife color palette, typography, spacing, radius, motion, logos, gradients and photography.",
+          "Bonlife colour palette, typography, spacing, radius, motion, logos and photography.",
       },
       { property: "og:title", content: "Foundations - Bonlife Design System" },
       {
         property: "og:description",
         content:
-          "Bonlife color palette, typography, spacing, radius, motion, logos, gradients and photography.",
+          "Bonlife colour palette, typography, spacing, radius, motion, logos and photography.",
       },
       { property: "og:url", content: "/foundations" },
     ],
@@ -63,7 +58,6 @@ const TOC = [
   { id: "radius", label: "Radius & shadow", icon: Square },
   { id: "motion", label: "Motion", icon: Zap },
   { id: "logos", label: "Logos", icon: Star },
-  { id: "gradients", label: "Gradients", icon: Waves },
   { id: "photography", label: "Photography", icon: ImageIcon },
 ];
 
@@ -312,20 +306,6 @@ function FoundationsPage() {
         </div>
       </PageSection>
 
-      <PageSection
-        id="gradients"
-        eyebrow="Gradients"
-        title={c.gradients.title}
-        lead={c.gradients.lead}
-      >
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {[g1, g2, g3, g4].map((g, i) => (
-            <div key={i} className="aspect-[4/3] overflow-hidden rounded-xl">
-              <img src={g.url} alt="" className="h-full w-full object-cover" />
-            </div>
-          ))}
-        </div>
-      </PageSection>
 
       <PageSection
         id="photography"
