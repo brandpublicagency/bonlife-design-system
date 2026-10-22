@@ -1,0 +1,2 @@
+ALTER TABLE public.kb_sections DROP CONSTRAINT kb_sections_parent_id_fkey;
+ALTER TABLE public.kb_sections ADD CONSTRAINT kb_sections_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES public.kb_sections(id) ON DELETE RESTRICT;
