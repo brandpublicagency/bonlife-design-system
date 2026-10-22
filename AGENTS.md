@@ -9,4 +9,4 @@
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
 - Page content lives in `src/content/site/<page>.ts` defaults; `site_pages` stores sparse admin overrides merged via `useSiteContent` - so pages never go blank and assistants can only change content, not layout.
-- Knowledge Base editor deletion must check for children on the server and refuse parent deletion; the UI shows the nested-section count so a heading cannot silently cascade-delete its content.
+- Knowledge Base deletion uses an ON DELETE RESTRICT parent foreign key and an editor-side server precheck; the UI shows the nested-section count, while explicit MCP subtree deletion removes children first, so headings cannot silently cascade-delete content.
