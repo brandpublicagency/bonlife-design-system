@@ -12,7 +12,6 @@ import {
   Palette,
   Sparkles,
   ImageIcon,
-  Waves,
   Check,
   Copy,
   Download,
@@ -35,11 +34,6 @@ import photo2 from "@/assets/bonlife/photography/family-studio.jpg.asset.json";
 import photo3 from "@/assets/bonlife/photography/senior-couple-beach.jpg.asset.json";
 import photo4 from "@/assets/bonlife/photography/celebration-fistpump.jpg.asset.json";
 
-import gradient1 from "@/assets/bonlife/gradients/gradient-01.jpg.asset.json";
-import gradient2 from "@/assets/bonlife/gradients/gradient-02.jpg.asset.json";
-import gradient3 from "@/assets/bonlife/gradients/gradient-03.jpg.asset.json";
-import gradient4 from "@/assets/bonlife/gradients/gradient-04.png.asset.json";
-
 
 export const Route = createFileRoute("/downloads")({
   head: () => ({
@@ -48,13 +42,13 @@ export const Route = createFileRoute("/downloads")({
       {
         name: "description",
         content:
-          "Download Bonlife logos, copy brand colours, and grab photography and gradients from the shared Drive.",
+          "Download Bonlife logos, copy brand colours, and grab photography from the shared Drive.",
       },
       { property: "og:title", content: "Downloads - Bonlife Design System" },
       {
         property: "og:description",
         content:
-          "One place for Bonlife logos, colours, photography and gradients.",
+          "One place for Bonlife logos, colours and photography.",
       },
       { property: "og:url", content: "/downloads" },
     ],
@@ -348,7 +342,6 @@ function DownloadsPage() {
     { id: "colours", label: "Colours", icon: Palette },
     { id: "icons", label: "Icons", icon: Sparkles },
     { id: "photography", label: "Photography", icon: ImageIcon },
-    { id: "gradients", label: "Gradients", icon: Waves },
   ];
 
   return (
@@ -550,44 +543,6 @@ function DownloadsPage() {
           />
         </PageSection>
 
-        <PageSection
-          id="gradients"
-          eyebrow="06 · Gradients"
-          title={c.gradients.title}
-          lead={c.gradients.lead}
-        >
-          <DownloadCard
-            title="Gradient backgrounds"
-            description={c.gradients.cardDescription}
-            meta="Google Drive · shared folder"
-            preview={
-              <div className="grid grid-cols-2 gap-2">
-                {[
-                  { url: gradient1.url, alt: "Gradient 01" },
-                  { url: gradient2.url, alt: "Gradient 02" },
-                  { url: gradient3.url, alt: "Gradient 03" },
-                  { url: gradient4.url, alt: "Gradient 04" },
-                ].map((g, i) => (
-                  <div
-                    key={i}
-                    className="aspect-square overflow-hidden rounded-lg border border-hairline"
-                  >
-                    <img src={g.url} alt={g.alt} className="h-full w-full object-cover" />
-                  </div>
-                ))}
-              </div>
-            }
-            actions={[
-              {
-                type: "link",
-                label: "Open gradients folder",
-                variant: "secondary",
-                href: c.links.gradientsDrive,
-                icon: <ArrowUpRight size={13} />,
-              },
-            ]}
-          />
-        </PageSection>
       </PageWithSidebar>
       <SiteFooter />
     </>

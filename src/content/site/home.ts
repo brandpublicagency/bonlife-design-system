@@ -22,7 +22,7 @@ export const homeDefaults = {
     iconography: { body: "1px Lucide set plus category and benefit glyphs.", items: ["Product categories", "Value-added benefits", "SVG downloads"] },
     social: { body: "Posts, stories and carousels ready for campaigns.", items: ["9 templates", "Multi-slide carousel", "Standard ratios"] },
     marketing: { body: "A plausible bonlifenam.com built from real plans.", items: ["Demo homepage", "Real copy", "Plan composition"] },
-    downloads: { body: "Logos, colours, fonts, photography and gradients.", items: ["SVG logos", "Copy-to-clipboard hex", "Google Drive assets"] },
+    downloads: { body: "Logos, colours, fonts and photography.", items: ["SVG logos", "Copy-to-clipboard hex", "Google Drive assets"] },
     knowledgeBase: { body: "The single source of truth for Bonlife brand facts.", items: ["Products & pricing", "Voice & tone", "Claims process"] },
   },
   changelog: {

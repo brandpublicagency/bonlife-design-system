@@ -29,7 +29,6 @@ export default defineTool({
       colours: { primary: f.colourPrimary, categories: f.colourCategories, surfaces: f.colourSurfaces },
       typography: f.typography,
       motion: f.motion,
-      gradients: f.gradients,
       photography: f.photography,
       marketingProofPoints: m.benefits.items,
       assetLinks: d.links,

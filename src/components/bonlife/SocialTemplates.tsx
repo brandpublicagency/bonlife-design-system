@@ -16,7 +16,6 @@ import motherChild from "@/assets/bonlife/photography/mother-child.jpg.asset.jso
 import familyStudio from "@/assets/bonlife/photography/family-studio.jpg.asset.json";
 import seniorWoman from "@/assets/bonlife/photography/senior-woman-portrait.jpg.asset.json";
 import seniorSelfie from "@/assets/bonlife/photography/senior-couple-selfie.jpg.asset.json";
-import gradient01 from "@/assets/bonlife/gradients/gradient-01.jpg.asset.json";
 
 /* Note: base layer sets h1-h6 color to navy-900. On dark backgrounds we use
    <div> with display-font utilities instead of heading tags to avoid the
@@ -243,11 +242,6 @@ export function TemplateStatStory() {
       caption="Story / Reel cover. Big-number typography on a calm ground."
     >
       <div className="relative flex h-full w-full flex-col justify-between overflow-hidden bg-navy px-8 pb-10 pt-9 text-white">
-        <img
-          src={gradient01.url}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover opacity-70"
-        />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/50 via-transparent to-navy" />
         <div className="relative flex items-start justify-between">
           <SocialMark tone="white" />
@@ -349,7 +343,7 @@ export function TemplateSmsCallback() {
     <SocialFrame
       format="square"
       title="SMS Callback CTA"
-      caption="No photography, no gradient. Pure typographic push, highest CTA weight."
+      caption="No photography, no background art. Pure typographic push, highest CTA weight."
     >
       <div className="relative flex h-full w-full flex-col justify-between bg-coral p-10 text-navy">
         <div className="flex items-start justify-between">

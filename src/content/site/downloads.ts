@@ -4,12 +4,11 @@ export const downloadsDefaults = {
   header: {
     eyebrow: "Downloads",
     title: "Brand assets, ready to grab.",
-    lead: "Logos, fonts, and icons download inline or from Google Fonts / Drive. Click a colour to copy its hex. Photography and gradients live in the shared Google Drive.",
+    lead: "Logos, fonts, and icons download inline or from Google Fonts / Drive. Click a colour to copy its hex. Photography lives in the shared Google Drive.",
   },
   links: {
     adobeXd: "https://xd.adobe.com/view/275ada2c-3189-49e8-9024-75ad70e49fcc-7209/grid",
     photographyDrive: "https://drive.google.com/drive/folders/1-BYSNul3hlWG1B3lqOxtEZlwSy2L5_nI?usp=sharing",
-    gradientsDrive: "https://drive.google.com/drive/folders/1-BYSNul3hlWG1B3lqOxtEZlwSy2L5_nI?usp=sharing",
     iconDrive: "https://drive.google.com/drive/folders/1W_OspNdCrFBoq3R7HFNPhk7XqzecMOsU?usp=sharing",
     onest: "https://fonts.google.com/specimen/Onest",
     inter: "https://fonts.google.com/specimen/Inter",
@@ -72,10 +71,5 @@ export const downloadsDefaults = {
     title: "Campaign photography",
     lead: "High-resolution photography lives in the shared Drive because files are licensed per campaign and too large to ship with the design system.",
     cardDescription: "Open the folder to browse the full set of licensed campaign photography.",
-  },
-  gradients: {
-    title: "Gradient backgrounds",
-    lead: "Gradients ship as layered PSDs and hi-res JPGs alongside the photography - grab them from the same Drive folder.",
-    cardDescription: "Grab layered PSDs and hi-res JPGs from the same shared Drive folder as the photography.",
   },
 };
