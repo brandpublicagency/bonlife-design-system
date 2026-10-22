@@ -38,6 +38,16 @@
   --navy-300: oklch(from #0C1C3E calc(l + 0.48) c h);
   --navy-100: oklch(from #0C1C3E calc(l + 0.60) c h);
 
+  /* Portal tints - soft fills behind icons and status chips (My Bonlife) */
+  --coral-50: #FFF3EF;
+  --error-50: #FFF0EF;
+  --funeral-50: #E6F0EF;
+  /* Muted text on dark fills: on navy-900 and on category fills */
+  --text-on-inverse-muted: #C4CBDB;
+  --text-on-category-muted: #B9D0CF;
+  /* Dashed outline for empty states and upcoming steps */
+  --border-dashed: #C8CED8;
+
   /* Aliases used by components/legacy */
   --bg-page: var(--surface-tint);
   --bg-surface: var(--surface-white);
@@ -70,6 +80,7 @@
   --radius-md: 12px;
   --radius-lg: 20px;
   --radius-xl: 28px;
+  --radius-panel: 24px; /* portal panels and policy cards */
   --radius-pill: 999px;
   --radius: 12px;
 
@@ -155,10 +166,18 @@
   --color-success: var(--state-success);
   --color-error: var(--state-error);
 
+  --color-coral-50: var(--coral-50);
+  --color-error-50: var(--error-50);
+  --color-funeral-50: var(--funeral-50);
+  --color-on-inverse-muted: var(--text-on-inverse-muted);
+  --color-on-category-muted: var(--text-on-category-muted);
+  --color-dash-line: var(--border-dashed);
+
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
   --radius-lg: var(--radius-lg);
   --radius-xl: var(--radius-xl);
+  --radius-panel: var(--radius-panel);
   --radius-pill: var(--radius-pill);
 }
 

@@ -18,7 +18,7 @@ export const homeDefaults = {
     title: "Everything inside Bonlife.",
     lead: "Seven sections, each one self-contained. Deep-link any tile - they're all shareable URLs.",
     foundations: { body: "Colour, typography, spacing, radius, motion.", items: ["Onest + Inter", "Navy + coral", "Token reference"] },
-    components: { body: "Buttons, cards, plan rows, forms, dialogs.", items: ["17 components", "Semantic tokens", "Live previews"] },
+    components: { body: "Buttons, cards, plan rows, forms, dialogs and portal patterns.", items: ["27 components", "Semantic tokens", "Live previews"] },
     iconography: { body: "1px Lucide set plus category and benefit glyphs.", items: ["Product categories", "Value-added benefits", "SVG downloads"] },
     social: { body: "Posts, stories and carousels ready for campaigns.", items: ["9 templates", "Multi-slide carousel", "Standard ratios"] },
     marketing: { body: "A plausible bonlifenam.com built from real plans.", items: ["Demo homepage", "Real copy", "Plan composition"] },
@@ -34,6 +34,7 @@ export const homeDefaults = {
       { date: "Jun 2025", title: "Knowledge base with admin", body: "Single source of truth for brand facts. Import from PDFs, admin-only editing.", to: "/knowledge-base" },
       { date: "Nov 2025", title: "Downloads page", body: "Logos as SVG, colour swatches with click-to-copy hex, plus font and asset links.", to: "/downloads" },
       { date: "Jul 2026", title: "Iconography overhaul", body: "Sticky sidebar layout, unified utility bar and a Google Drive link for the full icon set.", to: "/iconography" },
+      { date: "Oct 2026", title: "Portal patterns", body: "Ten new components from the My Bonlife redesign: stat tiles, policy cards, activity timeline, quick actions, progress, empty states and portal navigation.", to: "/components#portal" },
     ],
   },
 };
