@@ -65,10 +65,6 @@ export const foundationsDefaults = {
     ],
   },
   logos: { title: "Wordmark and mark lockups." },
-  gradients: {
-    title: "Noise gradients for hero moments.",
-    lead: "Grain-textured blends of brand and category colors. A tool for hero and marketing surfaces, never the default state of a card, and never behind body text without a scrim.",
-  },
   photography: {
     title: "Warm, candid, Namibian.",
     lead: "Real portraiture - multi-generational, hugging, laughing, often looking at camera. Full-bleed or generously cropped. Never behind heavy dark overlays.",
