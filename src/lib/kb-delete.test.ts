@@ -1,24 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-// Run the real deletion handler without the RPC transport or an actual database.
-vi.mock("@tanstack/react-start", () => ({
-  createServerFn: () => {
-    const builder = {
-      middleware: () => builder,
-      inputValidator: () => builder,
-      handler: (handler: unknown) => handler,
-    };
-    return builder;
-  },
-}));
-vi.mock("@/integrations/supabase/admin-middleware", () => ({ requireSupabaseAdmin: {} }));
-
-import { deleteKbSection } from "./kb.functions";
-
-const invoke = deleteKbSection as unknown as (args: {
-  data: { id: string };
-  context: { supabase: unknown };
-}) => Promise<{ ok: boolean }>;
+import { deleteLeafKbSection } from "./kb-delete";
 
 describe("Knowledge Base deletion safeguards", () => {
   const id = "ed46977c-2af7-4db6-aba2-34ff9cc32584";
@@ -27,7 +9,7 @@ describe("Knowledge Base deletion safeguards", () => {
   const remove = vi.fn(() => ({ eq: deleteEq }));
   const select = vi.fn(() => ({ eq: childEq }));
   const sb = { from: vi.fn(() => ({ select, delete: remove })) };
-  const run = () => invoke({ data: { id }, context: { supabase: sb } });
+  const run = () => deleteLeafKbSection(sb as unknown as Parameters<typeof deleteLeafKbSection>[0], id);
 
   beforeEach(() => {
     vi.clearAllMocks();

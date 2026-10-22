@@ -4,6 +4,7 @@ import { streamText, NoObjectGeneratedError, Output, type LanguageModel } from "
 import { z } from "zod";
 import type { Database } from "@/integrations/supabase/types";
 import { requireSupabaseAdmin } from "@/integrations/supabase/admin-middleware";
+import { deleteLeafKbSection } from "./kb-delete";
 
 // Reads (listKbSections) are public via the server publishable client.
 // Writes (create/update/delete/reorder/extract) require an authenticated
@@ -139,21 +140,7 @@ export const deleteKbSection = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
     const sb = context.supabase as unknown as SupabaseClient<Database>;
-    // Never let the hierarchy's ON DELETE CASCADE silently remove children.
-    const { count, error: childError } = await sb
-      .from("kb_sections")
-      .select("id", { count: "exact", head: true })
-      .eq("parent_id", data.id);
-    if (childError) throw new Error(childError.message);
-    if (count == null) throw new Error("Could not check nested sections. Nothing was deleted.");
-    if (count > 0) {
-      throw new Error(
-        `This section has ${count} nested ${count === 1 ? "section" : "sections"}. Delete or move them first. Nothing was deleted.`,
-      );
-    }
-    const { error } = await sb.from("kb_sections").delete().eq("id", data.id);
-    if (error) throw new Error(error.message);
-    return { ok: true };
+    return deleteLeafKbSection(sb, data.id);
   });
 
 export const reorderKbSection = createServerFn({ method: "POST" })
