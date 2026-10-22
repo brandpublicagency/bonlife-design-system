@@ -4,6 +4,7 @@ import remarkGfm from "remark-gfm";
 import { ArrowDown, ArrowUp, Loader2, Pencil, Trash2, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/bonlife/Button";
+import { IconButton } from "@/components/bonlife/IconButton";
 
 export type KbSectionRow = {
   id: string;
@@ -77,6 +78,7 @@ export function KbSection({
   isFirst,
   isLast,
   busy,
+  childCount = 0,
   onSave,
   onDelete,
   onMove,
@@ -87,6 +89,7 @@ export function KbSection({
   isFirst: boolean;
   isLast: boolean;
   busy: boolean;
+  childCount?: number;
   onSave: (patch: { title: string; body_markdown: string }) => Promise<void>;
   onDelete: () => Promise<void>;
   onMove: (direction: "up" | "down") => Promise<void>;
@@ -152,19 +155,29 @@ export function KbSection({
               <Pencil size={13} /> Edit
             </button>
           )}
-          <button
+          <IconButton
             type="button"
             aria-label="Delete section"
+            size="sm"
+            title={childCount > 0 ? `Contains ${childCount} nested sections` : "Delete section"}
             disabled={busy}
-            onClick={() => {
+            onClick={async () => {
+              if (childCount > 0) {
+                window.alert(`"${section.title}" contains ${childCount} nested ${childCount === 1 ? "section" : "sections"}. Delete or move them first. Nothing was deleted.`);
+                return;
+              }
               if (window.confirm(`Delete "${section.title}"? This cannot be undone.`)) {
-                onDelete();
+                try {
+                  await onDelete();
+                } catch (error) {
+                  window.alert(error instanceof Error ? error.message : "Could not delete this section. Please try again.");
+                }
               }
             }}
             className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-hairline text-red-600 transition hover:bg-red-50 disabled:opacity-30"
           >
             <Trash2 size={14} />
-          </button>
+          </IconButton>
         </div>
       </header>
 

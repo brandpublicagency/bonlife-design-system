@@ -139,6 +139,18 @@ export const deleteKbSection = createServerFn({ method: "POST" })
   .inputValidator((input: unknown) => z.object({ id: z.string().uuid() }).parse(input))
   .handler(async ({ data, context }) => {
     const sb = context.supabase as unknown as SupabaseClient<Database>;
+    // Never let the hierarchy's ON DELETE CASCADE silently remove children.
+    const { count, error: childError } = await sb
+      .from("kb_sections")
+      .select("id", { count: "exact", head: true })
+      .eq("parent_id", data.id);
+    if (childError) throw new Error(childError.message);
+    if (count == null) throw new Error("Could not check nested sections. Nothing was deleted.");
+    if (count > 0) {
+      throw new Error(
+        `This section has ${count} nested ${count === 1 ? "section" : "sections"}. Delete or move them first. Nothing was deleted.`,
+      );
+    }
     const { error } = await sb.from("kb_sections").delete().eq("id", data.id);
     if (error) throw new Error(error.message);
     return { ok: true };
