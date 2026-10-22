@@ -20,6 +20,7 @@ import { Route as IconographyRouteImport } from './routes/iconography'
 import { Route as KnowledgeBaseRouteImport } from './routes/knowledge-base'
 import { Route as MarketingRouteImport } from './routes/marketing'
 import { Route as McpRouteImport } from './routes/mcp'
+import { Route as MotionRouteImport } from './routes/motion'
 import { Route as SocialRouteImport } from './routes/social'
 import { Route as Char91DotwellKnownChar93OauthProtectedResourceRouteImport } from './routes/[.well-known]/oauth-protected-resource'
 import { Route as DotlovableOauthConsentRouteImport } from './routes/[.]lovable.oauth.consent'
@@ -79,6 +80,11 @@ const McpRoute = McpRouteImport.update({
   path: '/mcp',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MotionRoute = MotionRouteImport.update({
+  id: '/motion',
+  path: '/motion',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SocialRoute = SocialRouteImport.update({
   id: '/social',
   path: '/social',
@@ -113,6 +119,7 @@ export interface FileRoutesByFullPath {
   '/knowledge-base': typeof KnowledgeBaseRoute
   '/marketing': typeof MarketingRoute
   '/mcp': typeof McpRoute
+  '/motion': typeof MotionRoute
   '/social': typeof SocialRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
@@ -129,6 +136,7 @@ export interface FileRoutesByTo {
   '/knowledge-base': typeof KnowledgeBaseRoute
   '/marketing': typeof MarketingRoute
   '/mcp': typeof McpRoute
+  '/motion': typeof MotionRoute
   '/social': typeof SocialRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
@@ -147,6 +155,7 @@ export interface FileRoutesById {
   '/knowledge-base': typeof KnowledgeBaseRoute
   '/marketing': typeof MarketingRoute
   '/mcp': typeof McpRoute
+  '/motion': typeof MotionRoute
   '/social': typeof SocialRoute
   '/.well-known/oauth-protected-resource': typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   '/.lovable/oauth/consent': typeof DotlovableOauthConsentRoute
@@ -165,6 +174,7 @@ export interface FileRouteTypes {
     | '/knowledge-base'
     | '/marketing'
     | '/mcp'
+    | '/motion'
     | '/social'
     | '/.well-known/oauth-protected-resource'
     | '/.lovable/oauth/consent'
@@ -181,6 +191,7 @@ export interface FileRouteTypes {
     | '/knowledge-base'
     | '/marketing'
     | '/mcp'
+    | '/motion'
     | '/social'
     | '/.well-known/oauth-protected-resource'
     | '/.lovable/oauth/consent'
@@ -198,6 +209,7 @@ export interface FileRouteTypes {
     | '/knowledge-base'
     | '/marketing'
     | '/mcp'
+    | '/motion'
     | '/social'
     | '/.well-known/oauth-protected-resource'
     | '/.lovable/oauth/consent'
@@ -216,6 +228,7 @@ export interface RootRouteChildren {
   KnowledgeBaseRoute: typeof KnowledgeBaseRoute
   MarketingRoute: typeof MarketingRoute
   McpRoute: typeof McpRoute
+  MotionRoute: typeof MotionRoute
   SocialRoute: typeof SocialRoute
   Char91DotwellKnownChar93OauthProtectedResourceRoute: typeof Char91DotwellKnownChar93OauthProtectedResourceRoute
   DotlovableOauthConsentRoute: typeof DotlovableOauthConsentRoute
@@ -300,6 +313,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof McpRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/motion': {
+      id: '/motion'
+      path: '/motion'
+      fullPath: '/motion'
+      preLoaderRoute: typeof MotionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/social': {
       id: '/social'
       path: '/social'
@@ -354,6 +374,7 @@ const rootRouteChildren: RootRouteChildren = {
   KnowledgeBaseRoute: KnowledgeBaseRoute,
   MarketingRoute: MarketingRoute,
   McpRoute: McpRoute,
+  MotionRoute: MotionRoute,
   SocialRoute: SocialRoute,
   Char91DotwellKnownChar93OauthProtectedResourceRoute:
     Char91DotwellKnownChar93OauthProtectedResourceRoute,
