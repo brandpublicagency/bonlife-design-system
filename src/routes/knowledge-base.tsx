@@ -51,7 +51,7 @@ export const Route = createFileRoute("/knowledge-base")({
   ),
 });
 
-function KbErrorPage({ error }: { error: Error }) {
+function KbErrorPage({ error }: { error: unknown }) {
   return (
     <>
       <SiteHeader />
