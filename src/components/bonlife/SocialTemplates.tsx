@@ -343,7 +343,7 @@ export function TemplateSmsCallback() {
     <SocialFrame
       format="square"
       title="SMS Callback CTA"
-      caption="No photography, no gradient. Pure typographic push, highest CTA weight."
+      caption="No photography, no background art. Pure typographic push, highest CTA weight."
     >
       <div className="relative flex h-full w-full flex-col justify-between bg-coral p-10 text-navy">
         <div className="flex items-start justify-between">
