@@ -67,12 +67,14 @@ function Swatch({
   color,
   name,
   hex,
+  cmyk,
   token,
   fg = "white",
 }: {
   color: string;
   name: string;
   hex: string;
+  cmyk?: string;
   token: string;
   fg?: "white" | "navy";
 }) {
@@ -92,6 +94,16 @@ function Swatch({
           {token}
         </span>
       </div>
+      {cmyk && (
+        <button
+          type="button"
+          title="Click to copy CMYK"
+          onClick={() => navigator.clipboard?.writeText(cmyk)}
+          className="block w-full border-t border-hairline px-4 py-2 text-left font-mono text-[11px] text-navy hover:text-coral"
+        >
+          CMYK {cmyk}
+        </button>
+      )}
     </div>
   );
 }
@@ -119,7 +131,7 @@ function FoundationsPage() {
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
           {c.colourPrimary.swatches.map((w) => (
-            <Swatch key={w.name} color={w.hex} name={w.name} hex={w.hex} token={w.token} fg={w.textOn === "dark" ? "navy" : "white"} />
+            <Swatch key={w.name} color={w.hex} name={w.name} hex={w.hex} cmyk={w.cmyk} token={w.token} fg={w.textOn === "dark" ? "navy" : "white"} />
           ))}
         </div>
       </PageSection>
@@ -131,7 +143,7 @@ function FoundationsPage() {
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
           {c.colourCategories.swatches.map((w) => (
-            <Swatch key={w.name} color={w.hex} name={w.name} hex={w.hex} token={w.token} fg={w.textOn === "dark" ? "navy" : "white"} />
+            <Swatch key={w.name} color={w.hex} name={w.name} hex={w.hex} cmyk={w.cmyk} token={w.token} fg={w.textOn === "dark" ? "navy" : "white"} />
           ))}
         </div>
       </PageSection>
@@ -143,7 +155,7 @@ function FoundationsPage() {
       >
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
           {c.colourSurfaces.swatches.map((w) => (
-            <Swatch key={w.name} color={w.hex} name={w.name} hex={w.hex} token={w.token} fg={w.textOn === "dark" ? "navy" : "white"} />
+            <Swatch key={w.name} color={w.hex} name={w.name} hex={w.hex} cmyk={w.cmyk} token={w.token} fg={w.textOn === "dark" ? "navy" : "white"} />
           ))}
         </div>
       </PageSection>
