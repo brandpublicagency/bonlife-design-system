@@ -204,11 +204,13 @@ function MarkRow({
 function SwatchTile({
   name,
   hex,
+  cmyk,
   token,
   textOn,
 }: {
   name: string;
   hex: string;
+  cmyk?: string;
   token: string;
   textOn: "light" | "dark";
 }) {
@@ -242,13 +244,14 @@ function SwatchTile({
       </div>
       <div className={`space-y-0.5 ${labelColor}`}>
         <div className="font-mono text-[15px] font-semibold uppercase tracking-wide">{hex}</div>
+        {cmyk && <div className={`font-mono text-[11px] ${subColor}`}>{cmyk}</div>}
         <div className={`font-mono text-[11px] ${subColor}`}>{token}</div>
       </div>
     </button>
   );
 }
 
-type SwatchT = { name: string; hex: string; token: string; textOn: "light" | "dark" };
+type SwatchT = { name: string; hex: string; cmyk?: string; token: string; textOn: "light" | "dark" };
 
 function SwatchGroup({
   title,
