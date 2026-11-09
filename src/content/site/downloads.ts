@@ -37,7 +37,7 @@ export const downloadsDefaults = {
   },
   colours: {
     title: "Palette",
-    lead: "Click any swatch to copy its hex. Token names match the CSS variables in the design system.",
+    lead: "Click any swatch to copy its hex. CMYK values are calculated for print - request a printed proof, especially for Mint and Success, which are brighter than print can reproduce.",
     cardDescription: "Brand, category, state, and surface colours. Click a swatch to copy its hex to the clipboard.",
     brand: [
       { name: "Navy 900", hex: "#0C1C3E", cmyk: "C81 M55 Y0 K76", token: "--navy-900", textOn: "light" },
